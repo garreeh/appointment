@@ -19,214 +19,165 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Sterling | Showcase</title>
+  <title>Appointment</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700&display=swap" rel="stylesheet">
 
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="assets/user/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="assets/user/css/animate.css">
+    <link rel="stylesheet" href="assets/user/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/user/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/user/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/user/css/aos.css">
+    <link rel="stylesheet" href="assets/user/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/user/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="assets/user/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="assets/user/css/flaticon.css">
+    <link rel="stylesheet" href="assets/user/css/icomoon.css">
+    <link rel="stylesheet" href="assets/user/css/style.css">
 
-  <meta content="Metronic Shop UI description" name="description">
-  <meta content="Metronic Shop UI keywords" name="keywords">
-  <meta content="keenthemes" name="author">
-
-  <meta property="og:site_name" content="-CUSTOMER VALUE-">
-  <meta property="og:title" content="-CUSTOMER VALUE-">
-  <meta property="og:description" content="-CUSTOMER VALUE-">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="-CUSTOMER VALUE-"><!-- link to image for socio -->
-  <meta property="og:url" content="-CUSTOMER VALUE-">
-
-  <link rel="shortcut icon" href="favicon.ico">
-
-  <!-- Fonts START -->
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|PT+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
-  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">  
-  <!-- Fonts END -->
-
-  <!-- Global styles START -->          
-  <link href="assets/user/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="assets/user/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Global styles END --> 
-   
-  <!-- Page level plugin styles START -->
-  <link href="assets/user/pages/css/animate.css" rel="stylesheet">
-  <link href="assets/user/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet">
-  <link href="assets/user/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
-  <!-- Page level plugin styles END -->
-
-  <!-- Theme styles START -->
-  <link href="assets/user/pages/css/components.css" rel="stylesheet">
-  <link href="assets/user/pages/css/style-shop.css" rel="stylesheet" type="text/css">
-  <link href="assets/user/corporate/css/style.css" rel="stylesheet">
-  <link href="assets/user/corporate/css/style-responsive.css" rel="stylesheet">
-  <link href="assets/user/corporate/css/themes/red.css" rel="stylesheet" id="style-color">
-  <link href="assets/user/corporate/css/custom.css" rel="stylesheet">
   <!-- Theme styles END -->
 </head>
 <!-- Head END -->
 
 <!-- Body BEGIN -->
-<body class="ecommerce">
+<body>
+ 
+<?php include './includes/navigation.php'?>
 
-    <!-- This is the Header and navigation -->
-    <?php include './includes/navigation.php'?>
+<!-- END nav -->
+<div class="hero">
+	<section class="home-slider owl-carousel">
+		<div class="slider-item" style="background-image:url(assets/user/images/bg_1.jpg);">
+				<div class="overlay"></div>
+			<div class="container">
+				<div class="row no-gutters slider-text align-items-center justify-content-end">
+				<div class="col-md-6 ftco-animate">
+						<div class="text">
+								<h2>More than a hotel... an experience</h2>
+							<h1 class="mb-3">Hotel for the whole family, all year round.</h1>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
 
+		<div class="slider-item" style="background-image:url(assets/user/images/bg_2.jpg);">
+				<div class="overlay"></div>
+			<div class="container">
+				<div class="row no-gutters slider-text align-items-center justify-content-end">
+				<div class="col-md-6 ftco-animate">
+						<div class="text">
+								<h2>Harbor Lights Hotel &amp; Resort</h2>
+							<h1 class="mb-3">It feels like staying in your own home.</h1>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+</div>
 
-    <div class="main">
-      <div class="container">
-        <!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
-        <div class="row margin-bottom-40">
-          <!-- BEGIN SALE PRODUCT -->
-          <div class="col-md-12 sale-product">
-              <h2>Showcase Product!</h2>
-              <div class="row">
-                  <?php
-                  include './connections/connections.php';
-
-                  $query = "SELECT * FROM product LEFT JOIN category ON product.category_id = category.category_id";
-                  $result = $conn->query($query);
-                  
-                  while($row = $result->fetch_assoc()) {
-                    $product_image = basename($row['product_image']);
-                    $image_url = './uploads/' . $product_image; // Construct the image URL
-                    
-                    ?>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                      <div class="product-item">
-                          <div class="pi-img-wrapper">
-                          <img src="<?php echo $image_url; ?>" class="img-responsive" alt="<?php echo htmlspecialchars($row['product_name']); ?>" style="width: auto; height: 17rem;">
-                              <div>
-                                  <a href="<?php echo $image_url; ?>" class="btn btn-default fancybox-button">Zoom</a>
-                              </div>
-                          </div>
-                          <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
-                          <h3>In Stock: <?php echo htmlspecialchars($row['product_stocks']); ?></h3>
-
-                          <div class="pi-price">₱<?php echo number_format($row['product_sellingprice'], 2); ?></div>
-                          <input type="hidden" class="product-id" value="<?php echo $row['product_id']; ?>" />
-                          <a href="javascript:void(0)" class="btn btn-default add-to-cart add2cart" data-product-id="<?php echo $row['product_id']; ?>">Add to cart</a>
-
-                      </div>
-                    </div>
-
-                  <?php } // End of the loop ?>
-                
+<section class="ftco-section">
+  <div class="container">
+      <div class="row justify-content-center mb-5 pb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+          <span class="subheading">Welcome to Vet ng Conception</span>
+        <h2 class="mb-4">With our trusted Vet Doctors and Nurses</h2>
+      </div>
+    </div>  
+    <div class="row d-flex">
+      <div class="col-md pr-md-1 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services py-4 d-block text-center">
+          <div class="d-flex justify-content-center">
+              <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="flaticon-reception-bell"></span>
               </div>
           </div>
-          <!-- END SALE PRODUCT -->
-        </div>
-        <!-- END SALE PRODUCT & NEW ARRIVALS -->
-
-
+          <div class="media-body">
+            <h3 class="heading mb-3">Friendly Service</h3>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md px-md-1 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services active py-4 d-block text-center">
+          <div class="d-flex justify-content-center">
+              <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="flaticon-serving-dish"></span>
+              </div>
+          </div>
+          <div class="media-body">
+            <h3 class="heading mb-3">Get Breakfast</h3>
+          </div>
+        </div>    
+      </div>
+      <div class="col-md px-md-1 d-flex align-sel Searchf-stretch ftco-animate">
+        <div class="media block-6 services py-4 d-block text-center">
+          <div class="d-flex justify-content-center">
+              <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="flaticon-car"></span>
+              </div>
+          </div>
+          <div class="media-body">
+            <h3 class="heading mb-3">Transfer Services</h3>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md px-md-1 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services py-4 d-block text-center">
+          <div class="d-flex justify-content-center">
+              <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="flaticon-spa"></span>
+              </div>
+          </div>
+          <div class="media-body">
+            <h3 class="heading mb-3">Suits &amp; SPA</h3>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md pl-md-1 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services py-4 d-block text-center">
+          <div class="d-flex justify-content-center">
+              <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="ion-ios-bed"></span>
+              </div>
+          </div>
+          <div class="media-body">
+            <h3 class="heading mb-3">Cozy Rooms</h3>
+          </div>
+        </div>      
       </div>
     </div>
-    <?php include './modals/not_logged_in.php'?>
-    <?php include './includes/footer.php'?>
-    <?php include './modals/modal_fast_view.php'?>
+  </div>
+</section>
 
+<?php include './includes/footer.php'?>
 
-    <script src="assets/user/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="assets/user/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-    <script src="assets/user/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>      
-    <script src="assets/user/corporate/scripts/back-to-top.js" type="text/javascript"></script>
-    <script src="assets/user/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- END CORE PLUGINS -->
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
-    <!-- BEGIN PAGE LEVEL JAVASCRIPTS (REQUIRED ONLY FOR CURRENT PAGE) -->
-    <script src="assets/user/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript"></script><!-- pop up -->
-    <script src="assets/user/plugins/owl.carousel/owl.carousel.min.js" type="text/javascript"></script><!-- slider for products -->
-    <script src='assets/user/plugins/zoom/jquery.zoom.min.js' type="text/javascript"></script><!-- product zoom -->
-    <script src="assets/user/plugins/bootstrap-touchspin/bootstrap.touchspin.js" type="text/javascript"></script><!-- Quantity -->
-
-    <script src="assets/user/corporate/scripts/layout.js" type="text/javascript"></script>
-    <script src="assets/user/pages/scripts/bs-carousel.js" type="text/javascript"></script>
-
-    <!-- Add Toastify CSS and JS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            Layout.init();    
-            Layout.initOWL();
-            Layout.initImageZoom();
-            Layout.initTouchspin();
-            Layout.initTwitter();
-        });
-    </script>
-    <!-- END PAGE LEVEL JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
 </html>
 
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.add-to-cart').click(function() {
-        var productId = $(this).data('product-id');
-        
-        // Make AJAX call to add_cart_process.php
-        $.ajax({
-            url: '/appointment/controllers/users/add_cart_process.php',
-            method: 'POST',
-            data: {
-                product_id: productId
-            },
-            success: function(response) {
-                try {
-                    var res = JSON.parse(response);
-                    if (res.success) {
-                        // Show success message using Toastify
-                        Toastify({
-                            text: res.message,
-                            duration: 3000,
-                            close: true,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "#4CAF50", // Green background for success
-                        }).showToast();
-                    } else {
-                        if (res.message === 'You are not logged in.') {
-                            // Show the modal instead of Toast
-                            $('#loginModal').modal('show');
-                        } else {
-                            // Show error message using Toastify
-                            Toastify({
-                                text: res.message,
-                                duration: 3000,
-                                close: true,
-                                gravity: "top",
-                                position: "right",
-                                backgroundColor: "#FF0000", // Red background for error
-                            }).showToast();
-                        }
-                    }
-                } catch (e) {
-                    console.error("Invalid JSON response:", response);
-                    Toastify({
-                        text: "An unexpected error occurred.",
-                        duration: 3000,
-                        close: true,
-                        gravity: "top",
-                        position: "right",
-                        backgroundColor: "#FF0000", // Red background for error
-                    }).showToast();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('Error: ' + error);
-                Toastify({
-                    text: "An error occurred. Please try again.",
-                    duration: 3000,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    backgroundColor: "#FF0000", // Red background for error
-                }).showToast();
-            }
-        });
-    });
-});
+<script src="assets/user/js/jquery.min.js"></script>
+<script src="assets/user/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="assets/user/js/popper.min.js"></script>
+<script src="assets/user/js/bootstrap.min.js"></script>
+<script src="assets/user/js/jquery.easing.1.3.js"></script>
+<script src="assets/user/js/jquery.waypoints.min.js"></script>
+<script src="assets/user/js/jquery.stellar.min.js"></script>
+<script src="assets/user/js/owl.carousel.min.js"></script>
+<script src="assets/user/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/user/js/aos.js"></script>
+<script src="assets/user/js/jquery.animateNumber.min.js"></script>
+<script src="assets/user/js/bootstrap-datepicker.js"></script>
+<script src="assets/user/js/scrollax.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="assets/user/js/google-map.js"></script>
+<script src="assets/user/js/main.js"></script>
 
-</script>
 
 
