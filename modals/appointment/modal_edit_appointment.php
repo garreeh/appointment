@@ -27,7 +27,8 @@ if ($resultPetsUser) {
     }
 }
 
-$sql = "SELECT * FROM timeslot";
+$sql = "SELECT * FROM timeslot
+        LEFT JOIN appointment ON timeslot.timeslot_id = appointment.timeslot_id";
 $resultTimeslot = mysqli_query($conn, $sql);
 
 $timeslot_names = [];
@@ -52,6 +53,7 @@ if ($resultDates) {
 }
 
 $unavailable_dates_js = json_encode($unavailable_dates);
+$timeslot_names_js = json_encode($timeslot_names); // Send time slot data to JavaScript
 
 ?>
 
@@ -121,13 +123,10 @@ if (isset($_POST['appointment_id'])) {
 
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label for="appointment_date">Appointment Date:</label>
-                <input type="text" class="form-control" id="appointment_date" name="appointment_date" 
-                      value="<?php echo $row['appointment_date']; ?>" required>
+                <label for="edit_appointment_date">Appointment Date:</label>
+                <input type="text" class="form-control" id="edit_appointment_date" name="appointment_date" required>
               </div>
             </div>
-
-
 
             <div class="form-row">
               <div class="form-group col-md-12">
@@ -135,17 +134,12 @@ if (isset($_POST['appointment_id'])) {
                   <select class="form-control" id="timeslot_id" name="timeslot_id" required>
                       <option value="" disabled>Select Time Slot</option> <!-- Placeholder option -->
                       <?php foreach ($timeslot_names as $timeslot_row) : ?>
-                          <option value="<?php echo $timeslot_row['timeslot_id']; ?>"
-                              <?php echo ($timeslot_row['timeslot_id'] == $current_timeslot_id) ? 'selected' : ''; ?>>
-                              <?php echo isset($timeslot_row['time_from']) ? $timeslot_row['time_from'] : 'N/A'; ?> 
-                              <?php echo ' - '; ?>
-                              <?php echo isset($timeslot_row['time_to']) ? $timeslot_row['time_to'] : 'N/A'; ?>
+                          <option value="">
                           </option>
                       <?php endforeach; ?>
                   </select>
               </div>
-          </div>
-
+            </div>
 
             <!-- Add a hidden input field to submit the form with the button click -->
             <input type="hidden" name="edit_appointment" value="1">
@@ -160,82 +154,159 @@ if (isset($_POST['appointment_id'])) {
     </div>
   </div>
 
-<!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
- 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Selectize
-    $('#category_id').selectize();
-    $('#pet_id').selectize();
-    $('#timeslot_id').selectize();
-  });
-</script>
-
 <script>
   $(document).ready(function() {
     const unavailableDates = <?php echo $unavailable_dates_js; ?>;
-    
-    // Initialize Flatpickr for the appointment_date field
     const unavailableDatesObjects = unavailableDates.map(date => new Date(date));
 
-    flatpickr("#appointment_date", {
-        minDate: "today",
-        maxDate: new Date().fp_incr(30), 
-        disable: unavailableDatesObjects,
-        onChange: function(selectedDates) {
-            const selectedDate = selectedDates[0];
-            if (selectedDate) {
-                // Fetch available timeslots for the selected date
-                fetchAvailableTimeslots(selectedDate.toISOString().split('T')[0]);
-            }
+    // Initialize Flatpickr for the edit_appointment_date field
+    flatpickr("#edit_appointment_date", {
+      minDate: "today",
+      maxDate: new Date().fp_incr(30),
+      disable: unavailableDatesObjects,
+      onChange: function(selectedDates) {
+        const selectedDate = selectedDates[0];
+
+        if (selectedDate) {
+          const adjustedDate = new Date(selectedDate);
+          adjustedDate.setDate(adjustedDate.getDate() + 1); // Adjust the date by +1 day
+          fetchAvailableTimeslots(adjustedDate.toISOString().split('T')[0]);
         }
+      }
     });
 
+    // Function to fetch available timeslots based on the date
     function fetchAvailableTimeslots(date) {
-        $.ajax({
-            type: 'POST',
-            url: '/appointment/controllers/users/fetch_timeslot_process.php',
-            data: { date: date },
-            success: function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    updateTimeslotDropdown(response.timeslots);
-                } else {
-                    // Handle error if no timeslots available
-                    updateTimeslotDropdown([]); // Clear dropdown
-                    Toastify({
-                        text: response.message,
-                        duration: 2000,
-                        backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                    }).showToast();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('AJAX Error:', error);
-            }
-        });
+      $.ajax({
+        type: 'POST',
+        url: '/appointment/controllers/users/edit_fetch_timeslot_process.php',
+        data: { date: date },
+        success: function(response) {
+          response = JSON.parse(response);
+          if (response.success) {
+            updateTimeslotDropdown(response.timeslots);
+          } else {
+            updateTimeslotDropdown([]); // Clear dropdown if no timeslots available
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+            }).showToast();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log('AJAX Error:', error);
+        }
+      });
     }
 
+    // Function to update the timeslot dropdown
     function updateTimeslotDropdown(timeslots) {
-        let timeslotDropdownHTML = '<option value="" disabled>Select Time Slot</option>'; // Placeholder option
-        
-        // Loop through all timeslots and create options
-        timeslots.forEach(slot => {
-            timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
-        });
+      let timeslotDropdownHTML = '<option value="" disabled>Select Time Slot</option>'; // Placeholder option
+      
+      // Loop through all timeslots and create options
+      timeslots.forEach(slot => {
+        if (slot.booked) {
+          timeslotDropdownHTML += `<option value="${slot.timeslot_id}" disabled>${slot.time_from} - ${slot.time_to} (Booked)</option>`;
+        } else {
+          timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
+        }
+      });
 
-        $('#timeslot_id').html(timeslotDropdownHTML); // Update the dropdown
+      $('#timeslot_id').html(timeslotDropdownHTML); // Update the dropdown
     }
-    
-    // Other existing code...
 
+    // When the modal is shown, fetch available timeslots for the selected appointment date
+    $('#editAppointmentModal').on('show.bs.modal', function(event) {
+      const appointmentDate = $('#edit_appointment_date').val(); // Get the preselected appointment date
+      if (appointmentDate) {
+        fetchAvailableTimeslots(appointmentDate); // Fetch timeslots for the preselected appointment date
+      }
+    });
+
+    // Reset fields when the modal is closed
+    $('#editAppointmentModal').on('hidden.bs.modal', function() {
+      $('#edit_appointment_date').val(''); // Clear the appointment date
+      $('#timeslot_id').html('<option value="" disabled>Select Time Slot</option>'); // Clear timeslot dropdown
+    });
+
+    // Form submission
+    $('#editAppointmentModal form').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const appointmentDate = $('#edit_appointment_date').val();
+      if (!appointmentDate) {
+        Toastify({
+          text: 'Please select an appointment date.',
+          duration: 3000,
+          backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+        }).showToast();
+        return; // Prevent form submission if date is not selected
+      }
+
+      // Store a reference to $(this)
+      var $form = $(this);
+      // Serialize form data
+      var formData = $form.serialize();
+
+      // Change button text to "Updating..." and disable it
+      var $addButton = $('#addButton'); // Ensure this matches your button ID
+      $addButton.text('Updating...');
+      $addButton.prop('disabled', true);
+
+      // Send AJAX request
+      $.ajax({
+        type: 'POST',
+        url: '/appointment/controllers/users/edit_appointment_process.php',
+        data: formData,
+        success: function(response) {
+          // Handle success response
+          console.log(response); // Log the response for debugging
+          response = JSON.parse(response);
+          
+          if (response.success) {
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+            }).showToast();
+            
+            // Optionally, reset the form
+            $form.trigger('reset');
+            
+            // Clear Selectize dropdowns
+            $('#category_id')[0].selectize.clear();  
+            $('#pet_id')[0].selectize.clear();
+
+            // Optionally, close the modal
+            $('#editAppointmentModal').modal('hide');
+            window.reloadDataTable();
+          } else {
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+            }).showToast();
+          }
+        },
+        error: function(xhr, status, error) {
+          // Handle error response
+          console.error(xhr.responseText);
+          Toastify({
+            text: "Error occurred while updating appointment. Please try again later.",
+            duration: 2000,
+            backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+          }).showToast();
+        },
+        complete: function() {
+          // Reset button text and re-enable it
+          $addButton.text('Save');
+          $addButton.prop('disabled', false);
+        }
+      });
+    });
   });
 </script>
-
 
 <?php 
     }

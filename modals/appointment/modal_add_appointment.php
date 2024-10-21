@@ -165,26 +165,26 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
 
     function fetchAvailableTimeslots(date) {
         $.ajax({
-          type: 'POST',
-          url: '/appointment/controllers/users/fetch_timeslot_process.php',
+            type: 'POST',
+            url: '/appointment/controllers/users/fetch_timeslot_process.php',
 
-          data: { date: date },
-          success: function(response) {
-              response = JSON.parse(response);
-              if (response.success) {
-                  updateTimeslotDropdown(response.timeslots);
-              } else {
-                  Toastify({
-                      text: response.message,
-                      duration: 2000,
-                      backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                  }).showToast();
-              }
-          },
-          error: function(xhr, status, error) {
-              console.log('AJAX Error:', error);
-          }
-      });
+            data: { date: date },
+            success: function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    updateTimeslotDropdown(response.timeslots);
+                } else {
+                    Toastify({
+                        text: response.message,
+                        duration: 2000,
+                        backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+                    }).showToast();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('AJAX Error:', error);
+            }
+        });
     }
 
     function updateTimeslotDropdown(timeslots) {
@@ -273,16 +273,15 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
         });
     });
 
-    
-    // Reset fields when the modal is closed
-    $('#addDataAppointments').on('hidden.bs.modal', function() {
-      // Reset the appointment date
-      $('#appointment_date').val('');
-      // Clear Selectize dropdowns
-      $('#category_id')[0].selectize.clear();  
-      $('#pet_id')[0].selectize.clear();
-      // Clear the timeslot dropdown
-      removeTimeslotDropdown();
+          // Reset fields when the modal is closed
+      $('#addDataAppointments').on('hidden.bs.modal', function() {
+        // Reset the appointment date
+        $('#appointment_date').val('');
+        // Clear Selectize dropdowns
+        $('#category_id')[0].selectize.clear();  
+        $('#pet_id')[0].selectize.clear();
+        // Clear the timeslot dropdown
+        removeTimeslotDropdown();
     });
   });
 </script>

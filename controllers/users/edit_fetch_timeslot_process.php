@@ -8,16 +8,16 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_POST['date'])) {
     $selected_date = $_POST['date'];
 
-$selected_date = mysqli_real_escape_string($conn, $selected_date); // Make sure $selected_date is properly escaped
-$query = "SELECT timeslot.timeslot_id, timeslot.time_from, timeslot.time_to,
-                     CASE 
-                         WHEN appointment.appointment_id IS NULL THEN 'Available'
-                         ELSE 'Booked'
-                     END AS status
+    $selected_date = mysqli_real_escape_string($conn, $selected_date); // Make sure $selected_date is properly escaped
+    $query = "SELECT timeslot.timeslot_id, timeslot.time_from, timeslot.time_to,
+                  CASE 
+                      WHEN appointment.appointment_id IS NULL THEN 'Available'
+                      ELSE 'Booked'
+                  END AS status
               FROM timeslot
               LEFT JOIN appointment ON timeslot.timeslot_id = appointment.timeslot_id 
               AND appointment.appointment_date = '$selected_date'";
-
+    
 
     // Execute the query
     $result = mysqli_query($conn, $query);
