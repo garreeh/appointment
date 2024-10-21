@@ -19,7 +19,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | Services</title>
+  <title>Admin | Set Appointment</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -37,18 +37,18 @@ if (session_status() == PHP_SESSION_NONE) {
   <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar -->
-    <?php include './../../includes/admin/admin_nav.php'; ?>
+    <?php include './../../includes/user/user_nav.php'; ?>
     <!-- End of Sidebar -->
 
     <!-- Modal for Adding and Editing Supplier -->
-    <?php include './../../modals/category/modal_add_category.php'; ?>
+    <?php include './../../modals/pet/modal_add_pet.php'; ?>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
       <div id="content">
         <!-- Topbar -->
-        <?php include './../../includes/admin/admin_topbar.php'; ?>
+        <?php include './../../includes/user/user_topbar.php'; ?>
 
         <!-- End of Topbar -->
 
@@ -57,10 +57,10 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Services Module</h1>
+            <h1 class="h3 mb-0 text-gray-800">My Pets</h1>
           </div>
 
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addCategoryModal"> <i class="fas fa-plus"></i> Add Services</a>
+          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addDataTimeslotModal"> <i class="fas fa-plus"></i> Add Pet</a>
           <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a>
 
           <div class="row">
@@ -68,14 +68,17 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
                 
                 <div class="table-responsive">
-                  <div id="modalContainerCategory"></div>
+                  <div id="modalContainerSupplier"></div>
 
-                  <table class="table custom-table table-hover" name="category_table" id="category_table">
+                  <table class="table custom-table table-hover" name="pet_table" id="pet_table">
                     <thead>
                       <tr>
-                        <th>Category ID</th>
-                        <th>Category Name</th>
-                        <th>Price</th>
+                        <th>Pet ID</th>
+                        <th>Petname</th>
+                        <th>Breed</th>
+                        <th>Species</th>
+                        <th>Neutered</th>
+
                         <th>Date Created</th>
                         <th>Date Updated</th>
                         <th>Manage</th>
@@ -112,29 +115,27 @@ if (session_status() == PHP_SESSION_NONE) {
   <link rel="stylesheet" type="text/css" href="./../../assets/datatables/datatables.min.css" />
   <script type="text/javascript" src="./../../assets/datatables/datatables.min.js"></script>
 
-
-
 </body>
 
 </html>
 
 <script>
   $('#sidebarToggle').click(function () {
-    $('#category_table').css('width', '100%');
+    $('#pet_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
   
   //Table for Supplier
   $(document).ready(function() {
-    var category_table = $('#category_table').DataTable({
+    var pet_table = $('#pet_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../../controllers/tables/category_table.php",
+      "ajax": "./../../controllers/tables/pet_table.php",
     });
 
     window.reloadDataTable = function() {
-      category_table.ajax.reload();
+      pet_table.ajax.reload();
     };
 
   });
@@ -142,17 +143,17 @@ if (session_status() == PHP_SESSION_NONE) {
   //Column 5
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#category_table').on('click', 'tr td:nth-child(6) .fetchDataCategory', function() {
-        var category_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
+    $('#pet_table').on('click', 'tr td:nth-child(8) .fetchDataSupplier', function() {
+        var pet_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
 
         $.ajax({
-            url: './../../modals/category/modal_edit_category.php', // Path to PHP script to fetch modal content
+            url: './../../modals/pet/modal_edit_pet.php', // Path to PHP script to fetch modal content
             method: 'POST',
-            data: { category_id: category_id },
+            data: { pet_id: pet_id },
             success: function(response) {
-                $('#modalContainerCategory').html(response);
-                $('#editCategoryModal').modal('show');
-                console.log("#editCategoryModal" + category_id);
+                $('#modalContainerSupplier').html(response);
+                $('#fetchDataPetModal').modal('show');
+                console.log("#fetchDataPetModal" + pet_id);
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);

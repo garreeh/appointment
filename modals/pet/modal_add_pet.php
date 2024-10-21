@@ -6,11 +6,11 @@
   }
 </style>
 
-<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-l" role="document">
+<div class="modal fade" id="addDataTimeslotModal" tabindex="-1" role="dialog" aria-labelledby="addDataTimeslotModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+        <h5 class="modal-title" id="addDataTimeslotModalLabel">Add Pet</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -19,24 +19,44 @@
       <div class="modal-body">
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="category_name">Service:</label>
-              <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Service Name" required>
+            <div class="form-group col-md-6">
+              <label for="pet_name">Pet Name:</label>
+              <input type="text" class="form-control" id="pet_name" name="pet_name" placeholder="Enter your Pet Name" required>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="breed">Breed:</label>
+              <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter Breed" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="species">Species:</label>
+              <input type="text" class="form-control" id="species" name="species" placeholder="Enter Species" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="birthdate">Birthdate:</label>
+              <input type="date" class="form-control" id="birthdate" name="birthdate" required>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="price">Price:</label>
-              <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price" required>
+              <label for="neutered">Neutered:</label>
+              <select class="form-control" id="neutered" name="neutered" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
             </div>
           </div>
 
           <!-- Add a hidden input field to submit the form with the button click -->
-          <input type="hidden" name="add_category" value="1">
+          <input type="hidden" name="add_pet" value="1">
 
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" id="addCategoryButton">Add</button>
+            <button type="submit" class="btn btn-primary" id="addButton">Add</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </form>
@@ -50,9 +70,10 @@
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+
 <script>
   $(document).ready(function() {
-    $('#addCategoryModal form').submit(function(event) {
+    $('#addDataTimeslotModal form').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
       
       // Store a reference to $(this)
@@ -62,14 +83,14 @@
       var formData = $form.serialize();
 
       // Change button text to "Adding..." and disable it
-      var $addButton = $('#addCategoryButton');
+      var $addButton = $('#addButton');
       $addButton.text('Adding...');
       $addButton.prop('disabled', true);
 
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/add_category_process.php',
+        url: '/appointment/controllers/users/add_pet_process.php',
         data: formData,
         success: function(response) {
           // Handle success response
@@ -86,9 +107,11 @@
             $form.trigger('reset');
             
             // Optionally, close the modal
-            $('#addCategoryModal').modal('hide');
+            $('#addDataTimeslotModal').modal('hide');
             window.reloadDataTable();
             
+            // Optionally, reload the DataTable or update it with the new data
+            // Example: $('#dataTable').DataTable().ajax.reload();
           } else {
             Toastify({
               text: response.message,
@@ -101,7 +124,7 @@
           // Handle error response
           console.error(xhr.responseText);
           Toastify({
-            text: "Error occurred while adding category. Please try again later.",
+            text: "Error occurred while adding supplier. Please try again later.",
             duration: 2000,
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();

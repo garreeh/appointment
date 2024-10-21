@@ -6,11 +6,11 @@
   }
 </style>
 
-<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+<div class="modal fade" id="addUnavailableDateModal" tabindex="-1" role="dialog" aria-labelledby="addUnavailableDateModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addCategoryModalLabel">Add Category</h5>
+        <h5 class="modal-title" id="addUnavailableDateModalLabel">Add Date Closed</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,23 +20,16 @@
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="category_name">Service:</label>
-              <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Service Name" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-12">
-              <label for="price">Price:</label>
-              <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price" required>
+              <label for="unavailable_date">Date:</label>
+              <input type="date" class="form-control" id="unavailable_date" name="unavailable_date" required>
             </div>
           </div>
 
           <!-- Add a hidden input field to submit the form with the button click -->
-          <input type="hidden" name="add_category" value="1">
+          <input type="hidden" name="add_unavailable" value="1">
 
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" id="addCategoryButton">Add</button>
+            <button type="submit" class="btn btn-primary" id="addButton">Add</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </form>
@@ -50,9 +43,16 @@
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('unavailable_date');
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    dateInput.setAttribute('min', today); // Set the min attribute to today's date
+  });
+  
   $(document).ready(function() {
-    $('#addCategoryModal form').submit(function(event) {
+    $('#addUnavailableDateModal form').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
       
       // Store a reference to $(this)
@@ -62,14 +62,14 @@
       var formData = $form.serialize();
 
       // Change button text to "Adding..." and disable it
-      var $addButton = $('#addCategoryButton');
+      var $addButton = $('#addButton');
       $addButton.text('Adding...');
       $addButton.prop('disabled', true);
 
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/add_category_process.php',
+        url: '/appointment/controllers/admin/add_unavailable_process.php',
         data: formData,
         success: function(response) {
           // Handle success response
@@ -86,9 +86,11 @@
             $form.trigger('reset');
             
             // Optionally, close the modal
-            $('#addCategoryModal').modal('hide');
+            $('#addUnavailableDateModal').modal('hide');
             window.reloadDataTable();
             
+            // Optionally, reload the DataTable or update it with the new data
+            // Example: $('#dataTable').DataTable().ajax.reload();
           } else {
             Toastify({
               text: response.message,
@@ -101,7 +103,7 @@
           // Handle error response
           console.error(xhr.responseText);
           Toastify({
-            text: "Error occurred while adding category. Please try again later.",
+            text: "Error occurred while adding supplier. Please try again later.",
             duration: 2000,
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();

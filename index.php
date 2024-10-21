@@ -5,9 +5,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Check if the user is logged in and an admin
-if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
+if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "0") {
     // If the user is an admin, redirect them to the admin dashboard
-    header("Location: /appointment/views/admin/dashboard.php");
+    header("Location: /appointment/views/user/user_dashboard.php");
     exit();
 }
 
@@ -50,28 +50,28 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
 <!-- END nav -->
 <div class="hero">
 	<section class="home-slider owl-carousel">
-		<div class="slider-item" style="background-image:url(assets/user/images/bg_1.jpg);">
+		<div class="slider-item" style="background-image:url(assets/user/images/bg_1.webp);">
 				<div class="overlay"></div>
 			<div class="container">
 				<div class="row no-gutters slider-text align-items-center justify-content-end">
 				<div class="col-md-6 ftco-animate">
 						<div class="text">
-								<h2>More than a hotel... an experience</h2>
-							<h1 class="mb-3">Hotel for the whole family, all year round.</h1>
+              <h1 class="mb-3">Vet ng Conception Clinic</h1>
+              <h2 class="mb-3">Comprehensive care for your pets, every day of the year.</h2>
 					</div>
 				</div>
 			</div>
 			</div>
 		</div>
 
-		<div class="slider-item" style="background-image:url(assets/user/images/bg_2.jpg);">
+		<div class="slider-item" style="background-image:url(assets/user/images/bg_2.webp);">
 				<div class="overlay"></div>
 			<div class="container">
 				<div class="row no-gutters slider-text align-items-center justify-content-end">
 				<div class="col-md-6 ftco-animate">
 						<div class="text">
-								<h2>Harbor Lights Hotel &amp; Resort</h2>
-							<h1 class="mb-3">It feels like staying in your own home.</h1>
+            <h1 class="mb-3">Vet ng Conception Clinic</h1>
+            <h2 class="mb-3">We value your pet health.</h2>
 					</div>
 				</div>
 			</div>
@@ -84,7 +84,7 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
   <div class="container">
       <div class="row justify-content-center mb-5 pb-3">
       <div class="col-md-7 heading-section text-center ftco-animate">
-          <span class="subheading">Welcome to Vet ng Conception</span>
+          <span class="subheading">Welcome to Vet ng Concepcion</span>
         <h2 class="mb-4">With our trusted Vet Doctors and Nurses</h2>
       </div>
     </div>  
@@ -93,11 +93,11 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
         <div class="media block-6 services py-4 d-block text-center">
           <div class="d-flex justify-content-center">
               <div class="icon d-flex align-items-center justify-content-center">
-                  <span class="flaticon-reception-bell"></span>
+                <span class="ion-ios-checkmark-circle"></span>
               </div>
           </div>
           <div class="media-body">
-            <h3 class="heading mb-3">Friendly Service</h3>
+            <h3 class="heading mb-3">General Health Check-ups</h3>
           </div>
         </div>      
       </div>
@@ -105,11 +105,11 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
         <div class="media block-6 services active py-4 d-block text-center">
           <div class="d-flex justify-content-center">
               <div class="icon d-flex align-items-center justify-content-center">
-                  <span class="flaticon-serving-dish"></span>
+                <span class="ion-ios-calendar"></span>
               </div>
           </div>
           <div class="media-body">
-            <h3 class="heading mb-3">Get Breakfast</h3>
+            <h3 class="heading mb-3">Vaccinations and Preventive Care</h3>
           </div>
         </div>    
       </div>
@@ -117,11 +117,11 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
         <div class="media block-6 services py-4 d-block text-center">
           <div class="d-flex justify-content-center">
               <div class="icon d-flex align-items-center justify-content-center">
-                  <span class="flaticon-car"></span>
+                <span class="ion-ios-cut"></span>
               </div>
           </div>
           <div class="media-body">
-            <h3 class="heading mb-3">Transfer Services</h3>
+            <h3 class="heading mb-3">Surgical Services</h3>
           </div>
         </div>      
       </div>
@@ -129,11 +129,11 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
         <div class="media block-6 services py-4 d-block text-center">
           <div class="d-flex justify-content-center">
               <div class="icon d-flex align-items-center justify-content-center">
-                  <span class="flaticon-spa"></span>
+                  <span class="ion-ios-document"></span>
               </div>
           </div>
           <div class="media-body">
-            <h3 class="heading mb-3">Suits &amp; SPA</h3>
+            <h3 class="heading mb-3">Diagnostic Services</h3>
           </div>
         </div>      
       </div>
@@ -141,11 +141,12 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === "1") {
         <div class="media block-6 services py-4 d-block text-center">
           <div class="d-flex justify-content-center">
               <div class="icon d-flex align-items-center justify-content-center">
-                  <span class="ion-ios-bed"></span>
+                  <span class="ion-ios-paw"></span>
+
               </div>
           </div>
           <div class="media-body">
-            <h3 class="heading mb-3">Cozy Rooms</h3>
+            <h3 class="heading mb-3">Emergency and Critical Care</h3>
           </div>
         </div>      
       </div>

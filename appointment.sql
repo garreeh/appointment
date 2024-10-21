@@ -5,17 +5,40 @@
  Source Server Type    : MySQL
  Source Server Version : 100432 (10.4.32-MariaDB)
  Source Host           : localhost:3306
- Source Schema         : ecommerce
+ Source Schema         : appointment
 
  Target Server Type    : MySQL
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 12/10/2024 15:04:48
+ Date: 21/10/2024 17:19:12
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for appointment
+-- ----------------------------
+DROP TABLE IF EXISTS `appointment`;
+CREATE TABLE `appointment`  (
+  `appointment_id` int NOT NULL AUTO_INCREMENT,
+  `queue_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_id` int NULL DEFAULT NULL,
+  `category_id` int NULL DEFAULT NULL,
+  `pet_id` int NULL DEFAULT NULL,
+  `timeslot_id` int NULL DEFAULT NULL,
+  `appointment_date` date NULL DEFAULT NULL,
+  `appointment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`appointment_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of appointment
+-- ----------------------------
+INSERT INTO `appointment` VALUES (16, 'APP00076177', 2, 10, 3, 31, '2024-10-21', 'Pending', '2024-10-21 17:16:44', '2024-10-21 17:18:48');
 
 -- ----------------------------
 -- Table structure for billing
@@ -43,77 +66,25 @@ INSERT INTO `billing` VALUES (21, NULL, 0, 0, 0, 'Unpaid', '', 2, '2024-05-13 18
 INSERT INTO `billing` VALUES (22, NULL, 0, 0, 0, 'Unpaid', '', 1, '2024-05-14 10:28:00', '2024-05-14 10:28:00');
 
 -- ----------------------------
--- Table structure for cart
--- ----------------------------
-DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart`  (
-  `cart_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NULL DEFAULT NULL,
-  `product_id` int NULL DEFAULT NULL,
-  `cart_quantity` int NULL DEFAULT NULL,
-  `cart_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `proof_of_payment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `total_price` decimal(11, 2) NULL DEFAULT NULL,
-  `payment_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `payment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `reference_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp,
-  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
-  `delivery_rider_id` int NULL DEFAULT NULL,
-  PRIMARY KEY (`cart_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 115 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of cart
--- ----------------------------
-INSERT INTO `cart` VALUES (111, 1, 19, 3, 'Delivered', NULL, 3.00, 'Cash On Delivery', 'Paid', '3ECC02', '2024-10-12 11:02:34', '2024-10-12 13:09:08', 1);
-INSERT INTO `cart` VALUES (112, 2, 19, 2, 'Delivered', NULL, 2.00, 'Cash On Delivery', 'Paid', '26AF44', '2024-10-12 11:18:08', '2024-10-12 13:56:12', 3);
-INSERT INTO `cart` VALUES (113, 2, 19, 2, 'Out For Delivery', NULL, 2.00, 'Cash On Delivery', NULL, 'C77468', '2024-10-12 11:18:27', '2024-10-12 14:22:40', 1);
-
--- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `price` decimal(10, 2) NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES (1, 'Dog Food Ni Bert1', '2024-05-14 17:48:46', '2024-09-23 10:36:16');
-INSERT INTO `category` VALUES (2, 'Dog Food Ni Patrick', '2024-05-14 17:48:30', '2024-09-04 17:25:39');
-INSERT INTO `category` VALUES (5, 'Test lang', '2024-09-04 17:23:29', '2024-09-04 17:25:44');
-INSERT INTO `category` VALUES (6, 'Test Category', '2024-09-06 21:20:13', '2024-09-06 21:20:13');
-INSERT INTO `category` VALUES (7, 'Spaghetti', '2024-09-06 22:20:07', '2024-09-06 22:20:07');
-INSERT INTO `category` VALUES (8, 'Categ', '2024-09-23 10:36:51', '2024-09-23 10:36:51');
-INSERT INTO `category` VALUES (9, '', '2024-10-12 12:10:56', '2024-10-12 12:10:56');
-
--- ----------------------------
--- Table structure for order
--- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order`  (
-  `order_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NULL DEFAULT NULL,
-  `product_id` int NOT NULL,
-  `payment_category_id` int NULL DEFAULT NULL,
-  `order_quantity` int NULL DEFAULT NULL,
-  `order_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `total_cost` int NULL DEFAULT NULL,
-  `proof_of_payment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp,
-  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order
--- ----------------------------
+INSERT INTO `category` VALUES (10, 'Consultation', 3000.00, '2024-10-21 10:46:42', '2024-10-21 11:04:59');
+INSERT INTO `category` VALUES (11, 'Vaccination | Deworming', 2000.00, '2024-10-21 10:49:53', '2024-10-21 11:05:09');
+INSERT INTO `category` VALUES (12, 'Surgery', 2000.00, '2024-10-21 10:50:03', '2024-10-21 11:05:15');
+INSERT INTO `category` VALUES (13, 'Diagnostic and Magic Examination', 20.00, '2024-10-21 11:05:27', '2024-10-21 11:05:27');
 
 -- ----------------------------
 -- Table structure for payment
@@ -151,6 +122,29 @@ CREATE TABLE `payment_category`  (
 -- ----------------------------
 INSERT INTO `payment_category` VALUES (1, 'Cash on Delivery', '2024-09-18 09:42:45', '2024-09-18 09:42:56');
 INSERT INTO `payment_category` VALUES (2, 'Gcash', '2024-09-18 09:43:01', '2024-09-18 09:43:01');
+
+-- ----------------------------
+-- Table structure for pets
+-- ----------------------------
+DROP TABLE IF EXISTS `pets`;
+CREATE TABLE `pets`  (
+  `pet_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
+  `pet_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `breed` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `species` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `birthdate` date NULL DEFAULT NULL,
+  `neutered` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`pet_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pets
+-- ----------------------------
+INSERT INTO `pets` VALUES (3, 2, 'Albert', '2024-10-21 13:22:22', '2024-10-21 13:22:22', 'Bulldog Half Human', 'Dating tao', '2024-10-21', 'No');
+INSERT INTO `pets` VALUES (4, 2, 'Robert', '2024-10-21 13:28:29', '2024-10-21 13:28:29', 'Bulldog Half Human', 'Dating tao', '2024-10-21', 'Yes');
 
 -- ----------------------------
 -- Table structure for product
@@ -210,30 +204,45 @@ INSERT INTO `purchase_order` VALUES (15, 12314, 26, 17, 10, '2024-09-18 17:41:02
 INSERT INTO `purchase_order` VALUES (16, 23, 26, 19, 23, '2024-10-12 11:10:32', '2024-10-12 11:10:32');
 
 -- ----------------------------
--- Table structure for supplier
+-- Table structure for timeslot
 -- ----------------------------
-DROP TABLE IF EXISTS `supplier`;
-CREATE TABLE `supplier`  (
-  `supplier_id` int NOT NULL AUTO_INCREMENT,
-  `supplier_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `landline` int NULL DEFAULT NULL,
-  `mobile_number` int NULL DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `tin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+DROP TABLE IF EXISTS `timeslot`;
+CREATE TABLE `timeslot`  (
+  `timeslot_id` int NOT NULL AUTO_INCREMENT,
+  `time_from` time NULL DEFAULT NULL,
+  `time_to` time NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`supplier_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`timeslot_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of supplier
+-- Records of timeslot
 -- ----------------------------
-INSERT INTO `supplier` VALUES (26, 'test', '1', 1, 123, 'gajultos.garrydev@gmail.com', '123', '2024-09-04 14:22:47', '2024-09-04 15:01:43');
-INSERT INTO `supplier` VALUES (27, '2', '2', 2, 2323, 'tanginathis213012@gmail.com', '23', '2024-09-04 14:22:53', '2024-09-04 15:01:53');
-INSERT INTO `supplier` VALUES (28, 'Supplier1', '123', 123, 1, 'gajultos.garrydev@gmail.com', '123', '2024-09-06 21:19:57', '2024-09-06 21:19:57');
-INSERT INTO `supplier` VALUES (29, 'Supplier2', 'Supplier2', 0, 123123, 'gajultos.garry123@gmail.com', '123', '2024-09-06 22:19:56', '2024-09-06 22:19:56');
-INSERT INTO `supplier` VALUES (30, 'Pendragon', 'Test', 123, 123, 'pendragonitteam@gmail.com', '23', '2024-10-12 11:05:22', '2024-10-12 11:05:22');
+INSERT INTO `timeslot` VALUES (31, '09:00:00', '09:15:00', '2024-10-21 11:51:09', '2024-10-21 11:51:09');
+INSERT INTO `timeslot` VALUES (33, '09:15:00', '09:30:00', '2024-10-21 11:54:03', '2024-10-21 11:54:57');
+INSERT INTO `timeslot` VALUES (34, '09:30:00', '09:45:00', '2024-10-21 11:55:11', '2024-10-21 11:55:11');
+INSERT INTO `timeslot` VALUES (35, '09:45:00', '10:00:00', '2024-10-21 11:55:24', '2024-10-21 11:55:24');
+INSERT INTO `timeslot` VALUES (36, '10:15:00', '10:30:00', '2024-10-21 11:55:32', '2024-10-21 11:55:32');
+INSERT INTO `timeslot` VALUES (37, '10:45:00', '11:00:00', '2024-10-21 13:39:11', '2024-10-21 13:39:11');
+
+-- ----------------------------
+-- Table structure for unavailable_dates
+-- ----------------------------
+DROP TABLE IF EXISTS `unavailable_dates`;
+CREATE TABLE `unavailable_dates`  (
+  `unavailable_id` int NOT NULL AUTO_INCREMENT,
+  `unavailable_date` date NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`unavailable_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of unavailable_dates
+-- ----------------------------
+INSERT INTO `unavailable_dates` VALUES (3, '2024-10-31', '2024-10-21 12:23:32', '2024-10-21 12:23:32');
+INSERT INTO `unavailable_dates` VALUES (4, '2024-10-23', '2024-10-21 12:30:35', '2024-10-21 12:30:35');
 
 -- ----------------------------
 -- Table structure for users
@@ -255,14 +264,16 @@ CREATE TABLE `users`  (
   `account_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', '123123@gmail.com', 123123123, '$2y$10$vtj3lvgROA.ecVm2oI2YnOrlhFzn1jNE/sMk72HTTH.ymfaBol9jW', '123123', '', '2024-04-07 16:08:00', '2024-09-04 15:57:51', NULL, '1', 'Active', '1');
 INSERT INTO `users` VALUES (2, 'Test Account', 'Ron', '123123@gmail.comm', NULL, '$2y$10$Wtj4pYEWKXHYe4DUwLPTveZdPJUNrXwfkfeZRWXO4bnmbNd9NOA9y', 'test1005', NULL, '2024-05-13 18:18:17', '2024-10-12 14:19:57', 4, '0', 'Active', NULL);
-INSERT INTO `users` VALUES (39, '1', 'test', 'gajultos.garrydev@gmail.com', 1, '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-12 11:57:29', 4, '1', 'Active', '1');
+INSERT INTO `users` VALUES (39, '1', 'test', '', 1, '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1');
+INSERT INTO `users` VALUES (40, 'Test', 'Account', '', 1, '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes');
+INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', 2147483647, '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-10-21 13:47:54', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21');
 
 -- ----------------------------
 -- Table structure for usertype
@@ -284,7 +295,7 @@ CREATE TABLE `usertype`  (
 -- Records of usertype
 -- ----------------------------
 INSERT INTO `usertype` VALUES (2, 'Admin', '2024-09-04 10:46:35', '2024-09-04 17:09:22', '0', '1', '1', '1');
-INSERT INTO `usertype` VALUES (3, 'Encoder', '2024-09-04 10:46:46', '2024-09-04 10:46:46', '1', '1', '1', '1');
-INSERT INTO `usertype` VALUES (4, 'Delivery Rider', '2024-10-12 11:21:06', '2024-10-12 11:21:06', '1', '1', '1', '1');
+INSERT INTO `usertype` VALUES (3, 'Doctor', '2024-09-04 10:46:46', '2024-10-21 11:08:38', '1', '1', '1', '1');
+INSERT INTO `usertype` VALUES (4, 'Vet Nurse', '2024-10-12 11:21:06', '2024-10-21 11:08:41', '1', '1', '1', '1');
 
 SET FOREIGN_KEY_CHECKS = 1;

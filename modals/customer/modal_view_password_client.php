@@ -17,7 +17,7 @@ include './../../connections/connections.php';
 
 if (isset($_POST['user_id'])) {
   $user_id = $_POST['user_id'];
-  $sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+  $sql = "SELECT * FROM users WHERE user_id = '$user_id' AND is_admin = '1'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
@@ -29,7 +29,7 @@ if (isset($_POST['user_id'])) {
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Client Password</h5>
+          <h5 class="modal-title">Admin | Staff Password</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

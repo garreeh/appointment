@@ -6,22 +6,20 @@ if (isset($_POST['edit_supplier'])) {
 
   $category_id = $conn->real_escape_string($_POST['category_id']);
 	$category_name = $conn->real_escape_string($_POST['category_name']);
+	$price = $conn->real_escape_string($_POST['price']);
 
-  // Construct SQL query for UPDATE
   $sql = "UPDATE `category` 
           SET 
-            category_name = '$category_name'
+            category_name = '$category_name',
+            price = '$price'
           WHERE category_id = '$category_id'";
 
-  // Execute SQL query
   if (mysqli_query($conn, $sql)) {
-    // Supplier updated successfully
-    $response = array('success' => true, 'message' => 'Category updated successfully!');
+    $response = array('success' => true, 'message' => 'Service updated successfully!');
     echo json_encode($response);
     exit();
   } else {
-    // Error updating supplier
-    $response = array('success' => false, 'message' => 'Error updating Category: ' . mysqli_error($conn));
+    $response = array('success' => false, 'message' => 'Error updating Service: ' . mysqli_error($conn));
     echo json_encode($response);
     exit();
   } 

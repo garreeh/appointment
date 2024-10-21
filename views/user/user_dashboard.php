@@ -17,7 +17,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Animal Clinic | Dashboard</title>
+  <title>Client | Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -37,7 +37,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <?php include './../../includes/admin/admin_nav.php'; ?>
+    <?php include './../../includes/user/user_nav.php'; ?>
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
@@ -45,7 +45,7 @@ if (session_status() == PHP_SESSION_NONE) {
       <!-- Main Content -->
       <div id="content">
         <!-- Topbar -->
-        <?php include './../../includes/admin/admin_topbar.php'; ?>
+        <?php include './../../includes/user/user_topbar.php'; ?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -53,7 +53,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Users Dashboard</h1>
         </div>
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">

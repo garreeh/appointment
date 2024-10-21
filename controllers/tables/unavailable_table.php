@@ -1,41 +1,35 @@
 <?php
 
 // Define table and primary key
-$table = 'category';
-$primaryKey = 'category_id';
+$table = 'unavailable_dates';
+$primaryKey = 'unavailable_id';
 // Define columns for DataTables
 $columns = array(
 	array(
-		'db' => 'category_id',
+		'db' => 'unavailable_id',
 		'dt' => 0,
-		'field' =>'category_id',
+		'field' =>'unavailable_id',
 		'formatter' => function ($lab1, $row) {
-      return $row['category_id'];
+      return $row['unavailable_id'];
 		}
 	),
 
-	array(
-		'db' => 'category_name',
-		'dt' => 1,
-		'field' => 'category_name',
-		'formatter' => function ($lab2, $row) {
-			return $row['category_name'];
-		}
-	),
+  array(
+    'db' => 'unavailable_date',
+    'dt' => 1,
+    'field' => 'unavailable_date',
+    'formatter' => function ($lab2, $row) {
+      $date = new DateTime($row['unavailable_date']);
 
-	array(
-		'db' => 'price',
-		'dt' => 2,
-		'field' => 'price',
-		'formatter' => function ($lab4, $row) {
-			return $row['price'];
+      $style = 'background-color: #ff8787; border-radius: 5px; padding: 5px;';
+      return "<span style=\"$style\">{$date->format('F j, Y')}</span>";
+    }
+  ),
 
-		}
-	),
 
 	array(
 		'db' => 'created_at',
-		'dt' => 3,
+		'dt' => 2,
 		'field' => 'created_at',
 		'formatter' => function ($lab4, $row) {
 			return date('Y-m-d', strtotime($row['created_at']));
@@ -44,7 +38,7 @@ $columns = array(
 
 	array(
     'db' => 'updated_at',
-    'dt' => 4,
+    'dt' => 3,
     'field' => 'updated_at',
     'formatter' => function ($lab5, $row) {
 			return date('Y-m-d', strtotime($row['updated_at']));
@@ -52,19 +46,19 @@ $columns = array(
 	),
 
 	array(
-    'db' => 'category_id',
-    'dt' => 5,
-    'field' => 'category_id',
+    'db' => 'unavailable_id',
+    'dt' => 4,
+    'field' => 'unavailable_id',
     'formatter' => function ($lab6, $row) {
 
       return '
       <div class="dropdown">
-          <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['category_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['unavailable_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               &#x22EE;
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['category_id'] . '">
-              <a class="dropdown-item fetchDataCategory" href="#">Edit</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['category_id'] . '">Delete</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['unavailable_id'] . '">
+              <a class="dropdown-item fetchDataSupplier" href="#">Edit</a>
+              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['unavailable_id'] . '">Delete</a>
           </div>
       </div>';
     }
@@ -83,7 +77,7 @@ $sql_details = array(
 // Include the SSP class
 require('../../assets/datatables/ssp.class_with_where.php');
 
-$where = "category_id";
+$where = "unavailable_id";
 
 // THIS IS A SAMPLE ONLY
 // $joinQuery = "FROM $table

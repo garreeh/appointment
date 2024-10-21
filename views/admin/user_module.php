@@ -175,4 +175,27 @@ if (session_status() == PHP_SESSION_NONE) {
     });
   });
 
+  //Bridge for Modal Backend to Frontend
+  $(document).ready(function() {
+    // Function to handle click event on datatable rows
+    $('#users_table').on('click', 'tr td:nth-child(4) .fetchDataPassword', function() {
+        var user_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
+        console.log('Button clicked, User ID: ' + user_id);
+
+        $.ajax({
+            url: './../../modals/customer/modal_view_password_client.php', // Path to PHP script to fetch modal content
+            method: 'POST',
+            data: { user_id: user_id },
+            success: function(response) {
+                $('#modalContainerSupplier').html(response);
+                $('#fetchDataUserModal').modal('show');
+                console.log("Modal content loaded for User ID: " + user_id);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + xhr.responseText);
+            }
+        });
+    });
+  });
+
 </script>

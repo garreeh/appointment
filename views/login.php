@@ -196,7 +196,7 @@ if (isset($_SESSION['user_id'])) {
                 if (response.is_admin === "1") {
                     window.location.href = "/appointment/views/admin/dashboard.php"; // Redirect to admin page
                 } else {
-                    window.location.href = "/appointment/index.php"; // Redirect to user page
+                    window.location.href = "/appointment/views/user/user_dashboard.php"; // Redirect to user page
                 }
             } else {
                 showToast(response.message);

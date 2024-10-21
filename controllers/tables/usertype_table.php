@@ -53,7 +53,7 @@ $columns = array(
                         &#x22EE;
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['user_type_id'] . '">
-                        <a class="dropdown-item fetchDataUserType" href="#">Edit</a>
+                        <a class="dropdown-item fetchDataUserType" href="#">Edit Access</a>
                         <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['user_type_id'] . '">Delete</a>
                     </div>
                 </div>';

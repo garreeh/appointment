@@ -39,7 +39,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="sidebar-brand-text mx-3">Ordering <sup>System</sup></div>
+      <div class="sidebar-brand-text mx-3">Animal<sup>Clinic</sup></div>
     </a>
 
     <!-- Divider -->
@@ -61,27 +61,21 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
     </div>
 
     <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/orders_module.php">
-        <i class="fas fa-fw fa-money-bill"></i>
-        <span>Client Orders</span></a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/deliveries_module.php">
-        <i class="fas fa-fw fa-money-bill"></i>
-        <span>Deliveries</span></a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/transaction_module.php">
-        <i class="fas fa-fw fa-money-bill"></i>
-        <span>Transactions</span></a>
+      <a class="nav-link" href="/appointment/views/admin/appointment_request_module.php">
+      <i class="fas fa-fw fa-calendar-check"></i>
+      <span>Appointment Request</span></a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link" href="/appointment/views/admin/purchase_module.php">
-      <i class="fas fa-fw fa-cart-plus"></i>
-      <span>Purchase Order</span></a>
+      <i class="fas fa-fw fa-prescription-bottle-alt"></i>
+      <span>Prescription</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/appointment/views/admin/purchase_module.php">
+      <i class="fas fa-fw fa-money-bill"></i>
+      <span>Billings</span></a>
     </li>
 
     <!-- <li class="nav-item">
@@ -94,7 +88,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
     <hr class="sidebar-divider">
     <!-- Heading -->
     <div class="sidebar-heading">
-      Reports, Product & Setup
+      Reports, Appointment Setup
     </div>
 
     <!-- Reports Collapse -->
@@ -122,35 +116,16 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true"
         aria-controls="collapse2">
         <i class="fas fa-fw fa-clipboard-list"></i>
-        <span>Product Setup</span>
+        <span>Appointment Setup</span>
       </a>
       <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <!-- <h6 class="collapse-header">Setup:</h6> -->
-          <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Suppliers</a>
-          <a class="collapse-item" href="/appointment/views/admin/category_module.php">Category</a>
-          <a class="collapse-item" href="/appointment/views/admin/product_module.php">Products</a>
+          <a class="collapse-item" href="/appointment/views/admin/category_module.php">Services</a>
+          <a class="collapse-item" href="/appointment/views/admin/timeslot_module.php">Timeslot</a>
+          <a class="collapse-item" href="/appointment/views/admin/unavailable_module.php">Unavailable Dates</a>
         </div>
         
       </div>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true"
-        aria-controls="collapse3">
-        <i class="fas fa-fw fa-clipboard-list"></i>
-        <span>Delivery</span>
-      </a>
-      <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <!-- <h6 class="collapse-header">Setup:</h6> -->
-          <a class="collapse-item" href="/appointment/views/admin/delivery_module.php">Assign Delivery</a>
-          <a class="collapse-item" href="/appointment/views/admin/category_module.php">Delivery Status</a>
-          <!-- <a class="collapse-item" href="/appointment/views/admin/product_module.php">Delivery History</a> -->
-        </div>
-        
-      </div>
-      
     </li>
 
     <!-- Divider -->
@@ -170,7 +145,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
           <!-- <h6 class="collapse-header">Setup:</h6> -->
           <a class="collapse-item" href="/appointment/views/admin/user_type_module.php">Add User Type</a>
           <a class="collapse-item" href="/appointment/views/admin/user_module.php">Add User</a>
-          <a class="collapse-item" href="/appointment/views/admin/customer_module.php">Customers</a>
+          <a class="collapse-item" href="/appointment/views/admin/client_module.php">Clients</a>
 
         </div>
         
@@ -178,7 +153,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
       
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/billing_module.php">
+      <a class="nav-link" href="/appointment/views/admin/settings_module.php">
         <i class="fas fa-fw fa-cog"></i>
         <span>Account Setting</span></a>
     </li>
