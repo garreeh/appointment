@@ -175,89 +175,38 @@ if (isset($_POST['appointment_id'])) {
   });
 </script>
 
-<!-- END OF SELECT -->
-
 <script>
-$(document).ready(function() {
-    // Initialize Flatpickr for the appointment_date field
+  $(document).ready(function() {
     const unavailableDates = <?php echo $unavailable_dates_js; ?>;
     
+    // Initialize Flatpickr for the appointment_date field
     const unavailableDatesObjects = unavailableDates.map(date => new Date(date));
 
     flatpickr("#appointment_date", {
-        minDate: "today", // Disable past dates
-        maxDate: new Date().fp_incr(30), // Limits the date to 1 Month
-        disable: unavailableDatesObjects, // Disable unavailable dates
-        onClose: function(selectedDates, dateStr, instance) {
-            // Check if selected date is unavailable and show Toastify
-            if (unavailableDates.includes(dateStr)) {
-              Toastify({
-                text: 'The selected date is unavailable. Please choose another date.',
-                duration: 3000,
-                backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-              }).showToast();
-              instance.clear(); // Clear the input field
+        minDate: "today",
+        maxDate: new Date().fp_incr(30), 
+        disable: unavailableDatesObjects,
+        onChange: function(selectedDates) {
+            const selectedDate = selectedDates[0];
+            if (selectedDate) {
+                // Fetch available timeslots for the selected date
+                fetchAvailableTimeslots(selectedDate.toISOString().split('T')[0]);
             }
         }
     });
 
-    // Form submission
-    $('#editAppointmentModal form').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const appointmentDate = <?php echo json_encode($row['appointment_date']); ?>;
-        console.log(appointmentDate); // Should log the expected date
-
-        // Check if the appointment date is empty
-        if (!appointmentDate) {
-            Toastify({
-                text: 'Please select an appointment date.',
-                duration: 3000,
-                backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-            }).showToast();
-            return; // Prevent form submission if date is not selected
-        }
-
-        // Store a reference to $(this)
-        var $form = $(this);
-
-        // Serialize form data
-        var formData = $form.serialize();
-
-        // Change button text to "Updating..." and disable it
-        var $addButton = $('#addButton');
-        $addButton.text('Updating...');
-        $addButton.prop('disabled', true);
-
-        // Send AJAX request
+    function fetchAvailableTimeslots(date) {
         $.ajax({
             type: 'POST',
-            url: '/appointment/controllers/users/edit_appointment_process.php',
-            data: formData,
+            url: '/appointment/controllers/users/fetch_timeslot_process.php',
+            data: { date: date },
             success: function(response) {
-                // Handle success response
-                console.log(response); // Log the response for debugging
                 response = JSON.parse(response);
-                
                 if (response.success) {
-                    Toastify({
-                        text: response.message,
-                        duration: 2000,
-                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
-                    }).showToast();
-                    
-                    // Optionally, reset the form
-                    $form.trigger('reset');
-                    
-                    // Clear Selectize dropdowns
-                    $('#category_id')[0].selectize.clear();  
-                    $('#pet_id')[0].selectize.clear();
-                    $('#timeslot_id')[0].selectize.clear();
-
-                    // Optionally, close the modal
-                    $('#editAppointmentModal').modal('hide');
-                    window.reloadDataTable();
+                    updateTimeslotDropdown(response.timeslots);
                 } else {
+                    // Handle error if no timeslots available
+                    updateTimeslotDropdown([]); // Clear dropdown
                     Toastify({
                         text: response.message,
                         duration: 2000,
@@ -266,28 +215,30 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                // Handle error response
-                console.error(xhr.responseText);
-                Toastify({
-                    text: "Error occurred while adding appointment. Please try again later.",
-                    duration: 2000,
-                    backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                }).showToast();
-            },
-            complete: function() {
-                // Reset button text and re-enable it
-                $addButton.text('Save');
-                $addButton.prop('disabled', false);
+                console.log('AJAX Error:', error);
             }
         });
-    });
-});
+    }
 
+    function updateTimeslotDropdown(timeslots) {
+        let timeslotDropdownHTML = '<option value="" disabled>Select Time Slot</option>'; // Placeholder option
+        
+        // Loop through all timeslots and create options
+        timeslots.forEach(slot => {
+            timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
+        });
+
+        $('#timeslot_id').html(timeslotDropdownHTML); // Update the dropdown
+    }
+    
+    // Other existing code...
+
+  });
 </script>
+
 
 <?php 
     }
   }
 }
 ?>
-

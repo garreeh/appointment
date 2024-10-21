@@ -11,7 +11,10 @@ if (isset($_POST['edit_appointment'])) {
     $appointment_date = $conn->real_escape_string($_POST['appointment_date']);
 
     // Check if the time slot is already booked for the appointment date
-    $check_sql = "SELECT * FROM `appointment` WHERE timeslot_id = '$timeslot_id' AND appointment_date = '$appointment_date'";
+    $check_sql = "SELECT * FROM `appointment` 
+                  WHERE timeslot_id = '$timeslot_id' 
+                  AND appointment_date = '$appointment_date' 
+                  AND appointment_id != '$appointment_id'"; // Exclude current appointment
     $check_result = mysqli_query($conn, $check_sql);
 
     if (mysqli_num_rows($check_result) > 0) {
@@ -31,12 +34,12 @@ if (isset($_POST['edit_appointment'])) {
 
     // Execute SQL query
     if (mysqli_query($conn, $sql)) {
-        // Pet updated successfully
+        // Appointment updated successfully
         $response = array('success' => true, 'message' => 'Appointment updated successfully!');
         echo json_encode($response);
         exit();
     } else {
-        // Error updating pet
+        // Error updating appointment
         $response = array('success' => false, 'message' => 'Error updating Appointment: ' . mysqli_error($conn));
         echo json_encode($response);
         exit();

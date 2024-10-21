@@ -27,11 +27,16 @@ if (isset($_POST['date'])) {
     // Fetch all time slots with their statuses
     $available_timeslots = [];
     while ($row = mysqli_fetch_assoc($result)) {
+        // Add an additional property to indicate booking status
+        $row['booked'] = ($row['status'] === 'Booked');
         $available_timeslots[] = $row;
     }
 
-    // Return the available time slots as JSON
-    echo json_encode($available_timeslots);
+    // Return the available time slots as JSON with success status
+    echo json_encode([
+        'success' => true,
+        'timeslots' => $available_timeslots
+    ]);
 
     // Close the database connection
     mysqli_close($conn);
