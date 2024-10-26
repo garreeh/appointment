@@ -18,9 +18,9 @@ if (session_status() == PHP_SESSION_NONE) {
   <meta name="author" content="">
 
   <title>Animal Clinic | Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Custom fonts for this template-->
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
@@ -29,6 +29,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
   <!-- Custom styles for this template-->
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="./../../assets/admin/calendar/css/calendar.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -51,82 +53,63 @@ if (session_status() == PHP_SESSION_NONE) {
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        </div>
-
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <div id="clockAndDate" class="h1 mb-0 font-weight-bold text-gray-800"></div>
-        </div>
-
           <!-- Content Row -->
           <div class="row">
-
-          <!-- Active Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Daily Sales
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
-                      </div>
-                  </div>
+            <div class="page-header">
+              <div class="pull-right form-inline">
+                <div class="btn-group">
+                  <button class="btn btn-primary" data-calendar-nav="prev">
+                    << Prev</button> <button class="btn btn-default" data-calendar-nav="today">Today
+                      </button>
+                      <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+                </div>
+                <div class="btn-group" style="padding-left: 1rem;">
+                  <button class="btn btn-primary" data-calendar-view="year">Year</button>
+                  <button class="btn btn-primary active" data-calendar-view="month">Month</button>
+                  <button class="btn btn-primary" data-calendar-view="week">Week</button>
+                  <!-- <button class="btn primary-warning" data-calendar-view="day">Day</button> -->
+                </div>
               </div>
-          </div>
+              <strong>
+                <br>
 
-          <!-- Urgent Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Monthly Sales
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                <h1 style="font-weight:bold;">Today is: <span id="clockAndDate" style="font-weight:bold;"></span> <span id="current-day" style="font-weight:bold;"></span></h1>
 
-          <!-- Priority Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Annual Sales
-                              </div>
-                              <div class="row no-gutters align-items-center">
-                                  <div class="col-auto">
-                                      <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
-                      </div>
-                  </div>
+                <script>
+                  // Get today's date
+                  const today = new Date();
+
+                  // Array of weekday names
+                  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                  // Get the current day name and date
+                  const dayName = daysOfWeek[today.getDay()];
+                  const dayDate = today.getDate();
+
+                  // Display in format "26 Saturday"
+                  document.getElementById('current-day').textContent = `(${dayName})`;
+                </script>
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                  <h3 class="h1 mb-0 font-weight-bold text-gray-800" style="font-weight:bold; color:goldenrod"></h3>
+                </div>
+
+              </strong>
+            </div>
+            <div class="table-responsive">
+              <div class="row">
+                <div class="col-md-12">
+                  <div id="showEventCalendar"></div>
+                </div>
+                <div class="col-md-3">
+                  <!-- <h4>All Events List</h4>
+				<ul id="eventlist" class="nav nav-list"></ul> -->
+                </div>
               </div>
-          </div>
+            </div>
 
           </div>
         </div>
-        <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
 
@@ -151,8 +134,12 @@ if (session_status() == PHP_SESSION_NONE) {
   <!-- Custom scripts for all pages-->
   <script src="./../../assets/admin/js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
+  <script type="text/javascript" src="./../../assets/admin/calendar/js/calendar.js"></script>
+  <script type="text/javascript" src="./../../assets/admin/calendar/js/events.js"></script>
+
+  <!-- Page level plugins -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </body>
@@ -180,7 +167,8 @@ if (session_status() == PHP_SESSION_NONE) {
     var formattedDate = month + " " + day + ", " + year;
 
     // Update the clock and date elements
-    document.getElementById("clockAndDate").innerText = formattedTime + " | " + formattedDate;
+    document.getElementById("clockAndDate").innerText = formattedDate;
+
 
     // Update the clock and date every second
     setTimeout(updateClockAndDate, 1000);

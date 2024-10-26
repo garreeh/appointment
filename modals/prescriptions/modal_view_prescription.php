@@ -43,7 +43,7 @@ if (isset($_POST['prescription_id'])) {
               <form method="post" enctype="multipart/form-data">
 
                 <div class="form-group col-md-12">
-                  <label for="user_confirm_password">Password:</label>
+                  <label for="user_confirm_password">Prescription:</label>
                   <textarea class="form-control" id="prescription_notes" name="prescription_notes" readonly rows="8"><?php echo $row['prescription_notes']; ?></textarea>
                 </div>
               </form>

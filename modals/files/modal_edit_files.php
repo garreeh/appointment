@@ -20,6 +20,7 @@ if (isset($_POST['file_id'])) {
     while ($row = mysqli_fetch_assoc($result)) {
       $file_path = basename($row['file_path']);
       $image_url = '../../uploads/files/' . $file_path; // Correct path to the image
+      $file_name = $row['file_name'];
 ?>
       <div class="modal fade" id="fetchEditModal" tabindex="-1" role="dialog" aria-labelledby="fetchEditModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -42,8 +43,7 @@ if (isset($_POST['file_id'])) {
                     <!-- Display existing image filename -->
                     <div class="file-info">
                       <?php if (!empty($file_path) && file_exists('../../uploads/files/' . $file_path)): ?>
-                        <p><strong>Current Image:</strong></p>
-                        <img src="<?php echo $image_url; ?>" alt="Current Image" style="max-width: 100%; height: auto;">
+                        <p><strong>Current Image: <?php echo $file_name ?></strong></p>
                       <?php else: ?>
                         <p>No image available.</p>
                       <?php endif; ?>

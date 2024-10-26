@@ -94,7 +94,7 @@ $columns = array(
               &#x22EE;
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
-              <a class="dropdown-item fetchDataAppointment" href="#">Approve</a>
+              <a class="dropdown-item fetchDataAppointment" href="#">Archive</a>
               <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['appointment_id'] . '">Cancel</a>
           </div>
       </div>';
