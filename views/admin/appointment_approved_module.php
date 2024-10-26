@@ -54,7 +54,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Appointment Request</h1>
+            <h1 class="h3 mb-0 text-gray-800">Appointments Ongoing</h1>
           </div>
 
           <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a>
@@ -67,7 +67,7 @@ if (session_status() == PHP_SESSION_NONE) {
                   <div id="modalContainerProvider"></div>
 
 
-                  <table class="table custom-table table-hover" name="appointment_request_table" id="appointment_request_table">
+                  <table class="table custom-table table-hover" name="appointment_approved_table" id="appointment_approved_table">
                     <thead>
                       <tr>
                         <th>Appointment ID</th>
@@ -130,28 +130,28 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
   $('#sidebarToggle').click(function() {
-    $('#appointment_request_table').css('width', '100%');
+    $('#appointment_approved_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Transactions
   $(document).ready(function() {
-    var appointment_request_table = $('#appointment_request_table').DataTable({
+    var appointment_approved_table = $('#appointment_approved_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../../controllers/tables/appointment_request_table.php",
+      "ajax": "./../../controllers/tables/appointment_approved_table.php",
     });
 
     window.reloadDataTable = function() {
-      appointment_request_table.ajax.reload();
+      appointment_approved_table.ajax.reload();
     };
 
   });
 
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#appointment_request_table').on('click', 'tr td:nth-child(9) .fetchDataDelivery', function() {
+    $('#appointment_approved_table').on('click', 'tr td:nth-child(9) .fetchDataDelivery', function() {
       var cart_id = $(this).closest('tr').find('td').first().text(); // Get the cart_id from the clicked row
 
       $.ajax({

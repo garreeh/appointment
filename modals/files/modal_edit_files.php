@@ -4,61 +4,65 @@
     color: #333;
     /* Darker label color */
     font-weight: bolder;
+    /* Bolder font */
   }
 </style>
 
 <?php
 include './../../connections/connections.php';
 
-if (isset($_POST['category_id'])) {
-  $category_id = $_POST['category_id'];
-  $sql = "SELECT * FROM category WHERE category_id = '$category_id'";
+if (isset($_POST['file_id'])) {
+  $file_id = $_POST['file_id'];
+  $sql = "SELECT * FROM file_uploads WHERE file_id = '$file_id'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
+      $file_path = basename($row['file_path']);
+      $image_url = '../../uploads/files/' . $file_path; // Correct path to the image
 ?>
-      <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-l" role="document">
+      <div class="modal fade" id="fetchEditModal" tabindex="-1" role="dialog" aria-labelledby="fetchEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Update Category ID: <?php echo $row['category_id']; ?></h5>
+              <h5 class="modal-title">Update Files ID: <?php echo $row['file_id']; ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-              <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="category_id" value="<?php echo $row['category_id']; ?>">
-                <div class="form-row">
-                  <div class="form-group col-md-12">
-                    <label for="category_name">Service Name:</label>
-                    <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name" value="<?php echo $row['category_name']; ?>" required>
-                  </div>
-                </div>
+              <form id="fileUploadForm" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="file_id" value="<?php echo $row['file_id']; ?>">
 
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label for="price">Service Price:</label>
-                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price" value="<?php echo $row['price']; ?>" required>
+                    <label for="file_path">Files | Image:</label>
+                    <input type="file" class="form-control" id="file_path" name="fileToUpload" accept="image/*">
+                    <!-- Display existing image filename -->
+                    <div class="file-info">
+                      <?php if (!empty($file_path) && file_exists('../../uploads/files/' . $file_path)): ?>
+                        <p><strong>Current Image:</strong></p>
+                        <img src="<?php echo $image_url; ?>" alt="Current Image" style="max-width: 100%; height: auto;">
+                      <?php else: ?>
+                        <p>No image available.</p>
+                      <?php endif; ?>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Add a hidden input field to submit the form with the button click -->
-                <input type="hidden" name="edit_category" value="1">
+                <input type="hidden" name="edit_files" value="1">
 
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-primary" id="saveCategoryButton">Save</button>
-                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['category_id']; ?>"> -->
-                  <button type="button" class="btn btn btn-danger" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-
 <?php
     }
   }
@@ -66,15 +70,13 @@ if (isset($_POST['category_id'])) {
 ?>
 
 <script>
-  // Save Button in Edit Category
   $(document).ready(function() {
-    $('#editCategoryModal form').submit(function(event) {
+    $('#fileUploadForm').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
+
       // Store a reference to $(this)
       var $form = $(this);
-
-      // Serialize form data
-      var formData = $form.serialize();
+      var formData = new FormData($form[0]); // Use FormData to handle file upload
 
       // Change button text to "Saving..." and disable it
       var $saveButton = $('#saveCategoryButton');
@@ -84,10 +86,11 @@ if (isset($_POST['category_id'])) {
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/edit_category_process.php',
+        url: '/appointment/controllers/admin/edit_files_process.php',
         data: formData,
+        contentType: false, // Important for file uploads
+        processData: false, // Important for file uploads
         success: function(response) {
-          // Handle success response
           console.log(response); // Log the response for debugging
           response = JSON.parse(response);
           if (response.success) {
@@ -98,9 +101,8 @@ if (isset($_POST['category_id'])) {
             }).showToast();
 
             // Optionally, close the modal
-            $('#editCategoryModal').modal('hide');
-            window.reloadDataTable();
-
+            $('#fetchEditModal').modal('hide');
+            reloadDataTable();
           } else {
             Toastify({
               text: response.message,
@@ -110,10 +112,9 @@ if (isset($_POST['category_id'])) {
           }
         },
         error: function(xhr, status, error) {
-          // Handle error response
           console.error(xhr.responseText);
           Toastify({
-            text: "Error occurred while editing category. Please try again later.",
+            text: "Error occurred while editing file. Please try again later.",
             duration: 2000,
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
@@ -125,5 +126,9 @@ if (isset($_POST['category_id'])) {
         }
       });
     });
+
+    function reloadDataTable() {
+      $('#files_table').DataTable().ajax.reload(null, false);
+    }
   });
 </script>

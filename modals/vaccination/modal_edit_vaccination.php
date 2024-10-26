@@ -10,19 +10,19 @@
 <?php
 include './../../connections/connections.php';
 
-if (isset($_POST['category_id'])) {
-  $category_id = $_POST['category_id'];
-  $sql = "SELECT * FROM category WHERE category_id = '$category_id'";
+if (isset($_POST['vaccine_id'])) {
+  $vaccine_id = $_POST['vaccine_id'];
+  $sql = "SELECT * FROM vaccine WHERE vaccine_id = '$vaccine_id'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
 ?>
-      <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+      <div class="modal fade" id="editVaccineModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-l" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Update Category ID: <?php echo $row['category_id']; ?></h5>
+              <h5 class="modal-title">Update Vaccine ID: <?php echo $row['vaccine_id']; ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -30,27 +30,34 @@ if (isset($_POST['category_id'])) {
 
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="category_id" value="<?php echo $row['category_id']; ?>">
+                <input type="hidden" name="vaccine_id" value="<?php echo $row['vaccine_id']; ?>">
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label for="category_name">Service Name:</label>
-                    <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter Category Name" value="<?php echo $row['category_name']; ?>" required>
+                    <label for="vaccine_name">Vaccine Name:</label>
+                    <input type="text" class="form-control" id="vaccine_name" name="vaccine_name" placeholder="Enter Vaccine Name" value="<?php echo $row['vaccine_name']; ?>" required>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label for="price">Service Price:</label>
+                    <label for="price">Vaccine Price:</label>
                     <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price" value="<?php echo $row['price']; ?>" required>
                   </div>
                 </div>
 
+                <!-- <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="expiration_date">Expiration Date:</label>
+                    <input type="date" class="form-control" id="expiration_date" name="expiration_date" value="<?php echo $row['expiration_date']; ?>" required>
+                  </div>
+                </div> -->
+
                 <!-- Add a hidden input field to submit the form with the button click -->
-                <input type="hidden" name="edit_category" value="1">
+                <input type="hidden" name="edit_vaccine" value="1">
 
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-primary" id="saveCategoryButton">Save</button>
-                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['category_id']; ?>"> -->
+                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['vaccine_id']; ?>"> -->
                   <button type="button" class="btn btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
               </form>
@@ -68,7 +75,7 @@ if (isset($_POST['category_id'])) {
 <script>
   // Save Button in Edit Category
   $(document).ready(function() {
-    $('#editCategoryModal form').submit(function(event) {
+    $('#editVaccineModal form').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
       // Store a reference to $(this)
       var $form = $(this);
@@ -84,7 +91,7 @@ if (isset($_POST['category_id'])) {
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/edit_category_process.php',
+        url: '/appointment/controllers/admin/edit_vaccine_process.php',
         data: formData,
         success: function(response) {
           // Handle success response
@@ -98,7 +105,7 @@ if (isset($_POST['category_id'])) {
             }).showToast();
 
             // Optionally, close the modal
-            $('#editCategoryModal').modal('hide');
+            $('#editVaccineModal').modal('hide');
             window.reloadDataTable();
 
           } else {

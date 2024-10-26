@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include './../../connections/connections.php';
 
@@ -12,9 +12,9 @@ $resultCategory = mysqli_query($conn, $sql);
 
 $category_names = [];
 if ($resultCategory) {
-    while ($row = mysqli_fetch_assoc($resultCategory)) {
-        $category_names[] = $row;
-    }
+  while ($row = mysqli_fetch_assoc($resultCategory)) {
+    $category_names[] = $row;
+  }
 }
 
 $sql = "SELECT * FROM pets WHERE user_id = '$user_id'";
@@ -22,9 +22,9 @@ $resultPetsUser = mysqli_query($conn, $sql);
 
 $pet_names = [];
 if ($resultPetsUser) {
-    while ($row = mysqli_fetch_assoc($resultPetsUser)) {
-        $pet_names[] = $row;
-    }
+  while ($row = mysqli_fetch_assoc($resultPetsUser)) {
+    $pet_names[] = $row;
+  }
 }
 
 $sql = "SELECT * FROM timeslot
@@ -33,11 +33,11 @@ $resultTimeslot = mysqli_query($conn, $sql);
 
 $timeslot_names = [];
 if ($resultTimeslot) {
-    while ($row = mysqli_fetch_assoc($resultTimeslot)) {
-        $timeslot_names[] = $row;
-    }
+  while ($row = mysqli_fetch_assoc($resultTimeslot)) {
+    $timeslot_names[] = $row;
+  }
 } else {
-    echo "Error: " . mysqli_error($conn); // Display any SQL error
+  echo "Error: " . mysqli_error($conn); // Display any SQL error
 }
 
 $sql = "SELECT unavailable_date FROM unavailable_dates";
@@ -45,11 +45,11 @@ $resultDates = mysqli_query($conn, $sql);
 
 $unavailable_dates = [];
 if ($resultDates) {
-    while ($row = mysqli_fetch_assoc($resultDates)) {
-        $unavailable_dates[] = $row['unavailable_date'];
-    }
+  while ($row = mysqli_fetch_assoc($resultDates)) {
+    $unavailable_dates[] = $row['unavailable_date'];
+  }
 } else {
-    echo "Error: " . mysqli_error($conn);
+  echo "Error: " . mysqli_error($conn);
 }
 
 $unavailable_dates_js = json_encode($unavailable_dates);
@@ -143,65 +143,67 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
     const unavailableDatesObjects = unavailableDates.map(date => new Date(date));
 
     flatpickr("#appointment_date", {
-        minDate: "today",
-        maxDate: new Date().fp_incr(30), 
-        disable: unavailableDatesObjects,
-        onClose: function(selectedDates, dateStr, instance) {
-            if (dateStr && !unavailableDates.includes(dateStr)) {
-                fetchAvailableTimeslots(dateStr); // Fetch timeslots for the selected date
-            } else {
-                removeTimeslotDropdown(); // Hide dropdown if date is invalid
-            }
-            if (unavailableDates.includes(dateStr)) {
-                Toastify({
-                    text: 'The selected date is unavailable. Please choose another date.',
-                    duration: 3000,
-                    backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                }).showToast();
-                instance.clear();
-            }
+      minDate: "today",
+      maxDate: new Date().fp_incr(30),
+      disable: unavailableDatesObjects,
+      onClose: function(selectedDates, dateStr, instance) {
+        if (dateStr && !unavailableDates.includes(dateStr)) {
+          fetchAvailableTimeslots(dateStr); // Fetch timeslots for the selected date
+        } else {
+          removeTimeslotDropdown(); // Hide dropdown if date is invalid
         }
+        if (unavailableDates.includes(dateStr)) {
+          Toastify({
+            text: 'The selected date is unavailable. Please choose another date.',
+            duration: 3000,
+            backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+          }).showToast();
+          instance.clear();
+        }
+      }
     });
 
     function fetchAvailableTimeslots(date) {
-        $.ajax({
-            type: 'POST',
-            url: '/appointment/controllers/users/fetch_timeslot_process.php',
+      $.ajax({
+        type: 'POST',
+        url: '/appointment/controllers/users/fetch_timeslot_process.php',
 
-            data: { date: date },
-            success: function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    updateTimeslotDropdown(response.timeslots);
-                } else {
-                    Toastify({
-                        text: response.message,
-                        duration: 2000,
-                        backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                    }).showToast();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('AJAX Error:', error);
-            }
-        });
+        data: {
+          date: date
+        },
+        success: function(response) {
+          response = JSON.parse(response);
+          if (response.success) {
+            updateTimeslotDropdown(response.timeslots);
+          } else {
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+            }).showToast();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log('AJAX Error:', error);
+        }
+      });
     }
 
     function updateTimeslotDropdown(timeslots) {
       let timeslotDropdownHTML = '<div class="form-row">' +
-          '<div class="form-group col-md-12">' +
-              '<label for="timeslot_id">Time Slot:</label>' +
-              '<select class="form-control" id="timeslot_id" name="timeslot_id" required>' +
-                  '<option value="">Select Time Slot</option>';
+        '<div class="form-group col-md-12">' +
+        '<label for="timeslot_id">Time Slot:</label>' +
+        '<select class="form-control" id="timeslot_id" name="timeslot_id" required>' +
+        '<option value="">Select Time Slot</option>';
 
       // Loop through all timeslots and create options
       timeslots.forEach(slot => {
-          // Check if the slot is booked by looking for a property indicating it
-          if (slot.booked) { // Adjust this condition according to your data structure
-              timeslotDropdownHTML += `<option value="${slot.timeslot_id}" disabled>${slot.time_from} - ${slot.time_to} (Booked)</option>`;
-          } else {
-              timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
-          }
+        // Check if the slot is booked by looking for a property indicating it
+        if (slot.booked) { // Adjust this condition according to your data structure
+          timeslotDropdownHTML += `<option value="${slot.timeslot_id}" disabled>${slot.time_from} - ${slot.time_to} (Booked)</option>`;
+        } else {
+          timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
+        }
       });
 
       timeslotDropdownHTML += '</select></div></div>';
@@ -216,72 +218,72 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
 
     // Form submission
     $('#addDataAppointments form').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
+      event.preventDefault(); // Prevent default form submission
 
-        const appointmentDate = $('#appointment_date').val();
-        if (!appointmentDate) {
-          Toastify({
-            text: 'Please select an appointment date.',
-            duration: 3000,
-            backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-          }).showToast();
-          return;
+      const appointmentDate = $('#appointment_date').val();
+      if (!appointmentDate) {
+        Toastify({
+          text: 'Please select an appointment date.',
+          duration: 3000,
+          backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+        }).showToast();
+        return;
+      }
+
+      var $form = $(this);
+      var formData = $form.serialize();
+      var $addButton = $('#addButton');
+      $addButton.text('Adding...');
+      $addButton.prop('disabled', true);
+
+      $.ajax({
+        type: 'POST',
+        url: '/appointment/controllers/users/add_appointment_process.php',
+        data: formData,
+        success: function(response) {
+          response = JSON.parse(response);
+          if (response.success) {
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+            }).showToast();
+            $form.trigger('reset');
+
+            // Clear Selectize dropdowns
+            $('#category_id')[0].selectize.clear();
+            $('#pet_id')[0].selectize.clear();
+
+            removeTimeslotDropdown(); // Clear the timeslot dropdown
+            $('#addDataAppointments').modal('hide');
+            window.reloadDataTable();
+          } else {
+            Toastify({
+              text: response.message,
+              duration: 2000,
+              backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
+            }).showToast();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log('AJAX Error:', error);
+        },
+        complete: function() {
+          $addButton.text('Add');
+          $addButton.prop('disabled', false);
         }
-
-        var $form = $(this);
-        var formData = $form.serialize();
-        var $addButton = $('#addButton');
-        $addButton.text('Adding...');
-        $addButton.prop('disabled', true);
-
-        $.ajax({
-            type: 'POST',
-            url: '/appointment/controllers/users/add_appointment_process.php',
-            data: formData,
-            success: function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    Toastify({
-                        text: response.message,
-                        duration: 2000,
-                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
-                    }).showToast();
-                    $form.trigger('reset');
-
-                    // Clear Selectize dropdowns
-                    $('#category_id')[0].selectize.clear();  
-                    $('#pet_id')[0].selectize.clear();
-                    
-                    removeTimeslotDropdown(); // Clear the timeslot dropdown
-                    $('#addDataAppointments').modal('hide');
-                    window.reloadDataTable();
-                } else {
-                    Toastify({
-                        text: response.message,
-                        duration: 2000,
-                        backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
-                    }).showToast();
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log('AJAX Error:', error);
-            },
-            complete: function() {
-                $addButton.text('Add');
-                $addButton.prop('disabled', false);
-            }
-        });
+      });
     });
 
-          // Reset fields when the modal is closed
-      $('#addDataAppointments').on('hidden.bs.modal', function() {
-        // Reset the appointment date
-        $('#appointment_date').val('');
-        // Clear Selectize dropdowns
-        $('#category_id')[0].selectize.clear();  
-        $('#pet_id')[0].selectize.clear();
-        // Clear the timeslot dropdown
-        removeTimeslotDropdown();
+    // Reset fields when the modal is closed
+    $('#addDataAppointments').on('hidden.bs.modal', function() {
+      // Reset the appointment date
+      $('#appointment_date').val('');
+      // Clear Selectize dropdowns
+      $('#category_id')[0].selectize.clear();
+      $('#pet_id')[0].selectize.clear();
+      // Clear the timeslot dropdown
+      removeTimeslotDropdown();
     });
   });
 </script>

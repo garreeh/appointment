@@ -2,11 +2,11 @@
 
 include '../../connections/connections.php';
 
-if (isset($_POST['edit_supplier'])) {
+if (isset($_POST['edit_category'])) {
 
   $category_id = $conn->real_escape_string($_POST['category_id']);
-	$category_name = $conn->real_escape_string($_POST['category_name']);
-	$price = $conn->real_escape_string($_POST['price']);
+  $category_name = $conn->real_escape_string($_POST['category_name']);
+  $price = $conn->real_escape_string($_POST['price']);
 
   $sql = "UPDATE `category` 
           SET 
@@ -22,6 +22,5 @@ if (isset($_POST['edit_supplier'])) {
     $response = array('success' => false, 'message' => 'Error updating Service: ' . mysqli_error($conn));
     echo json_encode($response);
     exit();
-  } 
+  }
 }
-?>

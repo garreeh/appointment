@@ -62,27 +62,33 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
 
     <li class="nav-item">
       <a class="nav-link" href="/appointment/views/admin/appointment_request_module.php">
-      <i class="fas fa-fw fa-calendar-check"></i>
-      <span>Appointment Request</span></a>
+        <i class="fas fa-fw fa-calendar-check"></i>
+        <span>Appointment Request's</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/appointment/views/admin/appointment_approved_module.php">
+        <i class="fas fa-fw fa-calendar-check"></i>
+        <span>Appointment Ongoing</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/appointment/views/admin/appointment_archive_module.php">
+        <i class="fas fa-fw fa-calendar-check"></i>
+        <span>Appointment Archived</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/appointment/views/admin/patients_module.php">
+        <i class="fas fa-fw fa-prescription-bottle-alt"></i>
+        <span>Patients</span></a>
     </li>
 
     <li class="nav-item">
       <a class="nav-link" href="/appointment/views/admin/purchase_module.php">
-      <i class="fas fa-fw fa-prescription-bottle-alt"></i>
-      <span>Prescription</span></a>
+        <i class="fas fa-fw fa-money-bill"></i>
+        <span>Billings</span></a>
     </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/purchase_module.php">
-      <i class="fas fa-fw fa-money-bill"></i>
-      <span>Billings</span></a>
-    </li>
-
-    <!-- <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/billing_module.php">
-        <i class="fas fa-fw fa-clipboard-list"></i>
-        <span>Voucher</span></a>
-    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -106,9 +112,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
           <!-- <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Item Category Report</a> -->
           <!-- <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Turnover Report</a> -->
         </div>
-        
+
       </div>
-      
+
     </li>
 
     <!-- Products Setup Collapse -->
@@ -124,8 +130,14 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
           <a class="collapse-item" href="/appointment/views/admin/timeslot_module.php">Timeslot</a>
           <a class="collapse-item" href="/appointment/views/admin/unavailable_module.php">Unavailable Dates</a>
         </div>
-        
+
       </div>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="/appointment/views/admin/vaccine_module.php">
+        <i class="fas fa-fw fa-calendar-check"></i>
+        <span>Vaccine</span></a>
     </li>
 
     <!-- Divider -->
@@ -148,9 +160,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
           <a class="collapse-item" href="/appointment/views/admin/client_module.php">Clients</a>
 
         </div>
-        
+
       </div>
-      
+
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/appointment/views/admin/settings_module.php">

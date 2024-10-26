@@ -19,17 +19,16 @@ if (session_status() == PHP_SESSION_NONE) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | Product</title>
+  <title>Admin | Services</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-
 
 </head>
 
@@ -42,8 +41,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- End of Sidebar -->
 
     <!-- Modal for Adding and Editing Supplier -->
-    <?php include './../../modals/purchase/modal_add_purchase.php'; ?>
-
+    <?php include './../../modals/vaccination/modal_add_vaccination.php'; ?>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -59,28 +57,25 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Purchase Order Module</h1>
+            <h1 class="h3 mb-0 text-gray-800">Vaccine Module</h1>
           </div>
 
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addPurchaseOrderModal"> <i class="fas fa-plus"></i> Add PO</a>
-
+          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addVaccinationModal"> <i class="fas fa-plus"></i> Add Vaccination Type</a>
           <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a>
 
           <div class="row">
             <div class="col-xl-12 col-lg-12">
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
-                
-                <div class="table-responsive">
-                  <div id="modalContainerProduct"></div>
 
-                  <table class="table custom-table table-hover" name="purchase_table" id="purchase_table">
+                <div class="table-responsive">
+                  <div id="modalContainerCategory"></div>
+
+                  <table class="table custom-table table-hover" name="vaccine_table" id="vaccine_table">
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>PO #</th>
-                        <th>Supplier</th>
-                        <th>Product</th>
-                        <th>Quantity</th>
+                        <th>Vaccine ID</th>
+                        <th>Vaccine Name</th>
+                        <th>Price</th>
                         <th>Date Created</th>
                         <th>Date Updated</th>
                         <th>Manage</th>
@@ -117,19 +112,6 @@ if (session_status() == PHP_SESSION_NONE) {
   <link rel="stylesheet" type="text/css" href="./../../assets/datatables/datatables.min.css" />
   <script type="text/javascript" src="./../../assets/datatables/datatables.min.js"></script>
 
-  <!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-
-  <script>
-    $(document).ready(function() {
-      $('select').selectize({
-        sortField: 'text'
-      });
-    });
-  </script>
-  <!-- END OF SELECT -->
-
 
 
 </body>
@@ -137,23 +119,22 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  
-  $('#sidebarToggle').click(function () {
-    $('#purchase_table').css('width', '100%');
+  $('#sidebarToggle').click(function() {
+    $('#vaccine_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
-  
-  //Table for Product
+
+  //Table for Supplier
   $(document).ready(function() {
-    var purchase_table = $('#purchase_table').DataTable({
+    var vaccine_table = $('#vaccine_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../../controllers/tables/purchase_table.php",
+      "ajax": "./../../controllers/tables/vaccine_table.php",
     });
 
     window.reloadDataTable = function() {
-      purchase_table.ajax.reload();
+      vaccine_table.ajax.reload();
     };
 
   });
@@ -161,24 +142,24 @@ if (session_status() == PHP_SESSION_NONE) {
   //Column 5
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#purchase_table').on('click', 'tr td:nth-child(8) .fetchDataPurchase', function() {
-        var purchase_order_id = $(this).closest('tr').find('td').first().text(); // Get the purchase_order_id from the clicked row
+    $('#vaccine_table').on('click', 'tr td:nth-child(6) .fetchDataCategory', function() {
+      var vaccine_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
 
-        $.ajax({
-            url: './../../modals/purchase/modal_edit_purchase.php', // Path to PHP script to fetch modal content
-            method: 'POST',
-            data: { purchase_order_id: purchase_order_id },
-            success: function(response) {
-                $('#modalContainerProduct').html(response);
-                $('#editPurchaseModal').modal('show');
-                console.log("#editPurchaseModal" + purchase_order_id);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
+      $.ajax({
+        url: './../../modals/vaccination/modal_edit_vaccination.php', // Path to PHP script to fetch modal content
+        method: 'POST',
+        data: {
+          vaccine_id: vaccine_id
+        },
+        success: function(response) {
+          $('#modalContainerCategory').html(response);
+          $('#editVaccineModal').modal('show');
+          console.log("#editVaccineModal" + vaccine_id);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
     });
   });
-
-
 </script>
