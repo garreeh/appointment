@@ -27,6 +27,7 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
 
             <div class="table-responsive">
               <div id="modalContainerEditFiles"></div>
+              <div id="modalContainerViewFiles"></div>
 
               <table class="table custom-table table-hover" name="files_table" id="files_table">
                 <thead>
@@ -102,6 +103,24 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
     if ($('a[data-toggle="tab"].active').attr('href') === '#files') {
       initPhotoTable();
     }
+
+    $('#files_table').on('click', 'tr td:nth-child(3) .fetchDataFilesView', function() {
+      var file_id = $(this).closest('tr').find('td').first().text(); // Get file_id from the row
+      $.ajax({
+        url: './../../modals/files/modal_view_files.php', // Path to PHP script to fetch modal content
+        method: 'POST',
+        data: {
+          file_id: file_id
+        },
+        success: function(response) {
+          $('#modalContainerViewFiles').html(response);
+          $('#viewImageFiles').modal('show');
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
 
     $('#files_table').on('click', 'tr td:nth-child(6) .fetchDataPres', function() {
       var file_id = $(this).closest('tr').find('td').first().text(); // Get file_id from the row

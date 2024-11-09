@@ -35,28 +35,7 @@ $columns = array(
       } elseif (in_array($file_extension, ['doc', 'docx'])) {
         return '<a href="' . $files . '" target="_blank">View Document</a>';
       } elseif (in_array($file_extension, ['jpg', 'jpeg', 'png', 'gif'])) {
-        return '
-            <a href="#" class="view-image" data-toggle="modal" data-target="#imageModalPhoto' . $row['file_id'] . '">View Image</a>
-            
-            <!-- Modal HTML -->
-            <div class="modal fade" id="imageModalPhoto' . $row['file_id'] . '" tabindex="-1" role="dialog" aria-labelledby="imageModalPhotoLabel' . $row['file_id'] . '" aria-hidden="true">
-                <div class="modal-dialog" style="height: 700px; width: 100%;" role="document"> <!-- Inline style for size -->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="imageModalPhotoLabel' . $row['file_id'] . '">Image Preview</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <img src="' . $files . '" class="img-fluid" alt="Document Image">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>';
+        return '<a class="fetchDataFilesView" href="#">View Image</a>';
       } elseif ($file_extension === 'txt') {
         return '<a href="' . $files . '" download target="_blank">Download Notepad File</a>';
       } else {
