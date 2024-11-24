@@ -19,10 +19,10 @@ if (session_status() == PHP_SESSION_NONE) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | Set Appointment</title>
+  <title>User | Set Appointment</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -66,7 +66,7 @@ if (session_status() == PHP_SESSION_NONE) {
           <div class="row">
             <div class="col-xl-12 col-lg-12">
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
-                
+
                 <div class="table-responsive">
                   <div id="modalContainerAppointments"></div>
 
@@ -119,7 +119,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function () {
+  $('#sidebarToggle').click(function() {
     $('#appointment_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
@@ -143,29 +143,29 @@ if (session_status() == PHP_SESSION_NONE) {
   $(document).ready(function() {
     // Function to handle click event on datatable rows
     $('#appointment_table').on('click', 'tr td:nth-child(8) .fetchDataAppointment', function() {
-        var appointment_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
+      var appointment_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
 
-        $.ajax({
-            url: './../../modals/appointment/modal_edit_appointment.php', // Path to PHP script to fetch modal content
-            method: 'POST',
-            data: { appointment_id: appointment_id },
-            success: function(response) {
-                $('#modalContainerAppointments').html(response);
-                $('#editAppointmentModal').modal('show');
-                console.log("#editAppointmentModal" + appointment_id);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
+      $.ajax({
+        url: './../../modals/appointment/modal_edit_appointment.php', // Path to PHP script to fetch modal content
+        method: 'POST',
+        data: {
+          appointment_id: appointment_id
+        },
+        success: function(response) {
+          $('#modalContainerAppointments').html(response);
+          $('#editAppointmentModal').modal('show');
+          console.log("#editAppointmentModal" + appointment_id);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
     });
   });
-
-
 </script>
 
 <!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
- 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />

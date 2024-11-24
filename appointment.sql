@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 26/10/2024 23:17:38
+ Date: 24/11/2024 08:07:54
 */
 
 SET NAMES utf8mb4;
@@ -33,14 +33,15 @@ CREATE TABLE `appointment`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`appointment_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1041 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1042 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of appointment
 -- ----------------------------
-INSERT INTO `appointment` VALUES (1038, 'APP00030911', 2, 11, 3, 31, '2024-10-28', 'Ongoing', '2024-10-26 22:59:55', '2024-10-26 23:00:31');
-INSERT INTO `appointment` VALUES (1039, 'APP00006827', 2, 11, 4, 31, '2024-10-29', 'Ongoing', '2024-10-26 23:00:03', '2024-10-26 23:00:32');
-INSERT INTO `appointment` VALUES (1040, 'APP00089340', 2, 12, 5, 33, '2024-10-29', 'Ongoing', '2024-10-26 23:00:12', '2024-10-26 23:08:17');
+INSERT INTO `appointment` VALUES (1038, 'APP00030911', 2, 11, 3, 33, '2024-11-09', 'Cancelled', '2024-10-26 22:59:55', '2024-11-09 17:00:09');
+INSERT INTO `appointment` VALUES (1039, 'APP00006827', 2, 11, 4, 31, '2024-10-29', 'Ongoing', '2024-10-26 23:00:03', '2024-11-09 16:20:56');
+INSERT INTO `appointment` VALUES (1040, 'APP00089340', 2, 12, 5, 33, '2024-10-29', 'Completed', '2024-10-26 23:00:12', '2024-11-09 16:12:52');
+INSERT INTO `appointment` VALUES (1041, 'APP00006603', 2, 10, 3, 31, '2024-11-09', 'Pending', '2024-11-09 16:59:41', '2024-11-09 16:59:41');
 
 -- ----------------------------
 -- Table structure for billing
@@ -48,24 +49,20 @@ INSERT INTO `appointment` VALUES (1040, 'APP00089340', 2, 12, 5, 33, '2024-10-29
 DROP TABLE IF EXISTS `billing`;
 CREATE TABLE `billing`  (
   `billing_id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NULL DEFAULT NULL,
-  `sub_total` int NOT NULL DEFAULT 0,
-  `discount` int NOT NULL,
+  `user_id` int NOT NULL,
+  `total` int NOT NULL DEFAULT 0,
   `total_less_discount` int NOT NULL,
   `payment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Unpaid',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `user_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`billing_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of billing
 -- ----------------------------
-INSERT INTO `billing` VALUES (20, NULL, 0, 0, 0, 'Unpaid', '', 1, '2024-05-13 18:15:13', '2024-05-13 18:15:13');
-INSERT INTO `billing` VALUES (21, NULL, 0, 0, 0, 'Unpaid', '', 2, '2024-05-13 18:18:35', '2024-05-13 18:18:35');
-INSERT INTO `billing` VALUES (22, NULL, 0, 0, 0, 'Unpaid', '', 1, '2024-05-14 10:28:00', '2024-05-14 10:28:00');
+INSERT INTO `billing` VALUES (24, 1, 0, 0, 'Unpaid', '2024-11-09 16:43:33', '2024-11-09 17:09:51');
+INSERT INTO `billing` VALUES (25, 2, 0, 0, 'Unpaid', '2024-11-09 16:50:09', '2024-11-09 17:09:43');
 
 -- ----------------------------
 -- Table structure for category
@@ -101,13 +98,171 @@ CREATE TABLE `file_uploads`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`file_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of file_uploads
 -- ----------------------------
 INSERT INTO `file_uploads` VALUES (8, 2, 3, '11.jpeg', '../../uploads/files/11.jpeg', '2024-10-26 14:38:07', '2024-10-26 23:16:55');
 INSERT INTO `file_uploads` VALUES (9, 2, 3, 'Screenshot 2024-10-21 110701.png', '../../uploads/files/Screenshot 2024-10-21 110701.png', '2024-10-26 14:38:10', '2024-10-26 14:38:10');
+INSERT INTO `file_uploads` VALUES (10, 2, 3, 'Garry-Gajultos-Resume.pdf', '../../uploads/files/Garry-Gajultos-Resume.pdf', '2024-10-26 23:31:02', '2024-10-26 23:31:02');
+
+-- ----------------------------
+-- Table structure for inside_billing
+-- ----------------------------
+DROP TABLE IF EXISTS `inside_billing`;
+CREATE TABLE `inside_billing`  (
+  `bill_id` int NOT NULL AUTO_INCREMENT,
+  `billing_id` int NULL DEFAULT NULL,
+  `user_id` int NULL DEFAULT NULL,
+  `category_id` int NULL DEFAULT NULL,
+  `vaccine_id` int NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`bill_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of inside_billing
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for keyword_fetched
+-- ----------------------------
+DROP TABLE IF EXISTS `keyword_fetched`;
+CREATE TABLE `keyword_fetched`  (
+  `response_id` int NOT NULL,
+  `client` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  INDEX `response_id`(`response_id` ASC) USING BTREE,
+  CONSTRAINT `response_id_fk_kf` FOREIGN KEY (`response_id`) REFERENCES `response_list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of keyword_fetched
+-- ----------------------------
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (7, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (6, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (5, '::1');
+INSERT INTO `keyword_fetched` VALUES (1, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (5, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+INSERT INTO `keyword_fetched` VALUES (5, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (3, '::1');
+INSERT INTO `keyword_fetched` VALUES (5, '::1');
+INSERT INTO `keyword_fetched` VALUES (4, '::1');
+
+-- ----------------------------
+-- Table structure for keyword_list
+-- ----------------------------
+DROP TABLE IF EXISTS `keyword_list`;
+CREATE TABLE `keyword_list`  (
+  `response_id` int NOT NULL,
+  `keyword` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  INDEX `response_id`(`response_id` ASC) USING BTREE,
+  CONSTRAINT `response_id_fk_kl` FOREIGN KEY (`response_id`) REFERENCES `response_list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of keyword_list
+-- ----------------------------
+INSERT INTO `keyword_list` VALUES (1, 'Inquire');
+INSERT INTO `keyword_list` VALUES (1, 'Hi');
+INSERT INTO `keyword_list` VALUES (3, 'Contact Details');
+INSERT INTO `keyword_list` VALUES (3, 'Contact');
+INSERT INTO `keyword_list` VALUES (3, 'Details');
+INSERT INTO `keyword_list` VALUES (4, 'Open Hours');
+INSERT INTO `keyword_list` VALUES (4, 'Hours');
+INSERT INTO `keyword_list` VALUES (4, 'Time');
+INSERT INTO `keyword_list` VALUES (5, 'How does this work?');
+INSERT INTO `keyword_list` VALUES (1, 'Hello');
 
 -- ----------------------------
 -- Table structure for payment
@@ -251,6 +406,49 @@ INSERT INTO `purchase_order` VALUES (13, 123123, 26, 19, 10, '2024-09-06 21:21:5
 INSERT INTO `purchase_order` VALUES (14, 123123, 26, 20, 100, '2024-09-06 22:21:19', '2024-09-06 22:21:19');
 INSERT INTO `purchase_order` VALUES (15, 12314, 26, 17, 10, '2024-09-18 17:41:02', '2024-09-18 17:41:02');
 INSERT INTO `purchase_order` VALUES (16, 23, 26, 19, 23, '2024-10-12 11:10:32', '2024-10-12 11:10:32');
+
+-- ----------------------------
+-- Table structure for response_list
+-- ----------------------------
+DROP TABLE IF EXISTS `response_list`;
+CREATE TABLE `response_list`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `response` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `date_created` datetime NOT NULL DEFAULT current_timestamp,
+  `date_updated` datetime NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of response_list
+-- ----------------------------
+INSERT INTO `response_list` VALUES (1, 'The price range for veterinary appointments typically varies based on the type of service. Consultation starts at $50, and other treatments vary. Please contact us for specific pricing.', 1, '2022-05-05 10:30:35', '2024-11-09 15:31:26');
+INSERT INTO `response_list` VALUES (3, 'For appointment inquiries, please contact us at:\n      <br><br>\n      <strong>Phone:</strong> 123-456-7890\n      <br>\n      <strong>Email:</strong> info@vetclinic.com\n      <br>\n      <strong>Office Hours:</strong> Monday to Friday, 9:00 AM to 5:00 PM\n      <br><br>\n      Feel free to reach out with any questions or to schedule your appointment!', 1, '2022-05-05 11:38:44', '2024-11-09 15:37:05');
+INSERT INTO `response_list` VALUES (4, 'Our clinic\'s opening hours are as follows:\r\n      <br><br>\r\n      <strong>Monday to Friday:</strong> 9:00 AM - 5:00 PM\r\n      <br>\r\n      <strong>Saturday:</strong> 10:00 AM - 3:00 PM\r\n      <br>\r\n      <strong>Sunday:</strong> Closed\r\n      <br><br>\r\n      If you need any assistance, feel free to reach out within our operating hours!', 1, '2022-05-05 14:40:29', '2024-11-09 15:42:42');
+INSERT INTO `response_list` VALUES (5, 'Just pick one of the suggestions, or you can create an account to login to our database to set an appointment.', 1, '2022-05-05 14:41:00', '2024-11-09 15:44:18');
+INSERT INTO `response_list` VALUES (6, '<p><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; text-align: justify;\">Pellentesque rutrum mi sem. Duis nisl arcu, mollis sed porttitor et, feugiat vel augue. Fusce pulvinar leo non ex convallis lacinia. In ullamcorper, nibh nec dignissim gravida, nibh leo placerat nisl, a dapibus quam nulla dictum est. Vestibulum rutrum vestibulum ex. Quisque eget mi nec orci vulputate pharetra quis quis sem.</span><br></p>', 1, '2022-05-05 14:41:36', '2022-05-05 14:41:36');
+INSERT INTO `response_list` VALUES (7, '<p>On this simple ChatBot Application, You can query anything and the system will automatically browse a response that is stored on this site. </p><p>The queries fetch a response that has an equivalent keyword.</p><p>Also, the application consists of suggestion keywords to query.</p>', 1, '2022-05-05 15:19:35', '2022-05-05 15:28:59');
+
+-- ----------------------------
+-- Table structure for suggestion_list
+-- ----------------------------
+DROP TABLE IF EXISTS `suggestion_list`;
+CREATE TABLE `suggestion_list`  (
+  `response_id` int NOT NULL,
+  `suggestion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  INDEX `response_id`(`response_id` ASC) USING BTREE,
+  CONSTRAINT `response_id_fk_sl` FOREIGN KEY (`response_id`) REFERENCES `response_list` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of suggestion_list
+-- ----------------------------
+INSERT INTO `suggestion_list` VALUES (1, 'Hi');
+INSERT INTO `suggestion_list` VALUES (1, 'Inquire');
+INSERT INTO `suggestion_list` VALUES (3, 'Contact Details');
+INSERT INTO `suggestion_list` VALUES (4, 'Open Hours');
+INSERT INTO `suggestion_list` VALUES (5, 'How does this work?');
 
 -- ----------------------------
 -- Table structure for timeslot

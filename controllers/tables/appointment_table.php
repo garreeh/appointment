@@ -5,14 +5,14 @@ $table = 'appointment';
 $primaryKey = 'appointment_id';
 // Define columns for DataTables
 $columns = array(
-	array(
-		'db' => 'appointment_id',
-		'dt' => 0,
-		'field' =>'appointment_id',
-		'formatter' => function ($lab1, $row) {
+  array(
+    'db' => 'appointment_id',
+    'dt' => 0,
+    'field' => 'appointment_id',
+    'formatter' => function ($lab1, $row) {
       return $row['appointment_id'];
-		}
-	),
+    }
+  ),
 
   array(
     'db' => 'queue_number',
@@ -31,7 +31,6 @@ $columns = array(
     'field' => 'category_name',
     'formatter' => function ($lab3, $row) {
       return $row['category_name'];
-
     }
   ),
 
@@ -49,7 +48,7 @@ $columns = array(
     'dt' => 4,
     'field' => 'appointment_date',
     'formatter' => function ($lab3, $row) {
-        return date("F j, Y", strtotime($row['appointment_date']));
+      return date("F j, Y", strtotime($row['appointment_date']));
     }
   ),
 
@@ -59,38 +58,55 @@ $columns = array(
     'dt' => 5,
     'field' => 'appointment_status',
     'formatter' => function ($lab4, $row) {
-        $appointment_status = $row['appointment_status'];
-        
-        // Define styles for different statuses
-        $style = '';
-        if ($appointment_status === 'Pending') {
-            $style = 'background-color: lightyellow; border-radius: 5px; padding: 5px;';
-        } elseif ($appointment_status === 'Accepted') {
-            $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
-        }
+      $appointment_status = $row['appointment_status'];
 
-        return "<span style=\"$style\">{$appointment_status}</span>";
+      // Define styles for different statuses
+      $style = '';
+      if ($appointment_status === 'Pending') {
+        $style = 'background-color: lightyellow; border-radius: 5px; padding: 5px;';
+      } elseif ($appointment_status === 'Ongoing') {
+        $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
+      } elseif ($appointment_status === 'Completed') {
+        $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
+      } elseif ($appointment_status === 'Cancelled') {
+        $style = 'background-color: #FF474C; border-radius: 5px; padding: 5px;';
+      }
+
+      return "<span style=\"$style\">{$appointment_status}</span>";
     }
   ),
 
 
-	array(
+  array(
     'db' => 'appointment.created_at',
     'dt' => 6,
     'field' => 'created_at',
     'formatter' => function ($lab5, $row) {
       return date('Y-m-d', strtotime($row['created_at']));
     }
-	),
+  ),
 
-	array(
+  array(
     'db' => 'appointment_id',
     'dt' => 7,
     'field' => 'appointment_id',
     'formatter' => function ($lab6, $row) {
 
-      return '
-      <div class="dropdown">
+      // Check if the appointment status is not 'Pending'
+      if ($row['appointment_status'] != 'Pending') {
+        return '
+        <div class="dropdown">
+          <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['appointment_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" title="This appointment is no longer pending">
+              &#x22EE;
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
+              <!-- Tooltip instead of Edit/Cancel -->
+              <span class="dropdown-item disabled">Not Pending Anymore</span>
+          </div>
+        </div>';
+      } else {
+        return '
+        <div class="dropdown">
           <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['appointment_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               &#x22EE;
           </button>
@@ -98,17 +114,19 @@ $columns = array(
               <a class="dropdown-item fetchDataAppointment" href="#">Edit</a>
               <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['appointment_id'] . '">Cancel</a>
           </div>
-      </div>';
+        </div>';
+      }
     }
-	),
+  ),
+
 );
 
 // Database connection details
 $sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db' => 'appointment',
-	'host' => 'localhost',
+  'user' => 'root',
+  'pass' => '',
+  'db' => 'appointment',
+  'host' => 'localhost',
 );
 
 // Include the SSP class
@@ -131,6 +149,3 @@ echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns,
 
 // Fetch and encode ONLY WHERE
 // echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
-
-
-?>

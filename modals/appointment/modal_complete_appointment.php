@@ -22,11 +22,11 @@ if ($result) {
   }
 </style>
 
-<div class="modal fade" id="cancelAppointment" tabindex="-1" role="dialog" aria-labelledby="cancelAppointmentLabel" aria-hidden="true">
+<div class="modal fade" id="completeAppointment" tabindex="-1" role="dialog" aria-labelledby="completeAppointmentLabel" aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="cancelAppointmentLabel">Cancel the Appointment</h5>
+        <h5 class="modal-title" id="completeAppointmentLabel">Complete the Appointment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -35,14 +35,14 @@ if ($result) {
       <div class="modal-body">
         <form method="post" enctype="multipart/form-data">
           <div class="form-group col-md-12">
-            <h3>Do you want to cancel the appointment?</h3>
+            <h3>Do you want to Tag as Complete?</h3>
 
           </div>
 
           <!-- Add a hidden input field to submit the form with the button click -->
           <input type="hidden" name="appointment_id" id="appointment_id" value="">
 
-          <input type="hidden" name="tag_as_cancel" value="1">
+          <input type="hidden" name="tag_as_complete" value="1">
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" id="addDeliveryRiderButton">Yes</button>
@@ -56,7 +56,7 @@ if ($result) {
 
 <script>
   $(document).ready(function() {
-    $('#cancelAppointment form').submit(function(event) {
+    $('#completeAppointment form').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
 
       // Store a reference to $(this)
@@ -73,7 +73,7 @@ if ($result) {
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/tag_as_cancelled_process.php',
+        url: '/appointment/controllers/admin/tag_as_complete_process.php',
         data: formData,
         success: function(response) {
           // Handle success response
@@ -90,7 +90,7 @@ if ($result) {
             $form.trigger('reset');
 
             // Optionally, close the modal
-            $('#cancelAppointment').modal('hide');
+            $('#completeAppointment').modal('hide');
             window.reloadDataTable();
 
           } else {

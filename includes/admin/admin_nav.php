@@ -85,7 +85,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="/appointment/views/admin/purchase_module.php">
+      <a class="nav-link" href="/appointment/views/admin/billing_module.php">
         <i class="fas fa-fw fa-money-bill"></i>
         <span>Billings</span></a>
     </li>
@@ -170,7 +170,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
         <span>Account Setting</span></a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true"
         aria-controls="collapse4">
         <i class="fas fa-fw fa-cogs"></i>
@@ -178,14 +178,12 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "1") {
       </a>
       <div id="collapse5" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <!-- <h6 class="collapse-header">Setup:</h6> -->
           <a class="collapse-item" href="/appointment/views/admin/user_type_module.php">Response</a>
           <a class="collapse-item" href="/appointment/views/admin/chatbot_system_info.php">Chat Settings</a>
         </div>
 
       </div>
-
-    </li>
+    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

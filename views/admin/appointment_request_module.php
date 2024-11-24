@@ -64,7 +64,7 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                 <div class="table-responsive">
-                  <div id="modalContainerProvider"></div>
+                  <div id="modalContainerApproveAppointment"></div>
 
 
                   <table class="table custom-table table-hover" name="appointment_request_table" id="appointment_request_table">
@@ -151,20 +151,20 @@ if (session_status() == PHP_SESSION_NONE) {
 
   $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#appointment_request_table').on('click', 'tr td:nth-child(9) .fetchDataDelivery', function() {
-      var cart_id = $(this).closest('tr').find('td').first().text(); // Get the cart_id from the clicked row
+    $('#appointment_request_table').on('click', 'tr td:nth-child(8) .fetchDataAppointment', function() {
+      var appointment_id = $(this).closest('tr').find('td').first().text(); // Get the appointment_id from the clicked row
 
       $.ajax({
-        url: './../../modals/delivery/modal_add_delivery.php', // Path to PHP script to fetch modal content
+        url: './../../modals/appointment/modal_approve_appointment.php', // Path to PHP script to fetch modal content
         method: 'POST',
         data: {
-          cart_id: cart_id
+          appointment_id: appointment_id
         },
         success: function(response) {
-          $('#modalContainerProvider').html(response);
-          $('#addDeliveryModal').modal('show');
-          $('#cart_id').val(cart_id); // Set the cart_id here
-          console.log("#addDeliveryModal: " + cart_id);
+          $('#modalContainerApproveAppointment').html(response);
+          $('#approveAppointmentModal').modal('show');
+          $('#appointment_id').val(appointment_id); // Set the appointment_id here
+          console.log("#addDeliveryModal: " + appointment_id);
         },
         error: function(xhr, status, error) {
           console.error(xhr.responseText);

@@ -68,7 +68,7 @@ include './includes/chatbot_plugins.php';
     </div>
   </div>
 
-  <section class="contact-section bg-light" style="">
+  <section class="contact-section bg-light">
 
     <?php $page = isset($_GET['p']) ? $_GET['p'] : 'home';  ?>
     <?php

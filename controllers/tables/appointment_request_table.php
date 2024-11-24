@@ -64,8 +64,12 @@ $columns = array(
       $style = '';
       if ($appointment_status === 'Pending') {
         $style = 'background-color: lightyellow; border-radius: 5px; padding: 5px;';
-      } elseif ($appointment_status === 'Accepted') {
+      } elseif ($appointment_status === 'Ongoing') {
         $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
+      } elseif ($appointment_status === 'Completed') {
+        $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
+      } elseif ($appointment_status === 'Cancelled') {
+        $style = 'background-color: #FF474C; border-radius: 5px; padding: 5px;';
       }
 
       return "<span style=\"$style\">{$appointment_status}</span>";
