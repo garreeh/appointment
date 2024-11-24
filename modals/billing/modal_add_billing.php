@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM users WHERE is_admin = 0 AND account_status = 'Active'";
 $resultClient = mysqli_query($conn, $sql);
 
 $user_names = [];
@@ -31,7 +31,7 @@ if ($resultClient) {
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addBillingModalLabel">Add Category</h5>
+        <h5 class="modal-title" id="addBillingModalLabel">Add Billing</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -41,7 +41,7 @@ if ($resultClient) {
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="user_id">Client:</label>
+              <label for="user_id">Select Client:</label>
               <select class="form-control" id="user_id" name="user_id" required>
                 <option value="">Select Client</option>
                 <?php foreach ($user_names as $user_rows) : ?>

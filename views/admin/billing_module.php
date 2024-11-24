@@ -75,7 +75,7 @@ if (session_status() == PHP_SESSION_NONE) {
                       <tr>
                         <th>Billing ID</th>
                         <th>Client Name</th>
-                        <th>Price</th>
+                        <th>Total</th>
                         <th>Payment Status</th>
                         <th>Date Created</th>
                         <th>Manage</th>
