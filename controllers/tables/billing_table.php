@@ -78,7 +78,7 @@ $columns = array(
               &#x22EE;
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['billing_id'] . '">
-              <a class="dropdown-item fetchDataCategory" href="../admin/patient_solo_module.php?billing_id=' . $row['billing_id'] . '&user_id=' . $row['user_id'] . '">Modify</a>
+              <a class="dropdown-item fetchDataCategory" href="../admin/inside_billing_module.php?billing_id=' . $row['billing_id'] . '&user_id=' . $row['user_id'] . '">Modify</a>
               <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['billing_id'] . '">Delete</a>
           </div>
       </div>';

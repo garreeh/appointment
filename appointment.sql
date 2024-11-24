@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 24/11/2024 13:15:07
+ Date: 24/11/2024 20:16:19
 */
 
 SET NAMES utf8mb4;
@@ -527,7 +527,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', '123123@gmail.com', 123123123, '$2y$10$vtj3lvgROA.ecVm2oI2YnOrlhFzn1jNE/sMk72HTTH.ymfaBol9jW', '123123', '', '2024-04-07 16:08:00', '2024-09-04 15:57:51', NULL, '1', 'Active', '1');
+INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', '123123@gmail.com', 123123123, '$2y$10$vtj3lvgROA.ecVm2oI2YnOrlhFzn1jNE/sMk72HTTH.ymfaBol9jW', '123123', '', '2024-04-07 16:08:00', '2024-11-24 20:07:32', 1, '1', 'Active', '1');
 INSERT INTO `users` VALUES (2, 'Test Account', 'Ron', '123123@gmail.comm', NULL, '$2y$10$Wtj4pYEWKXHYe4DUwLPTveZdPJUNrXwfkfeZRWXO4bnmbNd9NOA9y', 'test1005', NULL, '2024-05-13 18:18:17', '2024-10-12 14:19:57', 4, '0', 'Active', NULL);
 INSERT INTO `users` VALUES (39, '1', 'test', '', 1, '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1');
 INSERT INTO `users` VALUES (40, 'Test', 'Account', '', 1, '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes');
@@ -542,19 +542,22 @@ CREATE TABLE `usertype`  (
   `user_type_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
-  `inventory_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
+  `appointments_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
   `user_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
   `reports_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
-  `po_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
+  `patient_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
+  `billing_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
+  `appointment_setup_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
+  `vaccine_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
   PRIMARY KEY (`user_type_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usertype
 -- ----------------------------
-INSERT INTO `usertype` VALUES (2, 'Admin', '2024-09-04 10:46:35', '2024-09-04 17:09:22', '0', '1', '1', '1');
-INSERT INTO `usertype` VALUES (3, 'Doctor', '2024-09-04 10:46:46', '2024-10-21 11:08:38', '1', '1', '1', '1');
-INSERT INTO `usertype` VALUES (4, 'Vet Nurse', '2024-10-12 11:21:06', '2024-10-21 11:08:41', '1', '1', '1', '1');
+INSERT INTO `usertype` VALUES (1, 'Admin', '2024-09-04 10:46:35', '2024-11-24 20:13:14', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `usertype` VALUES (3, 'Doctor', '2024-09-04 10:46:46', '2024-10-21 11:08:38', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `usertype` VALUES (4, 'Vet Nurse', '2024-10-12 11:21:06', '2024-11-24 20:16:06', '1', '1', '1', '1', '1', '1', '0');
 
 -- ----------------------------
 -- Table structure for vaccination
