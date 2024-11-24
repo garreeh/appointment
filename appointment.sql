@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 24/11/2024 08:07:54
+ Date: 24/11/2024 13:15:07
 */
 
 SET NAMES utf8mb4;
@@ -50,19 +50,21 @@ DROP TABLE IF EXISTS `billing`;
 CREATE TABLE `billing`  (
   `billing_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `total` int NOT NULL DEFAULT 0,
-  `total_less_discount` int NOT NULL,
+  `total_price` int NOT NULL DEFAULT 0,
   `payment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Unpaid',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `payment_proof` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `reference_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payment_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`billing_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of billing
 -- ----------------------------
-INSERT INTO `billing` VALUES (24, 1, 0, 0, 'Unpaid', '2024-11-09 16:43:33', '2024-11-09 17:09:51');
-INSERT INTO `billing` VALUES (25, 2, 0, 0, 'Unpaid', '2024-11-09 16:50:09', '2024-11-09 17:09:43');
+INSERT INTO `billing` VALUES (24, 1, 0, 'Paid', '2024-11-09 16:43:33', '2024-11-24 13:10:59', '', '', 'Cash');
+INSERT INTO `billing` VALUES (25, 2, 0, 'Paid', '2024-11-09 16:50:09', '2024-11-24 13:13:32', '', '', 'Cash');
 
 -- ----------------------------
 -- Table structure for category
@@ -71,7 +73,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category`  (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` decimal(10, 2) NULL DEFAULT NULL,
+  `price` int NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`) USING BTREE
@@ -80,10 +82,10 @@ CREATE TABLE `category`  (
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES (10, 'Consultation', 3000.00, '2024-10-21 10:46:42', '2024-10-21 11:04:59');
-INSERT INTO `category` VALUES (11, 'Vaccination | Deworming', 2000.00, '2024-10-21 10:49:53', '2024-10-21 11:05:09');
-INSERT INTO `category` VALUES (12, 'Surgery', 2000.00, '2024-10-21 10:50:03', '2024-10-21 11:05:15');
-INSERT INTO `category` VALUES (13, 'Diagnostic and Magic Examination', 20.00, '2024-10-21 11:05:27', '2024-10-21 11:05:27');
+INSERT INTO `category` VALUES (10, 'Consultation', 3000, '2024-10-21 10:46:42', '2024-10-21 11:04:59');
+INSERT INTO `category` VALUES (11, 'Vaccination | Deworming', 2000, '2024-10-21 10:49:53', '2024-10-21 11:05:09');
+INSERT INTO `category` VALUES (12, 'Surgery', 2000, '2024-10-21 10:50:03', '2024-10-21 11:05:15');
+INSERT INTO `category` VALUES (13, 'Diagnostic and Magic Examination', 20, '2024-10-21 11:05:27', '2024-10-21 11:05:27');
 
 -- ----------------------------
 -- Table structure for file_uploads
@@ -119,12 +121,22 @@ CREATE TABLE `inside_billing`  (
   `vaccine_id` int NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `items` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `price` int NULL DEFAULT NULL,
   PRIMARY KEY (`bill_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of inside_billing
 -- ----------------------------
+INSERT INTO `inside_billing` VALUES (64, 24, 1, NULL, NULL, '2024-11-24 12:28:08', '2024-11-24 12:28:08', 'Vaccination | Deworming', 2000);
+INSERT INTO `inside_billing` VALUES (65, 24, 1, NULL, NULL, '2024-11-24 12:29:09', '2024-11-24 12:29:09', 'Diagnostic and Magic Examination', 20);
+INSERT INTO `inside_billing` VALUES (66, 24, 1, NULL, NULL, '2024-11-24 12:30:18', '2024-11-24 12:30:18', 'Vaccination | Deworming', 2000);
+INSERT INTO `inside_billing` VALUES (67, 24, 1, NULL, NULL, '2024-11-24 12:32:45', '2024-11-24 12:32:45', 'Vaccination | Deworming', 2000);
+INSERT INTO `inside_billing` VALUES (68, 25, 2, NULL, NULL, '2024-11-24 13:05:15', '2024-11-24 13:05:15', 'Surgery', 2000);
+INSERT INTO `inside_billing` VALUES (69, 24, 1, NULL, NULL, '2024-11-24 13:09:55', '2024-11-24 13:09:55', 'Vaccination | Deworming', 2000);
+INSERT INTO `inside_billing` VALUES (70, 25, 2, NULL, NULL, '2024-11-24 13:13:26', '2024-11-24 13:13:26', 'Vaccination | Deworming', 2000);
+INSERT INTO `inside_billing` VALUES (71, 25, 2, NULL, NULL, '2024-11-24 13:13:30', '2024-11-24 13:13:30', 'Vaccine test 5', 1);
 
 -- ----------------------------
 -- Table structure for keyword_fetched
@@ -519,7 +531,7 @@ INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', '123123@gmail.com', 12
 INSERT INTO `users` VALUES (2, 'Test Account', 'Ron', '123123@gmail.comm', NULL, '$2y$10$Wtj4pYEWKXHYe4DUwLPTveZdPJUNrXwfkfeZRWXO4bnmbNd9NOA9y', 'test1005', NULL, '2024-05-13 18:18:17', '2024-10-12 14:19:57', 4, '0', 'Active', NULL);
 INSERT INTO `users` VALUES (39, '1', 'test', '', 1, '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1');
 INSERT INTO `users` VALUES (40, 'Test', 'Account', '', 1, '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes');
-INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', 2147483647, '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-10-21 13:47:54', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21');
+INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', 2147483647, '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-11-24 08:13:48', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21');
 
 -- ----------------------------
 -- Table structure for usertype
@@ -575,7 +587,7 @@ DROP TABLE IF EXISTS `vaccine`;
 CREATE TABLE `vaccine`  (
   `vaccine_id` int NOT NULL AUTO_INCREMENT,
   `vaccine_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `price` decimal(10, 2) NULL DEFAULT NULL,
+  `price` int NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vaccine_id`) USING BTREE
@@ -584,12 +596,12 @@ CREATE TABLE `vaccine`  (
 -- ----------------------------
 -- Records of vaccine
 -- ----------------------------
-INSERT INTO `vaccine` VALUES (1, 'Vaccine 1', 1.00, '2024-10-26 11:16:11', '2024-10-26 12:25:05');
-INSERT INTO `vaccine` VALUES (2, 'Vaccine 2', 1111.00, '2024-10-26 11:16:40', '2024-10-26 11:22:31');
-INSERT INTO `vaccine` VALUES (3, 'Vaccine 3', 123.00, '2024-10-26 11:21:01', '2024-10-26 11:21:01');
-INSERT INTO `vaccine` VALUES (4, 'Vaccine test 5', 1.00, '2024-10-26 12:23:58', '2024-10-26 12:23:58');
-INSERT INTO `vaccine` VALUES (5, 'q', 123123.00, '2024-10-26 12:28:37', '2024-10-26 12:28:37');
-INSERT INTO `vaccine` VALUES (6, '123123', 123123.00, '2024-10-26 12:28:50', '2024-10-26 12:28:50');
-INSERT INTO `vaccine` VALUES (7, '123123', 11.00, '2024-10-26 12:29:10', '2024-10-26 12:29:15');
+INSERT INTO `vaccine` VALUES (1, 'Vaccine 1', 1, '2024-10-26 11:16:11', '2024-10-26 12:25:05');
+INSERT INTO `vaccine` VALUES (2, 'Vaccine 2', 1111, '2024-10-26 11:16:40', '2024-10-26 11:22:31');
+INSERT INTO `vaccine` VALUES (3, 'Vaccine 3', 123, '2024-10-26 11:21:01', '2024-10-26 11:21:01');
+INSERT INTO `vaccine` VALUES (4, 'Vaccine test 5', 1, '2024-10-26 12:23:58', '2024-10-26 12:23:58');
+INSERT INTO `vaccine` VALUES (5, 'q', 123123, '2024-10-26 12:28:37', '2024-10-26 12:28:37');
+INSERT INTO `vaccine` VALUES (6, '123123', 123123, '2024-10-26 12:28:50', '2024-10-26 12:28:50');
+INSERT INTO `vaccine` VALUES (7, '123123', 11, '2024-10-26 12:29:10', '2024-10-26 12:29:15');
 
 SET FOREIGN_KEY_CHECKS = 1;
