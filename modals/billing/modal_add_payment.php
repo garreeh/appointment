@@ -9,21 +9,6 @@ if (session_status() == PHP_SESSION_NONE) {
 $user_id = isset($_GET['user_id']) ? htmlspecialchars($_GET['user_id']) : 'Unknown User';
 $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id']) : 'No Billing ID';
 
-
-// // Fetch total items and total price from the database
-// $query = "SELECT COUNT(*) AS total_items, SUM(price) AS total_price FROM inside_billing WHERE billing_id = $billing_id";
-// $result = mysqli_query($conn, $query);
-
-// // Fetch data
-// $data = mysqli_fetch_assoc($result);
-// $total_price = $data['total_price'];
-
-// // Handle case where there might be no data
-// if (!$total_price) {
-//   $total_price = 0; // Default to 0 if no price found
-// }
-
-
 ?>
 
 <style>
@@ -47,31 +32,52 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
       </div>
 
       <div class="modal-body">
-        <form method="post" enctype="multipart/form-data" id="addBillForm">
+        <form method="post" enctype="multipart/form-data" id="addPaymentForm">
 
+          <!-- Hidden Inputs for user_id and billing_id -->
           <input type="hidden" class="form-control" id="user_id" name="user_id" value="<?php echo $user_id ?>" readonly required>
           <input type="hidden" class="form-control" id="billing_id" name="billing_id" value="<?php echo $billing_id ?>" readonly required>
 
           <div class="form-row">
             <div class="form-group col-md-12">
-              <label for="price">Total Payments:</label>
-              <input type="text" id="price" name="price" class="form-control" placeholder="Price here" value="₱<?php echo number_format($total_price, 2); ?>" readonly>
-            </div>
+              <h5>Tag as Paid?</h5>
 
-
-            <div class="form-group col-md-12">
-              <label for="price">Price:</label>
-              <input type="text" id="price" name="price" class="form-control" placeholder="Price here" readonly>
+              <!-- Radio Buttons for Cash and Gcash -->
+              <label>
+                <input type="radio" name="payment_method" value="Cash" id="payment_cash" checked> Cash
+              </label>
+              <label>
+                <input type="radio" name="payment_method" value="GCash" id="payment_gcash"> Gcash
+              </label>
             </div>
           </div>
 
-          <input type="hidden" name="add_bill" value="1">
+          <!-- Reference Code and Proof of Payment (hidden initially) -->
+          <div id="gcash_details" style="display:none;">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="reference_code">Reference Code:</label>
+                <input type="text" id="reference_code" name="reference_code" placeholder="Enter Reference Cpde" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="payment_proof">Upload Proof of Payment:</label>
+                <input type="file" id="payment_proof" name="fileToUpload" class="form-control-file">
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden Input to mark the addition of bill -->
+          <input type="hidden" name="add_payment" value="1">
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" id="addCategoryButton">Add</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </form>
+
       </div>
     </div>
   </div>
@@ -81,30 +87,17 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<!-- 
+
 <script>
   $(document).ready(function() {
-    // Initialize Selectize
-    $('#items').selectize({
-      onChange: function(value) {
-        if (value) {
-          var parts = value.split(':');
-          var itemName = parts[0]; // Item name
-          var price = parts[1]; // Price
-
-          $('#price').val(price);
-        } else {
-          $('#price').val('');
-        }
-      }
-    });
-
     // Form submission with AJAX
-    $('#addBillForm').submit(function(event) {
+    $('#addPaymentForm').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
 
       var $form = $(this);
-      var formData = $form.serialize(); // Serialize form data
+
+      // Serialize form data
+      var formData = new FormData($form[0]);
 
       // Disable the button and show "Adding..."
       var $addButton = $('#addCategoryButton');
@@ -114,8 +107,10 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/add_bill_process.php',
+        url: '/appointment/controllers/admin/add_payment_process.php',
         data: formData,
+        processData: false, // Important to prevent jQuery from processing the data
+        contentType: false, // Important to prevent jQuery from setting content type (we need to handle multipart form data)
         success: function(response) {
           response = JSON.parse(response); // Parse the response
           if (response.success) {
@@ -132,17 +127,22 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 
             $('#items')[0].selectize.clear(); // Clear Selectize dropdown
 
-            fetchOrderSummary();
+            fetchUpdatedPayment();
             // Function to fetch updated order summary
-            function fetchOrderSummary() {
+            function fetchUpdatedPayment() {
+              var user_id = "<?php echo $user_id; ?>"
+              var billing_id = "<?php echo $billing_id; ?>"
+
               $.ajax({
-                url: './../../controllers/admin/fetch_order_summary_process.php', // Path to your PHP script
+                url: './../../controllers/admin/fetch_payment_process.php', // Path to your PHP script
                 method: 'GET',
+                data: {
+                  user_id: user_id,
+                  billing_id: billing_id,
+                },
                 dataType: 'json',
                 success: function(response) {
-                  // Update the order summary inputs with the fetched data
-                  $('#totalOrders').val(response.total_items); // Update total items
-                  $('#totalPrice').val('₱' + parseFloat(response.total_price).toFixed(2)); // Update total price (format to ₱)
+                  $('#paymentStatus').val(response.payment_status); // Update total items
                 },
                 error: function() {
                   console.log('Error fetching order summary');
@@ -179,4 +179,14 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 
     });
   });
-</script> -->
+
+  document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      if (document.getElementById('payment_gcash').checked) {
+        document.getElementById('gcash_details').style.display = 'block';
+      } else {
+        document.getElementById('gcash_details').style.display = 'none';
+      }
+    });
+  });
+</script>

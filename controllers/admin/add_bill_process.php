@@ -12,6 +12,24 @@ if (isset($_POST['add_bill'])) {
   // Split the 'items' string to extract category_name and price (assuming 'items' is formatted as 'category_name:price')
   list($category_name, $extracted_price) = explode(':', $items);
 
+  // Check the payment_status in the billing table before proceeding
+  $check_sql = "SELECT payment_status FROM billing WHERE billing_id = '$billing_id'";
+  $check_result = mysqli_query($conn, $check_sql);
+
+  if ($check_result) {
+    $row = mysqli_fetch_assoc($check_result);
+
+    // If the payment status is 'Paid', prevent adding more items
+    if ($row['payment_status'] === 'Paid') {
+      $response = array('success' => false, 'message' => 'Payment is already marked as Paid. No more items can be added.');
+      echo json_encode($response);
+      exit();
+    }
+  } else {
+    $response = array('success' => false, 'message' => 'Error checking payment status: ' . mysqli_error($conn));
+    echo json_encode($response);
+    exit();
+  }
 
   // Construct SQL query (Save only the category_name and the price as per the form submission)
   $sql = "INSERT INTO `inside_billing` (user_id, items, price, billing_id)

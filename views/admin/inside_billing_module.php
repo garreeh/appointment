@@ -140,7 +140,7 @@ if ($billing_id) {
 
                   <div class="form-group">
                     <label for="totalPrice">Status:</label>
-                    <input type="text" id="totalPrice" class="form-control" value="<?php echo $payment_status ?>" readonly>
+                    <input type="text" id="paymentStatus" class="form-control" value="Unpaid" readonly>
                   </div>
 
                   <?php include './../../modals/billing/modal_add_payment.php'; ?>
@@ -255,6 +255,32 @@ if ($billing_id) {
 
           // Format total price to ₱ and update the input
           $('#totalPrice').val('₱' + totalPrice.toFixed(2)); // Update total price (format to ₱)
+        },
+        error: function() {
+          console.log('Error fetching order summary');
+        }
+      });
+    }
+  });
+
+
+  $(document).ready(function() {
+    fetchUpdatedPayment();
+    // Function to fetch updated order summary
+    function fetchUpdatedPayment() {
+      var user_id = "<?php echo $user_id; ?>"
+      var billing_id = "<?php echo $billing_id; ?>"
+
+      $.ajax({
+        url: './../../controllers/admin/fetch_payment_process.php', // Path to your PHP script
+        method: 'GET',
+        data: {
+          user_id: user_id,
+          billing_id: billing_id,
+        },
+        dataType: 'json',
+        success: function(response) {
+          $('#paymentStatus').val(response.payment_status); // Update total items
         },
         error: function() {
           console.log('Error fetching order summary');
