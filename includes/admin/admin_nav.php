@@ -128,7 +128,7 @@ if ($result) {
           </div>
 
           <!-- Reports Collapse -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true"
               aria-controls="collapse1">
               <i class="fas fa-fw fa-clipboard-list"></i>
@@ -136,16 +136,12 @@ if ($result) {
             </a>
             <div id="collapse1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
-                <!-- <h6 class="collapse-header">Setup:</h6> -->
                 <a class="collapse-item" href="/appointment/views/admin/sales_report_module.php">Sales Report</a>
-                <!-- <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Voucher Report</a> -->
-                <!-- <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Item Category Report</a> -->
-                <!-- <a class="collapse-item" href="/appointment/views/admin/supplier_module.php">Turnover Report</a> -->
               </div>
 
             </div>
 
-          </li>
+          </li> -->
         <?php endif; ?>
 
         <?php if ($row['appointment_setup_module'] == 1): ?>

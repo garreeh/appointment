@@ -5,6 +5,12 @@ $username = "root";
 $password = "";
 $dbname = "appointment";
 
+
+// $servername = "localhost";
+// $username = "u759574209_online_order";
+// $password = "Mybossrocks081677!";
+// $dbname = "u759574209_online_order";
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -5,14 +5,14 @@ $table = 'timeslot';
 $primaryKey = 'timeslot_id';
 // Define columns for DataTables
 $columns = array(
-	array(
-		'db' => 'timeslot_id',
-		'dt' => 0,
-		'field' =>'timeslot_id',
-		'formatter' => function ($lab1, $row) {
+  array(
+    'db' => 'timeslot_id',
+    'dt' => 0,
+    'field' => 'timeslot_id',
+    'formatter' => function ($lab1, $row) {
       return $row['timeslot_id'];
-		}
-	),
+    }
+  ),
 
   array(
     'db' => 'time_from',
@@ -22,40 +22,39 @@ $columns = array(
       $time_from = date("g:i A", strtotime($row['time_from']));
       $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
       return "<span style=\"$style\">{$time_from}</span>";
-
     }
   ),
 
   array(
-      'db' => 'time_to',
-      'dt' => 2,
-      'field' => 'time_to',
-      'formatter' => function ($lab3, $row) {
-        $time_to = date("g:i A", strtotime($row['time_to']));
-        $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
-        return "<span style=\"$style\">{$time_to}</span>";
-      }
+    'db' => 'time_to',
+    'dt' => 2,
+    'field' => 'time_to',
+    'formatter' => function ($lab3, $row) {
+      $time_to = date("g:i A", strtotime($row['time_to']));
+      $style = 'background-color: lightgreen; border-radius: 5px; padding: 5px;';
+      return "<span style=\"$style\">{$time_to}</span>";
+    }
   ),
 
-	array(
-		'db' => 'created_at',
-		'dt' => 3,
-		'field' => 'created_at',
-		'formatter' => function ($lab4, $row) {
-			return date('Y-m-d', strtotime($row['created_at']));
-		}
-	),
+  array(
+    'db' => 'created_at',
+    'dt' => 3,
+    'field' => 'created_at',
+    'formatter' => function ($lab4, $row) {
+      return date('Y-m-d', strtotime($row['created_at']));
+    }
+  ),
 
-	array(
+  array(
     'db' => 'updated_at',
     'dt' => 4,
     'field' => 'updated_at',
     'formatter' => function ($lab5, $row) {
-            return date('Y-m-d', strtotime($row['updated_at']));
+      return date('Y-m-d', strtotime($row['updated_at']));
     }
-	),
+  ),
 
-	array(
+  array(
     'db' => 'timeslot_id',
     'dt' => 5,
     'field' => 'timeslot_id',
@@ -72,17 +71,12 @@ $columns = array(
           </div>
       </div>';
     }
-	),
+  ),
 
 );
 
 // Database connection details
-$sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db' => 'appointment',
-	'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class_with_where.php');
@@ -98,6 +92,3 @@ $where = "timeslot_id";
 
 // Fetch and encode ONLY WHERE
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
-
-
-?>

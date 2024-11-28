@@ -106,13 +106,7 @@ $columns = array(
   ),
 );
 
-// Database connection details
-$sql_details = array(
-  'user' => 'root',
-  'pass' => '',
-  'db' => 'appointment',
-  'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class.php');

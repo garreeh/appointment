@@ -5,14 +5,14 @@ $table = 'pets';
 $primaryKey = 'pet_id';
 // Define columns for DataTables
 $columns = array(
-	array(
-		'db' => 'pet_id',
-		'dt' => 0,
-		'field' =>'pet_id',
-		'formatter' => function ($lab1, $row) {
+  array(
+    'db' => 'pet_id',
+    'dt' => 0,
+    'field' => 'pet_id',
+    'formatter' => function ($lab1, $row) {
       return $row['pet_id'];
-		}
-	),
+    }
+  ),
 
   array(
     'db' => 'pet_name',
@@ -31,7 +31,6 @@ $columns = array(
     'field' => 'breed',
     'formatter' => function ($lab3, $row) {
       return $row['breed'];
-
     }
   ),
 
@@ -54,25 +53,25 @@ $columns = array(
   ),
 
 
-	array(
-		'db' => 'created_at',
-		'dt' => 5,
-		'field' => 'created_at',
-		'formatter' => function ($lab4, $row) {
-			return date('Y-m-d', strtotime($row['created_at']));
-		}
-	),
+  array(
+    'db' => 'created_at',
+    'dt' => 5,
+    'field' => 'created_at',
+    'formatter' => function ($lab4, $row) {
+      return date('Y-m-d', strtotime($row['created_at']));
+    }
+  ),
 
-	array(
+  array(
     'db' => 'updated_at',
     'dt' => 6,
     'field' => 'updated_at',
     'formatter' => function ($lab5, $row) {
-            return date('Y-m-d', strtotime($row['updated_at']));
+      return date('Y-m-d', strtotime($row['updated_at']));
     }
-	),
+  ),
 
-	array(
+  array(
     'db' => 'pet_id',
     'dt' => 7,
     'field' => 'pet_id',
@@ -90,17 +89,12 @@ $columns = array(
           </div>
       </div>';
     }
-	),
+  ),
 
 );
 
 // Database connection details
-$sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db' => 'appointment',
-	'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class_with_where.php');
@@ -118,6 +112,3 @@ $where = "user_id = '$user_id'";
 
 // Fetch and encode ONLY WHERE
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
-
-
-?>

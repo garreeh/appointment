@@ -99,7 +99,7 @@ $columns = array(
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
               <a class="dropdown-item fetchDataAppointment" href="#">Approve</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['appointment_id'] . '">Cancel</a>
+              <a class="dropdown-item fetchDataAppointmentCancel" href="#">Cancel</a>
           </div>
       </div>';
     }
@@ -107,12 +107,8 @@ $columns = array(
 );
 
 // Database connection details
-$sql_details = array(
-  'user' => 'root',
-  'pass' => '',
-  'db' => 'appointment',
-  'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
+
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class.php');

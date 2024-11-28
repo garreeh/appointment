@@ -5,14 +5,14 @@ $table = 'unavailable_dates';
 $primaryKey = 'unavailable_id';
 // Define columns for DataTables
 $columns = array(
-	array(
-		'db' => 'unavailable_id',
-		'dt' => 0,
-		'field' =>'unavailable_id',
-		'formatter' => function ($lab1, $row) {
+  array(
+    'db' => 'unavailable_id',
+    'dt' => 0,
+    'field' => 'unavailable_id',
+    'formatter' => function ($lab1, $row) {
       return $row['unavailable_id'];
-		}
-	),
+    }
+  ),
 
   array(
     'db' => 'unavailable_date',
@@ -27,25 +27,25 @@ $columns = array(
   ),
 
 
-	array(
-		'db' => 'created_at',
-		'dt' => 2,
-		'field' => 'created_at',
-		'formatter' => function ($lab4, $row) {
-			return date('Y-m-d', strtotime($row['created_at']));
-		}
-	),
+  array(
+    'db' => 'created_at',
+    'dt' => 2,
+    'field' => 'created_at',
+    'formatter' => function ($lab4, $row) {
+      return date('Y-m-d', strtotime($row['created_at']));
+    }
+  ),
 
-	array(
+  array(
     'db' => 'updated_at',
     'dt' => 3,
     'field' => 'updated_at',
     'formatter' => function ($lab5, $row) {
-			return date('Y-m-d', strtotime($row['updated_at']));
+      return date('Y-m-d', strtotime($row['updated_at']));
     }
-	),
+  ),
 
-	array(
+  array(
     'db' => 'unavailable_id',
     'dt' => 4,
     'field' => 'unavailable_id',
@@ -62,17 +62,12 @@ $columns = array(
           </div>
       </div>';
     }
-	),
+  ),
 
 );
 
 // Database connection details
-$sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db' => 'appointment',
-	'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class_with_where.php');
@@ -88,6 +83,3 @@ $where = "unavailable_id";
 
 // Fetch and encode ONLY WHERE
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
-
-
-?>

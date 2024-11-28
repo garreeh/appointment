@@ -59,16 +59,11 @@ $columns = array(
                 </div>';
         }
     ),
-    
+
 );
 
 // Database connection details
-$sql_details = array(
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'appointment',
-    'host' => 'localhost',
-);
+include '../../connections/ssp_connection.php';
 
 // Include the SSP class
 require('../../assets/datatables/ssp.class_with_where.php');
@@ -78,5 +73,3 @@ $where = "user_type_id";
 
 // Fetch and encode data
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $where));
-
-?>
