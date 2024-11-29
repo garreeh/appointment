@@ -22,7 +22,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <title>Admin | Transaction</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -57,12 +57,12 @@ if (session_status() == PHP_SESSION_NONE) {
             <h1 class="h3 mb-0 text-gray-800">Transaction Module</h1>
           </div>
 
-          <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a>
+          <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
 
           <div class="row">
             <div class="col-xl-12 col-lg-12">
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
-                
+
                 <div class="table-responsive">
                   <div id="modalContainerCategory"></div>
 
@@ -118,11 +118,11 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function () {
+  $('#sidebarToggle').click(function() {
     $('#transaction_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
-  
+
   //Table for Transactions
   $(document).ready(function() {
     var transaction_table = $('#transaction_table').DataTable({
@@ -137,6 +137,4 @@ if (session_status() == PHP_SESSION_NONE) {
     };
 
   });
-
-
 </script>

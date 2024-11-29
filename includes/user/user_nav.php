@@ -79,17 +79,17 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
     </li>
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <!-- <hr class="sidebar-divider"> -->
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <!-- <div class="sidebar-heading">
       Settings
-    </div>
+    </div> -->
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" href="/appointment/views/admin/settings_module.php">
         <i class="fas fa-fw fa-cog"></i>
         <span>Account Setting</span></a>
-    </li>
+    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

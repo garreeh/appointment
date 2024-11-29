@@ -10,7 +10,7 @@ $columns = array(
     'dt' => 0,
     'field' => 'pet_id',
     'formatter' => function ($lab1, $row) {
-      return $row['pet_id'];
+      return '<a href="../user/user_patient_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">' . $row['pet_id'] . ' </a>';
     }
   ),
 
@@ -30,7 +30,7 @@ $columns = array(
     'dt' => 2,
     'field' => 'breed',
     'formatter' => function ($lab3, $row) {
-      return $row['breed'];
+      return '<a href="../user/user_patient_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">' . $row['breed'] . ' </a>';
     }
   ),
 
@@ -39,7 +39,7 @@ $columns = array(
     'dt' => 3,
     'field' => 'species',
     'formatter' => function ($lab3, $row) {
-      return $row['species'];
+      return '<a href="../user/user_patient_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">' . $row['species'] . ' </a>';
     }
   ),
 
@@ -48,7 +48,7 @@ $columns = array(
     'dt' => 4,
     'field' => 'neutered',
     'formatter' => function ($lab3, $row) {
-      return $row['neutered'];
+      return '<a href="../user/user_patient_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">' . $row['neutered'] . ' </a>';
     }
   ),
 
@@ -83,11 +83,19 @@ $columns = array(
               &#x22EE;
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['pet_id'] . '">
-              <a class="dropdown-item fetchDataSupplier" href="#">View More</a>
+              <a class="dropdown-item" href="../user/user_patient_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">View More</a>
               <a class="dropdown-item fetchDataSupplier" href="#">Edit</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['pet_id'] . '">Delete</a>
           </div>
       </div>';
+    }
+  ),
+
+  array(
+    'db' => 'user_id',
+    'dt' => 8,
+    'field' => 'user_id',
+    'formatter' => function ($lab3, $row) {
+      return $row['user_id'];
     }
   ),
 

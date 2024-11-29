@@ -86,7 +86,6 @@ $columns = array(
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['pet_id'] . '">
               <a class="dropdown-item" href="../admin/patient_solo_module.php?pet_id=' . $row['pet_id'] . '&user_id=' . $row['user_id'] . '" target="_blank">View</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['pet_id'] . '">Cancel</a>
           </div>
       </div>';
     }

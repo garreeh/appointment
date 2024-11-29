@@ -18,9 +18,9 @@ if (session_status() == PHP_SESSION_NONE) {
   <meta name="author" content="">
 
   <title>Client | Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Custom fonts for this template-->
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
@@ -51,78 +51,37 @@ if (session_status() == PHP_SESSION_NONE) {
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Users Dashboard</h1>
-        </div>
+          </div>
 
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <div id="clockAndDate" class="h1 mb-0 font-weight-bold text-gray-800"></div>
-        </div>
+          </div>
 
           <!-- Content Row -->
           <div class="row">
 
-          <!-- Active Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Daily Sales
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        My Pets
                       </div>
-                  </div>
-              </div>
-          </div>
+                      <?php include './../../controllers/admin/count_pets_process.php'; ?>
 
-          <!-- Urgent Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Monthly Sales
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
-                      </div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $total_pets; ?> </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
                   </div>
+                </div>
               </div>
-          </div>
-
-          <!-- Priority Tickets Card -->
-          <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                          <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Annual Sales
-                              </div>
-                              <div class="row no-gutters align-items-center">
-                                  <div class="col-auto">
-                                      <div class="h5 mb-0 font-weight-bold text-gray-800"> PHP HERE </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-auto">
-                              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+            </div>
 
           </div>
         </div>
