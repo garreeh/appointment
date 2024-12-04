@@ -44,8 +44,17 @@ $columns = array(
   ),
 
   array(
-    'db' => 'appointment_date',
+    'db' => 'time_from',
     'dt' => 4,
+    'field' => 'time_from',
+    'formatter' => function ($lab3, $row) {
+      return $row['time_from'] . ' - ' . $row['time_to'];
+    }
+  ),
+
+  array(
+    'db' => 'appointment_date',
+    'dt' => 5,
     'field' => 'appointment_date',
     'formatter' => function ($lab3, $row) {
       return date("F j, Y", strtotime($row['appointment_date']));
@@ -55,7 +64,7 @@ $columns = array(
 
   array(
     'db' => 'appointment_status',
-    'dt' => 5,
+    'dt' => 6,
     'field' => 'appointment_status',
     'formatter' => function ($lab4, $row) {
       $appointment_status = $row['appointment_status'];
@@ -79,7 +88,7 @@ $columns = array(
 
   array(
     'db' => 'appointment.created_at',
-    'dt' => 6,
+    'dt' => 7,
     'field' => 'created_at',
     'formatter' => function ($lab5, $row) {
       return date('Y-m-d', strtotime($row['created_at']));
@@ -88,7 +97,7 @@ $columns = array(
 
   array(
     'db' => 'appointment_id',
-    'dt' => 7,
+    'dt' => 8,
     'field' => 'appointment_id',
     'formatter' => function ($lab6, $row) {
 
@@ -112,10 +121,19 @@ $columns = array(
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
               <a class="dropdown-item fetchDataAppointment" href="#">Edit</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['appointment_id'] . '">Cancel</a>
+              <a class="dropdown-item fetchDataAppointmentCancel" href="#">Cancel</a>
           </div>
         </div>';
       }
+    }
+  ),
+
+  array(
+    'db' => 'time_to',
+    'dt' => 7,
+    'field' => 'time_to',
+    'formatter' => function ($lab5, $row) {
+      return $row['time_to'];
     }
   ),
 
@@ -135,7 +153,9 @@ $where = "$table.user_id = '$user_id'";
 $joinQuery = "FROM $table
               LEFT JOIN category ON $table.category_id = category.category_id
               LEFT JOIN users ON $table.user_id = users.user_id
-              LEFT JOIN pets ON $table.pet_id = pets.pet_id";
+              LEFT JOIN pets ON $table.pet_id = pets.pet_id
+              LEFT JOIN timeslot ON $table.timeslot_id = timeslot.timeslot_id
+              ";
 
 
 

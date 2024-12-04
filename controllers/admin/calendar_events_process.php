@@ -2,25 +2,25 @@
 include '../../connections/connections.php'; // Include database connection
 
 $sqlEvents = "
-  SELECT 
-    appointment.appointment_id,
-    appointment.queue_number,
-    appointment.appointment_date,
-    appointment.appointment_status,
-    timeslot.time_from,
-    timeslot.time_to,
-    users.user_fullname,
-    pets.pet_name
-  FROM 
-    appointment
-  LEFT JOIN 
-    timeslot ON appointment.timeslot_id = timeslot.timeslot_id
-  LEFT JOIN 
-    users ON appointment.user_id = users.user_id
-  LEFT JOIN 
-    pets ON appointment.pet_id = pets.pet_id
-  WHERE 
-    appointment.appointment_status = 'Ongoing'";
+    SELECT 
+      appointment.appointment_id,
+      appointment.queue_number,
+      appointment.appointment_date,
+      appointment.appointment_status,
+      timeslot.time_from,
+      timeslot.time_to,
+      users.user_fullname,
+      pets.pet_name
+    FROM 
+      appointment
+    LEFT JOIN 
+      timeslot ON appointment.timeslot_id = timeslot.timeslot_id
+    LEFT JOIN 
+      users ON appointment.user_id = users.user_id
+    LEFT JOIN 
+      pets ON appointment.pet_id = pets.pet_id
+    WHERE 
+      appointment.appointment_status = 'Ongoing'";
 
 $resultset = mysqli_query($conn, $sqlEvents) or die("Database error: " . mysqli_error($conn));
 $calendar = array();

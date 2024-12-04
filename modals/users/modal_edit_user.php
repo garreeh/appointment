@@ -1,7 +1,8 @@
 <style>
   /* Custom CSS for label color */
   .modal-body label {
-    color: #333; /* Darker label color */
+    color: #333;
+    /* Darker label color */
     font-weight: bolder;
   }
 </style>
@@ -16,67 +17,84 @@ if (isset($_POST['user_id'])) {
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-    ?>
-  <div class="modal fade" id="fetchDataUserModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Update User Details ID: <?php echo $row['user_id']; ?></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
-          <form method="post" enctype="multipart/form-data">
-          <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="user_fullname">Fullname:</label>
-                <input type="text" class="form-control" id="user_fullname" name="user_fullname" placeholder="Enter fullname" value="<?php echo $row['user_fullname']; ?>" required>
-            </div>
-            
-            <div class="form-group col-md-6">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" value="<?php echo $row['username']; ?>" required>
+      ?>
+      <div class="modal fade" id="fetchDataUserModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Update User Details ID: <?php echo $row['user_id']; ?></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
 
-            <div class="form-group col-md-6">
-                <label for="user_address">Address:</label>
-                <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Enter Address" value="<?php echo $row['user_address']; ?>" required>
-            </div>
-            
-            <div class="form-group col-md-6">
-                <label for="user_email">Email:</label>
-                <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Email" value="<?php echo $row['user_email']; ?>" required>
-            </div>
+            <div class="modal-body">
+              <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="user_fullname">Fullname:</label>
+                    <input type="text" class="form-control" id="user_fullname" name="user_fullname"
+                      placeholder="Enter fullname" value="<?php echo $row['user_fullname']; ?>" required>
+                  </div>
 
-            <div class="form-group col-md-6">
-                <label for="user_contact">Contact #:</label>
-                <input type="text" class="form-control" id="user_contact" name="user_contact" placeholder="Enter Contact #" value="<?php echo $row['user_contact']; ?>" required>
-            </div>
-            
-            <div class="form-group col-md-6">
-                <label for="user_password">Password:</label>
-                <input type="password" class="form-control" id="user_confirm_password" name="user_confirm_password" placeholder="Enter Password" value="<?php echo $row['user_confirm_password']; ?>" required>
-            </div>
-        </div>
+                  <div class="form-group col-md-6">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username"
+                      value="<?php echo $row['username']; ?>" required>
+                  </div>
 
-            <!-- Add a hidden input field to submit the form with the button click -->
-            <input type="hidden" name="edit_user" value="1">
+                  <div class="form-group col-md-6">
+                    <label for="user_address">Address:</label>
+                    <input type="text" class="form-control" id="user_address" name="user_address" placeholder="Enter Address"
+                      value="<?php echo $row['user_address']; ?>" required>
+                  </div>
 
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Save</button>
-              <!-- <input type="hidden" name="item_id" value="</?php echo $row['supplier_id']; ?>"> -->
-              <button type="button" class="btn btn btn-danger" data-dismiss="modal">Close</button>
+                  <div class="form-group col-md-6">
+                    <label for="user_email">Email:</label>
+                    <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Email"
+                      value="<?php echo $row['user_email']; ?>" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="user_contact">Contact #:</label>
+                    <input type="text" class="form-control" id="user_contact" name="user_contact"
+                      placeholder="Enter Contact #" value="<?php echo $row['user_contact']; ?>" required>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="user_password">Password:</label>
+                    <input type="password" class="form-control" id="user_confirm_password" name="user_confirm_password"
+                      placeholder="Enter Password" value="<?php echo $row['user_confirm_password']; ?>" required>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="account_status">Account Status:</label>
+                    <select class="form-control" id="account_status" name="account_status" required>
+                      <option value="Active" <?php echo ($row['account_status'] === 'Active') ? 'selected' : ''; ?>>Active
+                      </option>
+                      <option value="Inactive" <?php echo ($row['account_status'] === 'Inactive') ? 'selected' : ''; ?>>Inactive
+                      </option>
+                    </select>
+                  </div>
+
+                </div>
+
+                <!-- Add a hidden input field to submit the form with the button click -->
+                <input type="hidden" name="edit_user" value="1">
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['supplier_id']; ?>"> -->
+                  <button type="button" class="btn btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-<?php 
+      <?php
     }
   }
 }
@@ -84,10 +102,10 @@ if (isset($_POST['user_id'])) {
 
 <script>
   // Save Button in Edit Supplier
-  $(document).ready(function() {
-    $('#fetchDataUserModal form').submit(function(event) {
+  $(document).ready(function () {
+    $('#fetchDataUserModal form').submit(function (event) {
       event.preventDefault(); // Prevent default form submission
-      
+
       var $form = $(this);
       var $button = $form.find('button[type="submit"]'); // Reference to the submit button
 
@@ -102,7 +120,7 @@ if (isset($_POST['user_id'])) {
         type: 'POST',
         url: '/appointment/controllers/admin/edit_user_process.php',
         data: formData,
-        success: function(response) {
+        success: function (response) {
           console.log(response); // Log the response for debugging
           response = JSON.parse(response);
           if (response.success) {
@@ -122,7 +140,7 @@ if (isset($_POST['user_id'])) {
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while editing user. Please try again later.",
@@ -130,7 +148,7 @@ if (isset($_POST['user_id'])) {
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           // Reset button text and re-enable it
           $button.text('Save').prop('disabled', false);
         }

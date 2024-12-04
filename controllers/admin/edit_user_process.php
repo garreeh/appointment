@@ -11,6 +11,8 @@ if (isset($_POST['edit_user'])) {
   $username = $conn->real_escape_string($_POST['username']);
   $user_email = $conn->real_escape_string($_POST['user_email']);
   $user_confirm_password = $conn->real_escape_string($_POST['user_confirm_password']);
+  $account_status = $conn->real_escape_string($_POST['account_status']);
+
 
   // Hash the user_confirm_password
   $user_password = password_hash($user_confirm_password, PASSWORD_BCRYPT);
@@ -24,7 +26,8 @@ if (isset($_POST['edit_user'])) {
             username = '$username',
             user_email = '$user_email',
             user_password = '$user_password',
-            user_confirm_password = '$user_confirm_password'
+            user_confirm_password = '$user_confirm_password',
+            account_status = '$account_status'
           WHERE user_id = '$user_id'";
 
   // Execute SQL query
@@ -38,6 +41,6 @@ if (isset($_POST['edit_user'])) {
     $response = array('success' => false, 'message' => 'Error updating user: ' . mysqli_error($conn));
     echo json_encode($response);
     exit();
-  } 
+  }
 }
 ?>

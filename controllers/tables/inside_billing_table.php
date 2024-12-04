@@ -24,32 +24,31 @@ $columns = array(
     }
   ),
 
-  // array(
-  //   'db' => 'inside_billing.created_at',
-  //   'dt' => 2,
-  //   'field' => 'created_at',
-  //   'formatter' => function ($lab5, $row) {
-  //     return date('Y-m-d', strtotime($row['created_at']));
-  //   }
-  // ),
-
   array(
     'db' => 'bill_id',
     'dt' => 2,
     'field' => 'bill_id',
     'formatter' => function ($lab6, $row) {
-
+      $bill_id = $row['bill_id'];
+      $payment_status = $row['payment_status']; // Assuming `payment_status` is part of the `$row`
+    
+      // Conditionally render the "Delete" link based on payment_status
       return '
-      <div class="dropdown">
-          <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['bill_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              &#x22EE;
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['bill_id'] . '">
-              <a class="dropdown-item fetchDataCategory" href="#" data-user-id="' . $row['bill_id'] . '">Delete</a>
-          </div>
-      </div>';
+        <div class="dropdown">
+            <button class="btn btn-info" type="button" id="dropdownMenuButton' . $bill_id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                &#x22EE;
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $bill_id . '">
+                ' . ($payment_status === 'Paid'
+        ? '<a class="dropdown-item text-muted" href="#" aria-disabled="true" style="pointer-events: none; color: #6c757d;">Already Paid</a>'
+        : '<a class="dropdown-item fetchDataDelete" href="#" data-bill-id="' . $bill_id . '">Delete</a>'
+      ) . '
+            </div>
+        </div>';
     }
   ),
+
+
 
   array(
     'db' => 'inside_billing.user_id',
@@ -57,6 +56,24 @@ $columns = array(
     'field' => 'user_id',
     'formatter' => function ($lab2, $row) {
       return $row['user_id'];
+    }
+  ),
+
+  array(
+    'db' => 'bill_id',
+    'dt' => 4,
+    'field' => 'bill_id',
+    'formatter' => function ($lab2, $row) {
+      return $row['bill_id'];
+    }
+  ),
+
+  array(
+    'db' => 'payment_status',
+    'dt' => 4,
+    'field' => 'payment_status',
+    'formatter' => function ($lab2, $row) {
+      return $row['payment_status'];
     }
   ),
 
@@ -76,7 +93,9 @@ $where = "inside_billing.user_id = $user_id";
 $joinQuery = "FROM $table
               LEFT JOIN users ON $table.user_id = users.user_id
               LEFT JOIN category ON $table.category_id = category.category_id
-              LEFT JOIN vaccine ON $table.vaccine_id = vaccine.vaccine_id";
+              LEFT JOIN vaccine ON $table.vaccine_id = vaccine.vaccine_id
+              LEFT JOIN billing ON $table.billing_id = billing.billing_id
+              ";
 
 // Fetch and encode JOIN AND WHERE
 echo json_encode(SSP::simple($_GET, $sql_details, $table, $primaryKey, $columns, $joinQuery, $where));

@@ -21,21 +21,22 @@ $columns = array(
             return $row['user_fullname'];
         }
     ),
+
     array(
-        'db' => 'user_email',
+        'db' => 'username',
         'dt' => 2,
-        'field' => 'user_email',
+        'field' => 'username',
         'formatter' => function ($lab3, $row) {
-            return $row['user_email'];
+            return $row['username'];
         }
     ),
 
     array(
-        'db' => 'username',
+        'db' => 'user_email',
         'dt' => 3,
-        'field' => 'username',
+        'field' => 'user_email',
         'formatter' => function ($lab3, $row) {
-            return $row['username'];
+            return $row['user_email'];
         }
     ),
 
@@ -50,7 +51,7 @@ $columns = array(
             // $height = '30px'; // Adjust the value as needed
             // $border_radius = '10px'; // Adjust the value as needed
             // return '<span style="display: inline-block; background-color: ' . $color . '; width: ' . $width . '; height: ' . $height . '; border-radius: ' . $border_radius . '; text-align: center; line-height: ' . $height . ';">' . $password . '</span>';
-
+        
             return '<a class="fetchDataPassword" href="#"> Click to View</a> ';
         }
     ),
