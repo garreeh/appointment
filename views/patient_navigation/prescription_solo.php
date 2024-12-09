@@ -18,7 +18,8 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addPrescriptionModal"> <i class="fas fa-plus"></i> Add Prescription</a>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
+        data-target="#addPrescriptionModal"> <i class="fas fa-plus"></i> Add Prescription</a>
       <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
 
       <div class="row">
@@ -61,14 +62,14 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
 </html>
 
 <script>
-  $('#sidebarToggle').click(function() {
+  $('#sidebarToggle').click(function () {
     $('#prescription_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Handle tab switching and DataTable initialization
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       var target = $(e.target).attr("href"); // Get the target tab's ID
 
       if (target === '#prescription') { // Check if it's the 2x2 Photo tab
@@ -86,7 +87,7 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
           "ajax": {
             url: "./../../controllers/tables/prescription_table.php",
             type: "GET",
-            data: function(d) {
+            data: function (d) {
               d.pet_id = <?php echo $pet_id; ?>; // Pass prescription_id here
               d.user_id = <?php echo $user_id; ?>; // Pass prescription_id here
             }
@@ -103,7 +104,7 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
     }
 
     // Event handler for column 5 click - dynamically fetch supplier details
-    $('#prescription_table').on('click', 'tr td:nth-child(2) .fetchDataPrescription', function() {
+    $('#prescription_table').on('click', 'tr td:nth-child(2) .fetchDataPrescription', function () {
       var prescription_id = $(this).closest('tr').find('td').first().text(); // Get prescription_id from the row
       $.ajax({
         url: './../../modals/prescriptions/modal_view_prescription.php', // Path to PHP script to fetch modal content
@@ -111,18 +112,18 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
         data: {
           prescription_id: prescription_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCategory').html(response);
           $('#fetchDataPrescription').modal('show');
           console.log("#fetchDataPrescription" + prescription_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
         }
       });
     });
 
-    $('#prescription_table').on('click', 'tr td:nth-child(5) .fetchDataPres', function() {
+    $('#prescription_table').on('click', 'tr td:nth-child(5) .fetchDataPres', function () {
       var prescription_id = $(this).closest('tr').find('td').first().text(); // Get prescription_id from the row
       $.ajax({
         url: './../../modals/prescriptions/modal_edit_prescription.php', // Path to PHP script to fetch modal content
@@ -130,12 +131,31 @@ $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
         data: {
           prescription_id: prescription_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCategory').html(response);
           $('#editPrescriptionModal').modal('show');
           console.log("#editPrescriptionModal" + prescription_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
+
+    $('#prescription_table').on('click', 'tr td:nth-child(5) .fetchDataPresDelete', function () {
+      var prescription_id = $(this).closest('tr').find('td').first().text(); // Get prescription_id from the row
+      $.ajax({
+        url: './../../modals/prescriptions/modal_delete_prescription.php', // Path to PHP script to fetch modal content
+        method: 'POST',
+        data: {
+          prescription_id: prescription_id
+        },
+        success: function (response) {
+          $('#modalContainerCategory').html(response);
+          $('#deletePrescriptionModal').modal('show');
+          console.log("#deletePrescriptionModal" + prescription_id);
+        },
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
         }
       });

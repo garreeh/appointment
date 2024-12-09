@@ -33,7 +33,7 @@ if (isset($_POST['category_id'])) {
               <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="category_id" value="<?php echo $row['category_id']; ?>">
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                     <h4>Do you want to delete this Service?</h4>
                   </div>
                 </div>

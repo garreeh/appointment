@@ -10,20 +10,20 @@
 <?php
 include './../../connections/connections.php';
 
-if (isset($_POST['user_id'])) {
-  $user_id = $_POST['user_id'];
-  $sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+if (isset($_POST['file_id'])) {
+  $file_id = $_POST['file_id'];
+  $sql = "SELECT * FROM file_uploads WHERE file_id = '$file_id'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-      <div class="modal fade" id="deleteDataUserModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
+      <div class="modal fade" id="fetchDeleteModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-l" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Delete User ID: <?php echo $row['user_id']; ?></h5>
+              <h5 class="modal-title">Delete File ID: <?php echo $row['file_id']; ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -31,19 +31,19 @@ if (isset($_POST['user_id'])) {
 
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+                <input type="hidden" name="file_id" value="<?php echo $row['file_id']; ?>">
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <h4>Do you want to delete this user?</h4>
+                    <h4>Do you want to delete this file?</h4>
                   </div>
                 </div>
 
                 <!-- Add a hidden input field to submit the form with the button click -->
-                <input type="hidden" name="delete_user" value="1">
+                <input type="hidden" name="delete_files" value="1">
 
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Yes</button>
-                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['supplier_id']; ?>"> -->
+                  <button type="submit" class="btn btn-primary" id="saveCategoryButton">Yes</button>
+                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['file_id']; ?>"> -->
                   <button type="button" class="btn btn btn-danger" data-dismiss="modal">No</button>
                 </div>
               </form>
@@ -59,26 +59,28 @@ if (isset($_POST['user_id'])) {
 ?>
 
 <script>
-  // Save Button in Edit Supplier
+  // Save Button in Edit Category
   $(document).ready(function () {
-    $('#deleteDataUserModal form').submit(function (event) {
+    $('#fetchDeleteModal form').submit(function (event) {
       event.preventDefault(); // Prevent default form submission
-
+      // Store a reference to $(this)
       var $form = $(this);
-      var $button = $form.find('button[type="submit"]'); // Reference to the submit button
-
-      // Change button text to 'Saving...' and disable it
-      $button.text('Saving...').prop('disabled', true);
 
       // Serialize form data
       var formData = $form.serialize();
 
+      // Change button text to "Saving..." and disable it
+      var $saveButton = $('#saveCategoryButton');
+      $saveButton.text('Saving...');
+      $saveButton.prop('disabled', true);
+
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/delete_user_process.php',
+        url: '/appointment/controllers/admin/delete_files_process.php',
         data: formData,
         success: function (response) {
+          // Handle success response
           console.log(response); // Log the response for debugging
           response = JSON.parse(response);
           if (response.success) {
@@ -86,11 +88,12 @@ if (isset($_POST['user_id'])) {
               text: response.message,
               duration: 2000,
               backgroundColor: "linear-gradient(to right, #ff0000, #ff7f7f)"
-
             }).showToast();
 
-            $('#deleteDataUserModal').modal('hide');
-            window.reloadDataTable();
+            // Optionally, close the modal
+            $('#fetchDeleteModal').modal('hide');
+            reloadDataTable();
+
           } else {
             Toastify({
               text: response.message,
@@ -100,18 +103,24 @@ if (isset($_POST['user_id'])) {
           }
         },
         error: function (xhr, status, error) {
+          // Handle error response
           console.error(xhr.responseText);
           Toastify({
-            text: "Error occurred while editing user. Please try again later.",
+            text: "Error occurred while editing category. Please try again later.",
             duration: 2000,
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
         complete: function () {
           // Reset button text and re-enable it
-          $button.text('Yes').prop('disabled', false);
+          $saveButton.text('Yes');
+          $saveButton.prop('disabled', false);
         }
       });
     });
   });
+
+  function reloadDataTable() {
+    $('#files_table').DataTable().ajax.reload(null, false);
+  }
 </script>
