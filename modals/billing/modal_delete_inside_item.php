@@ -8,22 +8,25 @@
 </style>
 
 <?php
+
+$billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id']) : 'No Billing ID';
+
 include './../../connections/connections.php';
 
-if (isset($_POST['unavailable_id'])) {
-  $unavailable_id = $_POST['unavailable_id'];
-  $sql = "SELECT * FROM unavailable_dates WHERE unavailable_id = '$unavailable_id'";
+if (isset($_POST['bill_id'])) {
+  $bill_id = $_POST['bill_id'];
+  $sql = "SELECT * FROM inside_billing WHERE bill_id = '$bill_id'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
       ?>
-      <div class="modal fade" id="fetchDataUnavailableModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
+      <div class="modal fade" id="deleteModalBill" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-l" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Update Date Details ID: <?php echo $row['unavailable_id']; ?></h5>
+              <h5 class="modal-title">Delete Bill ID: <?php echo $row['bill_id']; ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -31,22 +34,23 @@ if (isset($_POST['unavailable_id'])) {
 
             <div class="modal-body">
               <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="unavailable_id" value="<?php echo $row['unavailable_id']; ?>">
+                <input type="hidden" name="bill_id" value="<?php echo $row['bill_id']; ?>">
+                <input type="hidden" name="billing_id" value="<?php echo $row['billing_id']; ?>">
+
+
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label for="unavailable_date">Unavailable Date:</label>
-                    <input type="date" class="form-control" id="unavailable_date" name="unavailable_date"
-                      value="<?php echo $row['unavailable_date']; ?>" required min="<?php echo date('Y-m-d'); ?>">
-                    <!-- Inline disabling of past dates -->
+                    <h4 for="price">Are you sure you want to delete?</h4>
                   </div>
                 </div>
 
                 <!-- Add a hidden input field to submit the form with the button click -->
-                <input type="hidden" name="edit_dates" value="1">
+                <input type="hidden" name="delete_inside_item" value="1">
 
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" id="saveCategoryButton">Yes</button>
+                  <!-- <input type="hidden" name="item_id" value="</?php echo $row['bill_id']; ?>"> -->
+                  <button type="button" class="btn btn btn-danger" data-dismiss="modal">No</button>
                 </div>
               </form>
             </div>
@@ -54,21 +58,16 @@ if (isset($_POST['unavailable_id'])) {
         </div>
       </div>
 
-    <?php
+      <?php
     }
   }
 }
 ?>
 
 <script>
+  // Save Button in Edit Category
   $(document).ready(function () {
-    document.addEventListener('DOMContentLoaded', function () {
-      const dateInput = document.getElementById('unavailable_date');
-      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-      dateInput.setAttribute('min', today); // Set the min attribute to today's date
-    });
-
-    $('#fetchDataUnavailableModal form').submit(function (event) {
+    $('#deleteModalBill form').submit(function (event) {
       event.preventDefault(); // Prevent default form submission
       // Store a reference to $(this)
       var $form = $(this);
@@ -77,14 +76,14 @@ if (isset($_POST['unavailable_id'])) {
       var formData = $form.serialize();
 
       // Change button text to "Saving..." and disable it
-      var $saveButton = $('#saveButton');
+      var $saveButton = $('#saveCategoryButton');
       $saveButton.text('Saving...');
       $saveButton.prop('disabled', true);
 
       // Send AJAX request
       $.ajax({
         type: 'POST',
-        url: '/appointment/controllers/admin/edit_unavailable_process.php',
+        url: '/appointment/controllers/admin/delete_inside_item_process.php',
         data: formData,
         success: function (response) {
           // Handle success response
@@ -98,7 +97,7 @@ if (isset($_POST['unavailable_id'])) {
             }).showToast();
 
             // Optionally, close the modal
-            $('#fetchDataUnavailableModal').modal('hide');
+            $('#deleteModalBill').modal('hide');
             window.reloadDataTable();
 
           } else {
@@ -113,14 +112,14 @@ if (isset($_POST['unavailable_id'])) {
           // Handle error response
           console.error(xhr.responseText);
           Toastify({
-            text: "Error occurred while editing supplier. Please try again later.",
+            text: "Error occurred while editing category. Please try again later.",
             duration: 2000,
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
         complete: function () {
           // Reset button text and re-enable it
-          $saveButton.text('Save');
+          $saveButton.text('Yes');
           $saveButton.prop('disabled', false);
         }
       });

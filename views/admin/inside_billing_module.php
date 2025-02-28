@@ -61,7 +61,9 @@ if ($billing_id) {
 
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -95,7 +97,8 @@ if ($billing_id) {
             <h1 class="h3 mb-0 text-gray-800">Billing for <?php echo $user_name; ?></h1>
           </div>
 
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addBillModal"> <i class="fas fa-plus"></i> Add Particulars</a>
+          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
+            data-target="#addBillModal"> <i class="fas fa-plus"></i> Add Particulars</a>
           <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
 
           <div class="row">
@@ -144,7 +147,8 @@ if ($billing_id) {
                   </div>
 
                   <?php include './../../modals/billing/modal_add_payment.php'; ?>
-                  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addPaymentModal"> <i class="fas fa-plus"></i> Add Payment</a>
+                  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
+                    data-target="#addPaymentModal"> <i class="fas fa-plus"></i> Add Payment</a>
 
                 </div>
               </div>
@@ -181,14 +185,17 @@ if ($billing_id) {
 </html>
 
 <!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+  integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+  integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 <!-- Include Selectize CSS -->
 
 <!-- Include jQuery and Selectize JS -->
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('select').selectize({
       sortField: 'text'
     });
@@ -198,12 +205,12 @@ if ($billing_id) {
 
 
 <script>
-  $('#sidebarToggle').click(function() {
+  $('#sidebarToggle').click(function () {
     $('#inside_billing_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     var user_id = "<?php echo $user_id; ?>"; // PHP variable to JavaScript
 
     var inside_billing_table = $('#inside_billing_table').DataTable({
@@ -213,21 +220,46 @@ if ($billing_id) {
       "ajax": {
         "url": "./../../controllers/tables/inside_billing_table.php",
         "type": "GET",
-        "data": function(d) {
+        "data": function (d) {
           // Send user_id as additional data with the request
           d.user_id = user_id;
         }
       },
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       inside_billing_table.ajax.reload();
     };
   });
 
 
+  $(document).ready(function () {
+    // Function to handle click event on datatable rows
+    $('#inside_billing_table').on('click', 'tr td:nth-child(3) .fetchDataDelete', function () {
+      var bill_id = $(this).data('bill-id'); // Get table_id from data attribute
 
-  $(document).ready(function() {
+      $.ajax({
+        url: './../../modals/billing/modal_delete_inside_item.php',
+        method: 'POST',
+        data: {
+          bill_id: bill_id
+        },
+        success: function (response) {
+          $('#bill_id').val(bill_id);
+          $('#modalContainerItems').html(response);
+          $('#deleteModalBill').modal('show');
+          console.log("#deleteModalBill" + bill_id);
+        },
+        error: function (xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
+  });
+
+
+
+  $(document).ready(function () {
     fetchOrderSummary();
     // Function to fetch updated order summary
     function fetchOrderSummary() {
@@ -242,7 +274,7 @@ if ($billing_id) {
           billing_id: billing_id,
         },
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
           // Update the order summary inputs with the fetched data
           $('#billingID').val(response.billing_id); // Update billing ID
           $('#totalOrders').val(response.total_items); // Update total items
@@ -256,7 +288,7 @@ if ($billing_id) {
           // Format total price to ₱ and update the input
           $('#totalPrice').val('₱' + totalPrice.toFixed(2)); // Update total price (format to ₱)
         },
-        error: function() {
+        error: function () {
           console.log('Error fetching order summary');
         }
       });
@@ -264,7 +296,7 @@ if ($billing_id) {
   });
 
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     fetchUpdatedPayment();
     // Function to fetch updated order summary
     function fetchUpdatedPayment() {
@@ -279,10 +311,10 @@ if ($billing_id) {
           billing_id: billing_id,
         },
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
           $('#paymentStatus').val(response.payment_status); // Update total items
         },
-        error: function() {
+        error: function () {
           console.log('Error fetching order summary');
         }
       });

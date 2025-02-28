@@ -52,10 +52,18 @@ $columns = array(
     }
   ),
 
+  array(
+    'db' => 'time_from',
+    'dt' => 5,
+    'field' => 'time_from',
+    'formatter' => function ($lab3, $row) {
+      return $row['time_from'] . ' - ' . $row['time_to'];
+    }
+  ),
 
   array(
     'db' => 'appointment_status',
-    'dt' => 5,
+    'dt' => 6,
     'field' => 'appointment_status',
     'formatter' => function ($lab4, $row) {
       $appointment_status = $row['appointment_status'];
@@ -73,16 +81,6 @@ $columns = array(
       }
 
       return "<span style=\"$style\">{$appointment_status}</span>";
-    }
-  ),
-
-
-  array(
-    'db' => 'appointment.created_at',
-    'dt' => 6,
-    'field' => 'created_at',
-    'formatter' => function ($lab5, $row) {
-      return date('Y-m-d', strtotime($row['created_at']));
     }
   ),
 
@@ -104,6 +102,15 @@ $columns = array(
       </div>';
     }
   ),
+
+  array(
+    'db' => 'time_to',
+    'dt' => 8,
+    'field' => 'time_to',
+    'formatter' => function ($lab5, $row) {
+      return $row['time_to'];
+    }
+  ),
 );
 
 // Database connection details
@@ -121,7 +128,9 @@ $where = "appointment_status = 'Pending'";
 $joinQuery = "FROM $table
               LEFT JOIN category ON $table.category_id = category.category_id
               LEFT JOIN users ON $table.user_id = users.user_id
-              LEFT JOIN pets ON $table.pet_id = pets.pet_id";
+              LEFT JOIN pets ON $table.pet_id = pets.pet_id
+              LEFT JOIN timeslot ON $table.timeslot_id = timeslot.timeslot_id
+              ";
 
 
 

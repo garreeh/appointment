@@ -26,7 +26,9 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -60,7 +62,8 @@ if (session_status() == PHP_SESSION_NONE) {
             <h1 class="h3 mb-0 text-gray-800">Vaccine Module</h1>
           </div>
 
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addVaccinationModal"> <i class="fas fa-plus"></i> Add Vaccination Type</a>
+          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
+            data-target="#addVaccinationModal"> <i class="fas fa-plus"></i> Add Vaccination Type</a>
           <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
 
           <div class="row">
@@ -119,13 +122,13 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function() {
+  $('#sidebarToggle').click(function () {
     $('#vaccine_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
-  $(document).ready(function() {
+  $(document).ready(function () {
     var vaccine_table = $('#vaccine_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -133,16 +136,16 @@ if (session_status() == PHP_SESSION_NONE) {
       "ajax": "./../../controllers/tables/vaccine_table.php",
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       vaccine_table.ajax.reload();
     };
 
   });
 
   //Column 5
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Function to handle click event on datatable rows
-    $('#vaccine_table').on('click', 'tr td:nth-child(6) .fetchDataCategory', function() {
+    $('#vaccine_table').on('click', 'tr td:nth-child(6) .fetchDataCategory', function () {
       var vaccine_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
 
       $.ajax({
@@ -151,12 +154,35 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           vaccine_id: vaccine_id
         },
-        success: function(response) {
+        success: function (response) {
           $('#modalContainerCategory').html(response);
           $('#editVaccineModal').modal('show');
           console.log("#editVaccineModal" + vaccine_id);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
+          console.error(xhr.responseText);
+        }
+      });
+    });
+  });
+
+  $(document).ready(function () {
+    // Function to handle click event on datatable rows
+    $('#vaccine_table').on('click', 'tr td:nth-child(6) .fetchDataCategoryDelete', function () {
+      var vaccine_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
+
+      $.ajax({
+        url: './../../modals/vaccination/modal_delete_vaccination.php', // Path to PHP script to fetch modal content
+        method: 'POST',
+        data: {
+          vaccine_id: vaccine_id
+        },
+        success: function (response) {
+          $('#modalContainerCategory').html(response);
+          $('#deleteVaccineModal').modal('show');
+          console.log("#deleteVaccineModal" + vaccine_id);
+        },
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
         }
       });

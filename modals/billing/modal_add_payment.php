@@ -21,7 +21,8 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 </style>
 
 <!-- Your modal and form HTML -->
-<div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addBillingModalLabel" aria-hidden="true">
+<div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addBillingModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -35,8 +36,10 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
         <form method="post" enctype="multipart/form-data" id="addPaymentForm">
 
           <!-- Hidden Inputs for user_id and billing_id -->
-          <input type="hidden" class="form-control" id="user_id" name="user_id" value="<?php echo $user_id ?>" readonly required>
-          <input type="hidden" class="form-control" id="billing_id" name="billing_id" value="<?php echo $billing_id ?>" readonly required>
+          <input type="hidden" class="form-control" id="user_id" name="user_id" value="<?php echo $user_id ?>" readonly
+            required>
+          <input type="hidden" class="form-control" id="billing_id" name="billing_id" value="<?php echo $billing_id ?>"
+            readonly required>
 
           <div class="form-row">
             <div class="form-group col-md-12">
@@ -57,7 +60,8 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             <div class="form-row">
               <div class="form-group col-md-12">
                 <label for="reference_code">Reference Code:</label>
-                <input type="text" id="reference_code" name="reference_code" placeholder="Enter Reference Cpde" class="form-control">
+                <input type="text" id="reference_code" name="reference_code" placeholder="Enter Reference Cpde"
+                  class="form-control">
               </div>
             </div>
 
@@ -89,9 +93,9 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Form submission with AJAX
-    $('#addPaymentForm').submit(function(event) {
+    $('#addPaymentForm').submit(function (event) {
       event.preventDefault(); // Prevent default form submission
 
       var $form = $(this);
@@ -111,7 +115,7 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
         data: formData,
         processData: false, // Important to prevent jQuery from processing the data
         contentType: false, // Important to prevent jQuery from setting content type (we need to handle multipart form data)
-        success: function(response) {
+        success: function (response) {
           response = JSON.parse(response); // Parse the response
           if (response.success) {
             Toastify({
@@ -141,10 +145,10 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
                   billing_id: billing_id,
                 },
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                   $('#paymentStatus').val(response.payment_status); // Update total items
                 },
-                error: function() {
+                error: function () {
                   console.log('Error fetching order summary');
                 }
               });
@@ -157,7 +161,7 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             }).showToast();
           }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding billing. Please try again later.",
@@ -165,14 +169,14 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function() {
+        complete: function () {
           $addButton.text('Add');
           $addButton.prop('disabled', false);
         }
       });
     });
 
-    $('#addPaymentModal').on('hidden.bs.modal', function() {
+    $('#addPaymentModal').on('hidden.bs.modal', function () {
 
       // Reset the dropdowns to their default states
       $('#items')[0].selectize.clear(); // Clear Selectize dropdown
@@ -180,8 +184,8 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
     });
   });
 
-  document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
+  document.querySelectorAll('input[name="payment_method"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
       if (document.getElementById('payment_gcash').checked) {
         document.getElementById('gcash_details').style.display = 'block';
       } else {

@@ -63,7 +63,7 @@ $columns = array(
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['vaccine_id'] . '">
               <a class="dropdown-item fetchDataCategory" href="#">Edit</a>
-              <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['vaccine_id'] . '">Delete</a>
+              <a class="dropdown-item fetchDataCategoryDelete" href="#">Delete</a>
           </div>
       </div>';
     }

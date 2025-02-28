@@ -36,10 +36,14 @@ if (isset($_GET['pet_id'])) {
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+    integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
 
 </head>
@@ -79,25 +83,30 @@ if (isset($_GET['pet_id'])) {
                   <div class="row">
                     <div class="col-md-4 mb-3">
                       <label for="client_name" class="form-label"><strong>Pet Name:</strong></label>
-                      <input type="text" id="client_name_<?php echo $client_id; ?>" class="form-control" value="<?php echo $pets['pet_name']; ?>" readonly>
+                      <input type="text" id="client_name_<?php echo $client_id; ?>" class="form-control"
+                        value="<?php echo $pets['pet_name']; ?>" readonly>
                     </div>
                     <div class="col-md-4 mb-3">
                       <label for="address" class="form-label"><strong>Species:</strong></label>
-                      <input type="text" id="address_<?php echo $client_id; ?>" class="form-control" value="<?php echo $pets['species']; ?>" readonly>
+                      <input type="text" id="address_<?php echo $client_id; ?>" class="form-control"
+                        value="<?php echo $pets['species']; ?>" readonly>
                     </div>
                     <div class="col-md-4 mb-3">
                       <label for="mobile_number" class="form-label"><strong>Breed:</strong></label>
-                      <input type="text" id="mobile_number_<?php echo $client_id; ?>" class="form-control" value="<?php echo $pets['breed']; ?>" readonly>
+                      <input type="text" id="mobile_number_<?php echo $client_id; ?>" class="form-control"
+                        value="<?php echo $pets['breed']; ?>" readonly>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="email" class="form-label"><strong>Owner:</strong></label>
-                      <input type="text" id="email_<?php echo $client_id; ?>" class="form-control" value="<?php echo $pets['user_fullname']; ?>" readonly>
+                      <input type="text" id="email_<?php echo $client_id; ?>" class="form-control"
+                        value="<?php echo $pets['user_fullname']; ?>" readonly>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="birthday" class="form-label"><strong>Birthdate:</strong></label>
-                      <input type="text" id="birthday_<?php echo $client_id; ?>" class="form-control" value="<?php echo date('F j, Y', strtotime($pets['birthdate'])); ?>" readonly>
+                      <input type="text" id="birthday_<?php echo $client_id; ?>" class="form-control"
+                        value="<?php echo date('F j, Y', strtotime($pets['birthdate'])); ?>" readonly>
                     </div>
                   </div>
                 </form>
@@ -109,13 +118,16 @@ if (isset($_GET['pet_id'])) {
             <div class="mb-4">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab" aria-controls="prescription" aria-selected="true">Prescriptions</a>
+                  <a class="nav-link active" id="prescription-tab" data-toggle="tab" href="#prescription" role="tab"
+                    aria-controls="prescription" aria-selected="true">Prescriptions</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="vaccination-tab" data-toggle="tab" href="#vaccination" role="tab" aria-controls="vaccination" aria-selected="false">Vaccines</a>
+                  <a class="nav-link" id="vaccination-tab" data-toggle="tab" href="#vaccination" role="tab"
+                    aria-controls="vaccination" aria-selected="false">Vaccines</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">Upload Files</a>
+                  <a class="nav-link" id="files-tab" data-toggle="tab" href="#files" role="tab" aria-controls="files"
+                    aria-selected="false">Upload Files</a>
                 </li>
                 <!-- <li class="nav-item">
                   <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false">Proof of Income</a>
@@ -125,7 +137,8 @@ if (isset($_GET['pet_id'])) {
                 </li> -->
               </ul>
               <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="prescription" role="tabpanel" aria-labelledby="prescription-tab">
+                <div class="tab-pane fade show active" id="prescription" role="tabpanel"
+                  aria-labelledby="prescription-tab">
                   <br>
                   <?php include '../patient_navigation/prescription_solo.php' ?>
                 </div>
@@ -178,11 +191,14 @@ if (isset($_GET['pet_id'])) {
   <script type="text/javascript" src="./../../assets/datatables/datatables.min.js"></script>
 
   <!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+    integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+    integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       $('select').selectize({
         sortField: 'text'
       });
@@ -197,13 +213,13 @@ if (isset($_GET['pet_id'])) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function() {
+  $('#sidebarToggle').click(function () {
     $('#patients_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Product
-  $(document).ready(function() {
+  $(document).ready(function () {
     var patients_table = $('#patients_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -211,33 +227,9 @@ if (isset($_GET['pet_id'])) {
       "ajax": "./../../controllers/tables/patients_table.php",
     });
 
-    window.reloadDataTable = function() {
+    window.reloadDataTable = function () {
       patients_table.ajax.reload();
     };
 
-  });
-
-  //Column 5
-  $(document).ready(function() {
-    // Function to handle click event on datatable rows
-    $('#patients_table').on('click', 'tr td:nth-child(8) .fetchDataPurchase', function() {
-      var purchase_order_id = $(this).closest('tr').find('td').first().text(); // Get the purchase_order_id from the clicked row
-
-      $.ajax({
-        url: './../../modals/purchase/modal_edit_purchase.php', // Path to PHP script to fetch modal content
-        method: 'POST',
-        data: {
-          purchase_order_id: purchase_order_id
-        },
-        success: function(response) {
-          $('#modalContainerProduct').html(response);
-          $('#editPurchaseModal').modal('show');
-          console.log("#editPurchaseModal" + purchase_order_id);
-        },
-        error: function(xhr, status, error) {
-          console.error(xhr.responseText);
-        }
-      });
-    });
   });
 </script>

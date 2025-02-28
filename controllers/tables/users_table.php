@@ -22,11 +22,11 @@ $columns = array(
         }
     ),
     array(
-        'db' => 'user_email',
+        'db' => 'username',
         'dt' => 2,
-        'field' => 'user_email',
+        'field' => 'username',
         'formatter' => function ($lab3, $row) {
-            return $row['user_email'];
+            return $row['username'];
         }
     ),
     array(
@@ -82,7 +82,7 @@ $columns = array(
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['user_id'] . '">
                         <a class="dropdown-item fetchDataUser" href="#">Edit</a>
-                        <a class="dropdown-item delete-user" href="#" data-user-id="' . $row['user_id'] . '">Delete</a>
+                        <a class="dropdown-item fetchDataUserDelete" href="#">Delete</a>
                     </div>
                 </div>';
         }
