@@ -17,10 +17,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_address = isset($_POST['user_address']) ? $conn->real_escape_string($_POST['user_address']) : '';
     $user_password = isset($_POST['user_password']) ? $conn->real_escape_string($_POST['user_password']) : '';
     $user_confirm_password = isset($_POST['user_confirm_password']) ? $conn->real_escape_string($_POST['user_confirm_password']) : '';
+    $terms_and_condition = isset($_POST['terms_and_condition']) ? $conn->real_escape_string($_POST['terms_and_condition']) : '';
+
 
     // Check if any field is empty
     if (empty($user_fullname) || empty($username) || empty($user_email) || empty($user_contact) || empty($user_address) || empty($user_password) || empty($user_confirm_password)) {
         $response = array('success' => false, 'message' => 'All fields are required.');
+        echo json_encode($response);
+        exit();
+    }
+
+    if ($terms_and_condition !== '1') {
+        $response = array('success' => false, 'message' => 'You must accept the Terms & Conditions.');
         echo json_encode($response);
         exit();
     }
@@ -53,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
 
     // Insert user into the database
-    $sql = "INSERT INTO users (user_fullname, username, user_email, user_contact, user_address, user_password, user_confirm_password, is_admin, account_status) 
-            VALUES ('$user_fullname', '$username', '$user_email', '$user_contact', '$user_address', '$hashed_password', '$user_confirm_password', '0', 'Inactive')";
+    $sql = "INSERT INTO users (user_fullname, username, user_email, user_contact, user_address, user_password, user_confirm_password, is_admin, account_status, terms_and_condition) 
+            VALUES ('$user_fullname', '$username', '$user_email', '$user_contact', '$user_address', '$hashed_password', '$user_confirm_password', '0', 'Inactive', '$terms_and_condition')";
 
     if (mysqli_query($conn, $sql)) {
         // Send verification email
@@ -143,10 +151,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode($response);
             exit();
         }
-        
+
         session_start();
         $_SESSION['email_verified'] = true;
-            
+
         // Redirect to verification page
         $response = array('success' => true, 'message' => 'Registration successful. Please check your email for verification.');
         echo json_encode($response);
