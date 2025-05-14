@@ -20,7 +20,7 @@ $sqlEvents = "
     LEFT JOIN 
       pets ON appointment.pet_id = pets.pet_id
     WHERE 
-      appointment.appointment_status = 'Ongoing'";
+      appointment.appointment_status IN ('Ongoing', 'Pending')";
 
 $resultset = mysqli_query($conn, $sqlEvents) or die("Database error: " . mysqli_error($conn));
 $calendar = array();

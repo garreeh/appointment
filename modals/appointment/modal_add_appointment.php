@@ -190,26 +190,41 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
     }
 
     function updateTimeslotDropdown(timeslots) {
+      const appointmentDate = $('#appointment_date').val();
+      const today = new Date();
+      const selectedDate = new Date(appointmentDate);
+
       let timeslotDropdownHTML = '<div class="form-row">' +
         '<div class="form-group col-md-12">' +
         '<label for="timeslot_id">Time Slot:</label>' +
         '<select class="form-control" id="timeslot_id" name="timeslot_id" required>' +
         '<option value="">Select Time Slot</option>';
 
-      // Loop through all timeslots and create options
       timeslots.forEach(slot => {
-        // Check if the slot is booked by looking for a property indicating it
-        if (slot.booked) { // Adjust this condition according to your data structure
-          timeslotDropdownHTML += `<option value="${slot.timeslot_id}" disabled>${slot.time_from} - ${slot.time_to} (Booked)</option>`;
-        } else {
-          timeslotDropdownHTML += `<option value="${slot.timeslot_id}">${slot.time_from} - ${slot.time_to}</option>`;
+        let isOverlapped = false;
+
+        if (selectedDate.toDateString() === today.toDateString()) {
+          const [hours, minutes] = slot.time_from.split(':').map(Number);
+          const slotTime = new Date();
+          slotTime.setHours(hours, minutes, 0, 0);
+
+          if (slotTime <= today) {
+            isOverlapped = true;
+          }
         }
+
+        const label = `${slot.time_from} - ${slot.time_to}`;
+        const isBooked = slot.booked;
+        const disabledAttr = isBooked || isOverlapped ? 'disabled' : '';
+        const labelText = isBooked ? `${label} (Booked)` : isOverlapped ? `${label} (Overlapped)` : label;
+
+        timeslotDropdownHTML += `<option value="${slot.timeslot_id}" ${disabledAttr}>${labelText}</option>`;
       });
 
       timeslotDropdownHTML += '</select></div></div>';
-
       $('#timeslot_container').html(timeslotDropdownHTML);
     }
+
 
 
     function removeTimeslotDropdown() {

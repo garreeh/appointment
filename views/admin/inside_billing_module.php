@@ -130,7 +130,7 @@ if ($billing_id) {
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="form-group">
-                    <input type="hidden" id="billingID" class="form-control" readonly>
+                    <input type="text" id="billingID" class="form-control" readonly>
                   </div>
                   <div class="form-group">
                     <label for="totalOrders">Total Items:</label>
@@ -147,8 +147,12 @@ if ($billing_id) {
                   </div>
 
                   <?php include './../../modals/billing/modal_add_payment.php'; ?>
-                  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
-                    data-target="#addPaymentModal"> <i class="fas fa-plus"></i> Add Payment</a>
+                  <a href="#" id="addPaymentBtn" class="d-none btn btn-sm btn-success shadow-sm mb-4"
+                    data-toggle="modal" data-target="#addPaymentModal">
+                    <i class="fas fa-plus"></i> Add Payment
+                  </a>
+
+
 
                 </div>
               </div>
@@ -195,7 +199,7 @@ if ($billing_id) {
 <!-- Include jQuery and Selectize JS -->
 
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('select').selectize({
       sortField: 'text'
     });
@@ -205,12 +209,69 @@ if ($billing_id) {
 
 
 <script>
-  $('#sidebarToggle').click(function () {
+  function getBillingIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('billing_id');
+  }
+
+  function checkPaymentStatus() {
+    const billingId = getBillingIdFromURL();
+
+    if (billingId) {
+      $.ajax({
+        type: 'POST',
+        url: '/appointment/controllers/admin/payment_button_hide_process.php',
+        data: {
+          billing_id: billingId
+        },
+        success: function(response) {
+          try {
+            response = JSON.parse(response);
+          } catch (e) {
+            console.error("Invalid JSON response", response);
+            return;
+          }
+
+          if (response.success) {
+            const btn = $('#addPaymentBtn');
+            console.log("Payment Status:", response.payment_status, "Button found:", btn.length);
+
+            if (response.payment_status === 'Paid') {
+              if (btn.length > 0) {
+                btn.addClass('d-none').removeClass('d-sm-inline-block');
+                console.log("Hiding #addPaymentBtn");
+              }
+            } else {
+              if (btn.length > 0) {
+                btn.removeClass('d-none').addClass('d-sm-inline-block');
+                console.log("Showing #addPaymentBtn");
+              }
+            }
+          } else {
+            console.warn(response.message);
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error checking payment status:', error);
+        }
+      });
+    } else {
+      console.error('Billing ID not found in the URL.');
+    }
+  }
+
+  // ✅ Run on page load
+  $(document).ready(function() {
+    checkPaymentStatus();
+  });
+
+
+  $('#sidebarToggle').click(function() {
     $('#inside_billing_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     var user_id = "<?php echo $user_id; ?>"; // PHP variable to JavaScript
 
     var inside_billing_table = $('#inside_billing_table').DataTable({
@@ -220,22 +281,22 @@ if ($billing_id) {
       "ajax": {
         "url": "./../../controllers/tables/inside_billing_table.php",
         "type": "GET",
-        "data": function (d) {
+        "data": function(d) {
           // Send user_id as additional data with the request
           d.user_id = user_id;
         }
       },
     });
 
-    window.reloadDataTable = function () {
+    window.reloadDataTable = function() {
       inside_billing_table.ajax.reload();
     };
   });
 
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#inside_billing_table').on('click', 'tr td:nth-child(3) .fetchDataDelete', function () {
+    $('#inside_billing_table').on('click', 'tr td:nth-child(3) .fetchDataDelete', function() {
       var bill_id = $(this).data('bill-id'); // Get table_id from data attribute
 
       $.ajax({
@@ -244,13 +305,13 @@ if ($billing_id) {
         data: {
           bill_id: bill_id
         },
-        success: function (response) {
+        success: function(response) {
           $('#bill_id').val(bill_id);
           $('#modalContainerItems').html(response);
           $('#deleteModalBill').modal('show');
           console.log("#deleteModalBill" + bill_id);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error(xhr.responseText);
         }
       });
@@ -259,7 +320,7 @@ if ($billing_id) {
 
 
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     fetchOrderSummary();
     // Function to fetch updated order summary
     function fetchOrderSummary() {
@@ -274,7 +335,7 @@ if ($billing_id) {
           billing_id: billing_id,
         },
         dataType: 'json',
-        success: function (response) {
+        success: function(response) {
           // Update the order summary inputs with the fetched data
           $('#billingID').val(response.billing_id); // Update billing ID
           $('#totalOrders').val(response.total_items); // Update total items
@@ -288,7 +349,7 @@ if ($billing_id) {
           // Format total price to ₱ and update the input
           $('#totalPrice').val('₱' + totalPrice.toFixed(2)); // Update total price (format to ₱)
         },
-        error: function () {
+        error: function() {
           console.log('Error fetching order summary');
         }
       });
@@ -296,7 +357,7 @@ if ($billing_id) {
   });
 
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     fetchUpdatedPayment();
     // Function to fetch updated order summary
     function fetchUpdatedPayment() {
@@ -311,10 +372,10 @@ if ($billing_id) {
           billing_id: billing_id,
         },
         dataType: 'json',
-        success: function (response) {
+        success: function(response) {
           $('#paymentStatus').val(response.payment_status); // Update total items
         },
-        error: function () {
+        error: function() {
           console.log('Error fetching order summary');
         }
       });

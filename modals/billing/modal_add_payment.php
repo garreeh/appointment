@@ -93,9 +93,9 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Form submission with AJAX
-    $('#addPaymentForm').submit(function (event) {
+    $('#addPaymentForm').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
 
       var $form = $(this);
@@ -115,7 +115,7 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
         data: formData,
         processData: false, // Important to prevent jQuery from processing the data
         contentType: false, // Important to prevent jQuery from setting content type (we need to handle multipart form data)
-        success: function (response) {
+        success: function(response) {
           response = JSON.parse(response); // Parse the response
           if (response.success) {
             Toastify({
@@ -128,6 +128,9 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             $('#addPaymentModal').modal('hide');
             // Reload data or handle accordingly
             window.reloadDataTable();
+
+            $('#addPaymentBtn').addClass('d-none').removeClass('d-sm-inline-block'); // <-- force hide
+            checkPaymentStatus();
 
             $('#items')[0].selectize.clear(); // Clear Selectize dropdown
 
@@ -145,10 +148,10 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
                   billing_id: billing_id,
                 },
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                   $('#paymentStatus').val(response.payment_status); // Update total items
                 },
-                error: function () {
+                error: function() {
                   console.log('Error fetching order summary');
                 }
               });
@@ -161,7 +164,7 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             }).showToast();
           }
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error(xhr.responseText);
           Toastify({
             text: "Error occurred while adding billing. Please try again later.",
@@ -169,14 +172,14 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
             backgroundColor: "linear-gradient(to right, #ff6a00, #ee0979)"
           }).showToast();
         },
-        complete: function () {
+        complete: function() {
           $addButton.text('Add');
           $addButton.prop('disabled', false);
         }
       });
     });
 
-    $('#addPaymentModal').on('hidden.bs.modal', function () {
+    $('#addPaymentModal').on('hidden.bs.modal', function() {
 
       // Reset the dropdowns to their default states
       $('#items')[0].selectize.clear(); // Clear Selectize dropdown
@@ -184,8 +187,8 @@ $billing_id = isset($_GET['billing_id']) ? htmlspecialchars($_GET['billing_id'])
     });
   });
 
-  document.querySelectorAll('input[name="payment_method"]').forEach(function (radio) {
-    radio.addEventListener('change', function () {
+  document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
       if (document.getElementById('payment_gcash').checked) {
         document.getElementById('gcash_details').style.display = 'block';
       } else {
