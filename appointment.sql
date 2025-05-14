@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 28/02/2025 12:05:08
+ Date: 14/05/2025 13:22:30
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `appointment`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`appointment_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1042 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1044 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of appointment
@@ -42,6 +42,8 @@ INSERT INTO `appointment` VALUES (1038, 'APP00030911', 2, 11, 3, 33, '2024-11-09
 INSERT INTO `appointment` VALUES (1039, 'APP00006827', 2, 11, 4, 31, '2024-10-29', 'Ongoing', '2024-10-26 23:00:03', '2024-11-09 16:20:56');
 INSERT INTO `appointment` VALUES (1040, 'APP00089340', 2, 12, 5, 33, '2024-10-29', 'Completed', '2024-10-26 23:00:12', '2024-11-09 16:12:52');
 INSERT INTO `appointment` VALUES (1041, 'APP00006603', 2, 10, 3, 31, '2024-11-09', 'Cancelled', '2024-11-09 16:59:41', '2024-11-26 21:32:18');
+INSERT INTO `appointment` VALUES (1042, 'APP00050894', 2, 10, 3, 34, '2025-05-14', 'Cancelled', '2025-05-14 12:39:22', '2025-05-14 12:41:42');
+INSERT INTO `appointment` VALUES (1043, 'APP00099586', 2, 10, 3, 35, '2025-05-14', 'Cancelled', '2025-05-14 12:40:03', '2025-05-14 12:41:44');
 
 -- ----------------------------
 -- Table structure for billing
@@ -63,8 +65,8 @@ CREATE TABLE `billing`  (
 -- ----------------------------
 -- Records of billing
 -- ----------------------------
-INSERT INTO `billing` VALUES (24, 1, 0, 'Paid', '2024-11-09 16:43:33', '2024-11-24 13:10:59', '', '', 'Cash');
-INSERT INTO `billing` VALUES (25, 2, 0, 'Paid', '2024-11-09 16:50:09', '2024-11-24 13:13:32', '', '', 'Cash');
+INSERT INTO `billing` VALUES (24, 1, 400, 'Unpaid', '2024-11-09 16:43:33', '2025-05-14 13:21:49', '', '', 'Cash');
+INSERT INTO `billing` VALUES (25, 2, 400, 'Unpaid', '2024-11-09 16:50:09', '2025-05-14 12:54:27', '', '', 'Cash');
 
 -- ----------------------------
 -- Table structure for category
@@ -473,7 +475,7 @@ CREATE TABLE `timeslot`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`timeslot_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of timeslot
@@ -484,6 +486,8 @@ INSERT INTO `timeslot` VALUES (34, '09:30:00', '09:45:00', '2024-10-21 11:55:11'
 INSERT INTO `timeslot` VALUES (35, '09:45:00', '10:00:00', '2024-10-21 11:55:24', '2024-10-21 11:55:24');
 INSERT INTO `timeslot` VALUES (36, '10:15:00', '10:30:00', '2024-10-21 11:55:32', '2024-10-21 11:55:32');
 INSERT INTO `timeslot` VALUES (37, '10:45:00', '11:00:00', '2024-10-21 13:39:11', '2024-10-21 13:39:11');
+INSERT INTO `timeslot` VALUES (38, '17:30:00', '18:30:00', '2025-05-14 12:42:22', '2025-05-14 12:42:22');
+INSERT INTO `timeslot` VALUES (39, '19:00:00', '08:00:00', '2025-05-14 12:42:34', '2025-05-14 12:42:34');
 
 -- ----------------------------
 -- Table structure for unavailable_dates
@@ -511,7 +515,7 @@ CREATE TABLE `users`  (
   `user_fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `user_contact` int NULL DEFAULT NULL,
+  `user_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_confirm_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `remember_me` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -528,14 +532,14 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', '123123@gmail.com', 123123123, '$2y$10$vtj3lvgROA.ecVm2oI2YnOrlhFzn1jNE/sMk72HTTH.ymfaBol9jW', '123123', '', '2024-04-07 16:08:00', '2024-11-24 20:07:32', 1, '1', 'Active', '1', NULL);
+INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', 'kylevincentalmacin232@gmail.com', '123123123123123', '$2y$10$HhXfI0GmDXfIwxj.WojaG.3p1OMrwDM8y0TIACdj.oWH.9o1r/nqu', '123123', '', '2024-04-07 16:08:00', '2025-05-14 12:47:49', 1, '1', 'Active', 'test', NULL);
 INSERT INTO `users` VALUES (2, 'Test Account', 'Ron', '123123@gmail.comm', NULL, '$2y$10$Wtj4pYEWKXHYe4DUwLPTveZdPJUNrXwfkfeZRWXO4bnmbNd9NOA9y', 'test1005', NULL, '2024-05-13 18:18:17', '2024-10-12 14:19:57', 4, '0', 'Active', NULL, NULL);
-INSERT INTO `users` VALUES (39, '1', 'test', '', 1, '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1', NULL);
-INSERT INTO `users` VALUES (40, 'Test', 'Account', '', 1, '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes', NULL);
-INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', 2147483647, '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-11-24 08:13:48', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21', NULL);
-INSERT INTO `users` VALUES (42, 'qq', 'qq', '12311123@gmail.com', 0, '$2y$10$kpouZrwcKyZ3L09cMhMu/OGnEk7OAK272iAFXL14smLIwC91kcYS2', 'q', NULL, '2025-02-28 11:53:19', '2025-02-28 11:53:19', NULL, '0', 'Inactive', 'q', NULL);
-INSERT INTO `users` VALUES (43, 'qwewww', 'ww', 'kylevincentalmaci11n232@gmail.com', 2147483647, '$2y$10$GZBasPIPv6fgfgnVzHT5yeqK0ZEUFZzWvL/OG7lWpqqjQ5iYmaqVO', '1', NULL, '2025-02-28 11:57:55', '2025-02-28 11:57:55', NULL, '0', 'Inactive', 'test', NULL);
-INSERT INTO `users` VALUES (44, 'Garry1', '2024-6418', '12113123@gmail.com', 2147483647, '$2y$10$iH/g14tNaaupUaey4CL2Ce208jr5sh/K5MMqxDrVq/8vU01QN9Iwm', '1', NULL, '2025-02-28 11:58:57', '2025-02-28 11:58:57', NULL, '0', 'Inactive', 'test', '1');
+INSERT INTO `users` VALUES (39, '1', 'test', '', '1', '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1', NULL);
+INSERT INTO `users` VALUES (40, 'Test', 'Account', '', '1', '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes', NULL);
+INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', '2147483647', '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-11-24 08:13:48', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21', NULL);
+INSERT INTO `users` VALUES (42, 'qq', 'qq', '12311123@gmail.com', '0', '$2y$10$kpouZrwcKyZ3L09cMhMu/OGnEk7OAK272iAFXL14smLIwC91kcYS2', 'q', NULL, '2025-02-28 11:53:19', '2025-02-28 11:53:19', NULL, '0', 'Inactive', 'q', NULL);
+INSERT INTO `users` VALUES (43, 'qwewww', 'ww', 'kylevincentalmaci11n232@gmail.com', '2147483647', '$2y$10$GZBasPIPv6fgfgnVzHT5yeqK0ZEUFZzWvL/OG7lWpqqjQ5iYmaqVO', '1', NULL, '2025-02-28 11:57:55', '2025-02-28 11:57:55', NULL, '0', 'Inactive', 'test', NULL);
+INSERT INTO `users` VALUES (44, 'Garry1', '2024-6418', '12113123@gmail.com', '2147483647', '$2y$10$iH/g14tNaaupUaey4CL2Ce208jr5sh/K5MMqxDrVq/8vU01QN9Iwm', '1', NULL, '2025-02-28 11:58:57', '2025-02-28 11:58:57', NULL, '0', 'Inactive', 'test', '1');
 
 -- ----------------------------
 -- Table structure for usertype
