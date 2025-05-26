@@ -87,6 +87,9 @@ if (isset($_SESSION['user_id'])) {
 													</span>
 												</div>
 											</div>
+											<small id="passwordHelp" class="form-text text-muted">
+												Password must be at least 8 characters and include uppercase, lowercase, number, and special character.
+											</small>
 										</div>
 										<div class="form-group">
 											<input type="password" class="form-control form-control-user" placeholder="Confirm Password" name="user_confirm_password" id="user_confirm_password" required>
@@ -103,9 +106,7 @@ if (isset($_SESSION['user_id'])) {
 											<input type="hidden" id="terms_and_condition" name="terms_and_condition" value="0">
 										</div>
 
-
-										<button type="button" class="btn btn-primary btn-user btn-block"
-											onclick="submitForm()">Register</button>
+										<button type="button" class="btn btn-primary btn-user btn-block" onclick="submitForm()">Register</button>
 										<hr>
 									</form>
 
@@ -142,26 +143,22 @@ if (isset($_SESSION['user_id'])) {
 </html>
 <script>
 	function toggleRememberMe() {
-		var termsCheckbox = document.getElementById('customCheckCondition');
-		var termsCheckInput = document.getElementById('terms_and_condition');
-
-		if (termsCheckInput !== null) {
+		const termsCheckbox = document.getElementById('customCheckCondition');
+		const termsCheckInput = document.getElementById('terms_and_condition');
+		if (termsCheckInput) {
 			termsCheckInput.value = termsCheckbox.checked ? "1" : "0";
 		}
-
-		console.log("Terms accepted:", termsCheckInput.value);
 	}
 
 	document.addEventListener('DOMContentLoaded', function() {
 		document.getElementById('togglePassword').addEventListener('click', function() {
-			var passwordInput = document.getElementById('user_password');
-			var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+			const passwordInput = document.getElementById('user_password');
+			const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
 			passwordInput.setAttribute('type', type);
-			var icon = document.querySelector('#togglePassword i');
+			const icon = document.querySelector('#togglePassword i');
 			icon.classList.toggle('fa-eye-slash');
 		});
 	});
-
 
 	document.getElementById('registerForm').addEventListener('keydown', function(e) {
 		if (e.key === 'Enter') {
@@ -180,32 +177,40 @@ if (isset($_SESSION['user_id'])) {
 		}).showToast();
 	}
 
+	function isPasswordValid(password) {
+		const hasUppercase = /[A-Z]/.test(password);
+		const hasLowercase = /[a-z]/.test(password);
+		const hasSpecialChar = /[^A-Za-z0-9]/.test(password); // includes #
+		const isLongEnough = password.length >= 8;
+
+		return hasUppercase && hasLowercase && hasSpecialChar && isLongEnough;
+	}
+
 	function submitForm() {
-		// Show the loader
 		document.getElementById('loaderContainer').style.display = 'flex';
 
-		// Get form data
-		var fullname = document.getElementById('user_fullname').value;
-		var username = document.getElementById('username').value;
-		var email = document.getElementById('user_email').value;
-		var contact = document.getElementById('user_contact').value;
-		var user_address = document.getElementById('user_address').value;
-		var password = document.getElementById('user_password').value;
-		var confirm_password = document.getElementById('user_confirm_password').value;
-		var terms_and_condition = document.getElementById('terms_and_condition').value;
+		const fullname = document.getElementById('user_fullname').value;
+		const username = document.getElementById('username').value;
+		const email = document.getElementById('user_email').value;
+		const contact = document.getElementById('user_contact').value;
+		const user_address = document.getElementById('user_address').value;
+		const password = document.getElementById('user_password').value;
+		const confirm_password = document.getElementById('user_confirm_password').value;
+		const terms_and_condition = document.getElementById('terms_and_condition').value;
 
-
-
-
-		// Check if passwords match
-		if (password !== confirm_password) {
-			showToast("Passwords do not match.");
-			document.getElementById('loaderContainer').style.display = 'none'; // Hide the loader if validation fails
+		if (!isPasswordValid(password)) {
+			showToast("Password must include uppercase, lowercase, at least 8 characters, and a special character.");
+			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// Create data object
-		var data = {
+		if (password !== confirm_password) {
+			showToast("Passwords do not match.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		const data = {
 			user_fullname: fullname,
 			username: username,
 			user_email: email,
@@ -213,9 +218,7 @@ if (isset($_SESSION['user_id'])) {
 			user_address: user_address,
 			user_password: password,
 			user_confirm_password: confirm_password,
-			user_confirm_password: confirm_password,
 			terms_and_condition: terms_and_condition
-
 		};
 
 		$.ajax({
@@ -224,16 +227,15 @@ if (isset($_SESSION['user_id'])) {
 			data: data,
 			dataType: 'json',
 			success: function(response) {
-				console.log(response);
-				document.getElementById('loaderContainer').style.display = 'none'; // Hide the loader when request completes
+				document.getElementById('loaderContainer').style.display = 'none';
 				if (response.success) {
-					window.location.href = "./verification.php"; // Redirect to verification page after successful registration
+					window.location.href = "./verification.php";
 				} else {
 					showToast(response.message);
 				}
 			},
-			error: function(xhr, status, error) {
-				document.getElementById('loaderContainer').style.display = 'none'; // Hide the loader when request completes
+			error: function() {
+				document.getElementById('loaderContainer').style.display = 'none';
 				showToast('Error occurred while processing the request.');
 			}
 		});
