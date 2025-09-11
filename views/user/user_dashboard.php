@@ -61,29 +61,56 @@ if (session_status() == PHP_SESSION_NONE) {
           </div>
 
           <!-- Content Row -->
+
+          <hr>
+
+          <h1 class="font-weight-bold text-gray-800">My Pets:</h1>
+
+          <!-- Pet Cards -->
           <div class="row">
+            <?php include './../../controllers/admin/count_pets_process.php'; ?>
 
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        My Pets
-                      </div>
-                      <?php include './../../controllers/admin/count_pets_process.php'; ?>
-
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $total_pets; ?> </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            <?php if (!empty($pets)) : ?>
+              <?php foreach ($pets as $pet) : ?>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <div class="card shadow h-100">
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-3">
+                        <li class="mb-2">
+                          <i class="fas fa-paw text-primary mr-2"></i>
+                          <strong>Name:</strong> <?php echo htmlspecialchars($pet['pet_name']); ?>
+                        </li>
+                        <li class="mb-2">
+                          <i class="fas fa-dna text-success mr-2"></i>
+                          <strong>Breed:</strong> <?php echo htmlspecialchars($pet['breed']); ?>
+                        </li>
+                        <li>
+                          <i class="fas fa-dog text-warning mr-2"></i>
+                          <strong>Species:</strong> <?php echo htmlspecialchars($pet['species']); ?>
+                        </li>
+                      </ul>
+                      <!-- Anchor / Button -->
+                      <a href="./../user/user_patient_module.php?pet_id=<?php echo $pet['pet_id']; ?>&user_id=<?php echo $user_id; ?>"
+                        class="btn btn-sm btn-primary w-100"
+                        target="_blank">
+                        View Details
+                      </a>
                     </div>
                   </div>
                 </div>
+              <?php endforeach; ?>
+            <?php else : ?>
+              <div class="col-12">
+                <p class="text-muted">You don’t have any pets yet.</p>
               </div>
-            </div>
-
+            <?php endif; ?>
           </div>
+
+
+
+
+
+
         </div>
         <!-- /.container-fluid -->
       </div>

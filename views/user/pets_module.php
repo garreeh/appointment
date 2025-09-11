@@ -64,9 +64,9 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal"
             data-target="#addDataTimeslotModal"> <i class="fas fa-plus"></i> Add Pet</a>
-          <a href="./../../excels/pets_excel_process.php"
+          <!-- <a href="./../../excels/pets_excel_process.php"
             class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i>
-            Export Excel</a>
+            Export Excel</a> -->
 
           <div class="row">
             <div class="col-xl-12 col-lg-12">
@@ -124,13 +124,13 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function () {
+  $('#sidebarToggle').click(function() {
     $('#pet_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Supplier
-  $(document).ready(function () {
+  $(document).ready(function() {
     var pet_table = $('#pet_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -138,16 +138,16 @@ if (session_status() == PHP_SESSION_NONE) {
       "ajax": "./../../controllers/tables/pet_table.php",
     });
 
-    window.reloadDataTable = function () {
+    window.reloadDataTable = function() {
       pet_table.ajax.reload();
     };
 
   });
 
   //Column 5
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#pet_table').on('click', 'tr td:nth-child(8) .fetchDataSupplier', function () {
+    $('#pet_table').on('click', 'tr td:nth-child(8) .fetchDataSupplier', function() {
       var pet_id = $(this).closest('tr').find('td').first().text(); // Get the user_id from the clicked row
 
       $.ajax({
@@ -156,12 +156,12 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           pet_id: pet_id
         },
-        success: function (response) {
+        success: function(response) {
           $('#modalContainerSupplier').html(response);
           $('#fetchDataPetModal').modal('show');
           console.log("#fetchDataPetModal" + pet_id);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error(xhr.responseText);
         }
       });

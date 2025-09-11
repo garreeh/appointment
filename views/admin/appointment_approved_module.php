@@ -61,9 +61,9 @@ if (session_status() == PHP_SESSION_NONE) {
             <h1 class="h3 mb-0 text-gray-800">Appointments Ongoing</h1>
           </div>
 
-          <a href="./../../excels/admin_appointment_ongoing_excel_process.php"
+          <!-- <a href="./../../excels/admin_appointment_ongoing_excel_process.php"
             class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i>
-            Export Excel</a>
+            Export Excel</a> -->
 
           <div class="row">
             <div class="col-xl-12 col-lg-12">
@@ -127,7 +127,7 @@ if (session_status() == PHP_SESSION_NONE) {
     integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       $('select').selectize({
         sortField: 'text'
       });
@@ -141,13 +141,13 @@ if (session_status() == PHP_SESSION_NONE) {
 </html>
 
 <script>
-  $('#sidebarToggle').click(function () {
+  $('#sidebarToggle').click(function() {
     $('#appointment_approved_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
   //Table for Transactions
-  $(document).ready(function () {
+  $(document).ready(function() {
     var appointment_approved_table = $('#appointment_approved_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
@@ -155,15 +155,15 @@ if (session_status() == PHP_SESSION_NONE) {
       "ajax": "./../../controllers/tables/appointment_approved_table.php",
     });
 
-    window.reloadDataTable = function () {
+    window.reloadDataTable = function() {
       appointment_approved_table.ajax.reload();
     };
 
   });
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#appointment_approved_table').on('click', 'tr td:nth-child(8) .fetchDataAppointmentComplete', function () {
+    $('#appointment_approved_table').on('click', 'tr td:nth-child(8) .fetchDataAppointmentComplete', function() {
       var appointment_id = $(this).closest('tr').find('td').first().text(); // Get the appointment_id from the clicked row
 
       $.ajax({
@@ -172,22 +172,22 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           appointment_id: appointment_id
         },
-        success: function (response) {
+        success: function(response) {
           $('#modalCompleteAppointment').html(response);
           $('#completeAppointment').modal('show');
           $('#appointment_id').val(appointment_id); // Set the appointment_id here
           console.log("#addDeliveryModal: " + appointment_id);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error(xhr.responseText);
         }
       });
     });
   });
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Function to handle click event on datatable rows
-    $('#appointment_approved_table').on('click', 'tr td:nth-child(8) .fetchDataAppointmentCancel', function () {
+    $('#appointment_approved_table').on('click', 'tr td:nth-child(8) .fetchDataAppointmentCancel', function() {
       var appointment_id = $(this).closest('tr').find('td').first().text(); // Get the appointment_id from the clicked row
 
       $.ajax({
@@ -196,13 +196,13 @@ if (session_status() == PHP_SESSION_NONE) {
         data: {
           appointment_id: appointment_id
         },
-        success: function (response) {
+        success: function(response) {
           $('#modalCancelAppointment').html(response);
           $('#cancelAppointment').modal('show');
           $('#appointment_id').val(appointment_id); // Set the appointment_id here
           console.log("#addDeliveryModal: " + appointment_id);
         },
-        error: function (xhr, status, error) {
+        error: function(xhr, status, error) {
           console.error(xhr.responseText);
         }
       });

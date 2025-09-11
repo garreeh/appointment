@@ -56,13 +56,19 @@ if ($result) {
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center"
           href="/appointment/views/admin/dashboard.php">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+
+          <!-- Logo Icon -->
+          <div class="sidebar-brand-icon">
+            <i class="fas fa-clinic-medical"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Animal<sup>Clinic</sup></div>
+
+          <!-- Text -->
+          <div class="sidebar-brand-text mx-3 text-center">
+            <small class="font-weight-bold">Vet ng Concepcion</small>
+            <small>Animal Clinic</small>
+          </div>
         </a>
 
         <!-- Divider -->
