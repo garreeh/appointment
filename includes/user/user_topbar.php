@@ -17,7 +17,8 @@ if (!isset($_SESSION['user_id'])) {
   </button>
 
   <!-- Topbar Search -->
-  <h1 class="h3 mb-0 text-gray-800">
+  <h1 class="h3 mb-0 text-gray-800 ps-3">
     <?php echo "User Name: " . $_SESSION['user_fullname']; ?>
   </h1>
+
 </nav>

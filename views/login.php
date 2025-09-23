@@ -7,14 +7,14 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (isset($_SESSION['user_id'])) {
-  if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == "1") {
-      // If the user is an admin, redirect to the admin dashboard
-      header("Location: /appointment/views/admin/dashboard.php");
-  } else {
-      // If the user is not an admin, redirect to the user dashboard
-      header("Location: /appointment/index.php");
-  }
-  exit();
+	if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == "1") {
+		// If the user is an admin, redirect to the admin dashboard
+		header("Location: /appointment/views/admin/dashboard.php");
+	} else {
+		// If the user is not an admin, redirect to the user dashboard
+		header("Location: /appointment/index.php");
+	}
+	exit();
 }
 
 ?>
@@ -103,7 +103,11 @@ if (isset($_SESSION['user_id'])) {
 										</br>
 										<a class="small" href="./forgot_password.php">Forgot Password?</a>
 										</br>
-										<a class="small" href="./../index.php">Home Page</a>
+										<a class="small" href="./../index.php">
+											<i class="fas fa-times fa-2x"></i>
+										</a>
+
+
 
 									</div>
 								</div>
@@ -132,8 +136,8 @@ if (isset($_SESSION['user_id'])) {
 
 </html>
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		document.getElementById('togglePassword').addEventListener('click', function () {
+	document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById('togglePassword').addEventListener('click', function() {
 			var passwordInput = document.getElementById('user_password');
 			var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
 			passwordInput.setAttribute('type', type);
@@ -142,7 +146,7 @@ if (isset($_SESSION['user_id'])) {
 		});
 	});
 
-	document.getElementById('loginForm').addEventListener('keydown', function (e) {
+	document.getElementById('loginForm').addEventListener('keydown', function(e) {
 		if (e.key === 'Enter') {
 			submitForm();
 		}
@@ -172,42 +176,41 @@ if (isset($_SESSION['user_id'])) {
 	}
 
 	function submitForm() {
-    // Get form data
-    var usernameOrEmail = document.getElementById('username_or_email').value;
-    var user_password = document.getElementById('user_password').value;
-    var rememberMe = document.getElementById('remember_me').value; // Fix: use .value instead of .checked
+		// Get form data
+		var usernameOrEmail = document.getElementById('username_or_email').value;
+		var user_password = document.getElementById('user_password').value;
+		var rememberMe = document.getElementById('remember_me').value; // Fix: use .value instead of .checked
 
-    // Create data object
-    var data = {
-        username_or_email: usernameOrEmail,
-        user_password: user_password,
-        remember_me: rememberMe
-    };
+		// Create data object
+		var data = {
+			username_or_email: usernameOrEmail,
+			user_password: user_password,
+			remember_me: rememberMe
+		};
 
-    $.ajax({
-        type: 'POST',
-        url: '../controllers/login_process.php',
-        data: data,
-        dataType: 'json',
-        success: function(response) {
-            console.log(response);
-            if (response.success) {
-                // Check if the user is an admin
-                if (response.is_admin === "1") {
-                    window.location.href = "/appointment/views/admin/dashboard.php"; // Redirect to admin page
-                } else {
-                    window.location.href = "/appointment/views/user/user_dashboard.php"; // Redirect to user page
-                }
-            } else {
-                showToast(response.message);
-            }
-        },
-        error: function(xhr, status, error) {
-            showToast('Error occurred while processing the request.');
-        }
-    });
+		$.ajax({
+			type: 'POST',
+			url: '../controllers/login_process.php',
+			data: data,
+			dataType: 'json',
+			success: function(response) {
+				console.log(response);
+				if (response.success) {
+					// Check if the user is an admin
+					if (response.is_admin === "1") {
+						window.location.href = "/appointment/views/admin/dashboard.php"; // Redirect to admin page
+					} else {
+						window.location.href = "/appointment/views/user/user_dashboard.php"; // Redirect to user page
+					}
+				} else {
+					showToast(response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				showToast('Error occurred while processing the request.');
+			}
+		});
 	}
-
 </script>
 
 <style>
@@ -243,7 +246,3 @@ if (isset($_SESSION['user_id'])) {
 		}
 	}
 </style>
-
-
-
-

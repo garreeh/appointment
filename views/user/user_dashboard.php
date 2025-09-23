@@ -53,12 +53,24 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Users Dashboard</h1>
+            <h2 class="h4 mb-0 text-gray-800">Users Dashboard</h2>
           </div>
 
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- Date and Time -->
+
+          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <div id="clockAndDate" class="h1 mb-0 font-weight-bold text-gray-800"></div>
+          </div> -->
+
+
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800 d-flex align-items-center">
+              <img src="/appointment/assets/admin/img/test.png" alt="Logo"
+                class="me-2" style="height:40px; width:auto;">
+              Vet ng Concepcion
+            </h1>
           </div>
+
 
           <!-- Content Row -->
 
@@ -91,8 +103,7 @@ if (session_status() == PHP_SESSION_NONE) {
                       </ul>
                       <!-- Anchor / Button -->
                       <a href="./../user/user_patient_module.php?pet_id=<?php echo $pet['pet_id']; ?>&user_id=<?php echo $user_id; ?>"
-                        class="btn btn-sm btn-primary w-100"
-                        target="_blank">
+                        class="btn btn-sm btn-primary w-100">
                         View Details
                       </a>
                     </div>
