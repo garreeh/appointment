@@ -42,7 +42,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
     }
 
     .sidebar .nav-link i {
-      font-size: 1.5rem !important;
+      font-size: 1.3rem !important;
     }
 
     /* Keep brand icon centered */
@@ -50,7 +50,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      height: 60px !important;
+      height: 40px !important;
       font-size: 1.8rem;
     }
 
