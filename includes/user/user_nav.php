@@ -77,13 +77,16 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
     <a class="sidebar-brand d-flex flex-column align-items-center justify-content-center"
       href="/appointment/views/admin/dashboard.php">
       <div class="sidebar-brand-icon">
-        <i class="fas fa-clinic-medical"></i>
+        <img src="/appointment/assets/admin/img/test.png"
+          alt="Clinic Logo"
+          style="width: 40px; height: 40px; object-fit: contain;">
       </div>
       <div class="sidebar-brand-text mt-1 text-center">
         <small class="fw-bold">Vet ng Concepcion</small><br>
         <small>Animal Clinic</small>
       </div>
     </a>
+
 
     <br>
 
