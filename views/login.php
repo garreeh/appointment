@@ -55,6 +55,13 @@ if (isset($_SESSION['user_id'])) {
 
 				<div class="card o-hidden border-0 shadow-lg my-5">
 					<div class="card-body p-0">
+						<!-- Close button top right -->
+						<div class="position-absolute" style="top: 15px; right: 20px; z-index: 10;">
+							<a href="./../index.php">
+								<i class="fas fa-times fa-2x text-dark"></i>
+							</a>
+						</div>
+
 						<!-- Nested Row within Card Body -->
 						<div class="row">
 							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
@@ -65,6 +72,7 @@ if (isset($_SESSION['user_id'])) {
 									</div>
 
 									<form class="user" id="loginForm" onsubmit="submitForm(); return false;">
+
 										<div class="form-group">
 											<input type="text" class="form-control form-control-user" placeholder="Enter Email | Username"
 												name="username_or_email" id="username_or_email" value="" required>
@@ -88,7 +96,6 @@ if (isset($_SESSION['user_id'])) {
 													onchange="toggleRememberMe()">
 												<label class="custom-control-label" for="customCheck">Remember Me</label>
 											</div>
-
 											<input type="hidden" id="remember_me" name="remember_me" value="0">
 										</div>
 
@@ -98,23 +105,17 @@ if (isset($_SESSION['user_id'])) {
 									</form>
 
 									<div class="text-center">
-
 										<a class="small" href="./register.php">No Account? Register here</a>
-										</br>
+										<br>
 										<a class="small" href="./forgot_password.php">Forgot Password?</a>
-										</br>
-										<a class="small" href="./../index.php">
-											<i class="fas fa-times fa-2x"></i>
-										</a>
-
-
-
 									</div>
+
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+
 
 			</div>
 
