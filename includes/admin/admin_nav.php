@@ -98,13 +98,13 @@ if ($result) {
           <li class="nav-item">
             <a class="nav-link" href="/appointment/views/admin/appointment_approved_module.php">
               <i class="fas fa-fw fa-calendar-check"></i>
-              <span>Appointment Ongoing</span></a>
+              <span>Ongoing Appointments</span></a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="/appointment/views/admin/appointment_archive_module.php">
               <i class="fas fa-fw fa-calendar-check"></i>
-              <span>Appointment Archived</span></a>
+              <span>Appointment History</span></a>
           </li>
         <?php endif; ?>
 
@@ -117,13 +117,13 @@ if ($result) {
           </li>
         <?php endif; ?>
 
-        <?php if ($row['billing_module'] == 1): ?>
+        <!-- </?php if ($row['billing_module'] == 1): ?>
           <li class="nav-item">
             <a class="nav-link" href="/appointment/views/admin/billing_module.php">
               <i class="fas fa-fw fa-money-bill"></i>
               <span>Billings</span></a>
           </li>
-        <?php endif; ?>
+        </?php endif; ?> -->
 
         <?php if ($row['reports_module'] == 1): ?>
           <!-- Divider -->
@@ -169,6 +169,14 @@ if ($result) {
           </li>
         <?php endif; ?>
 
+        <?php if ($row['billing_module'] == 1): ?>
+          <li class="nav-item">
+            <a class="nav-link" href="/appointment/views/admin/appointment_reports.php">
+              <i class="fas fa-fw fa-calendar-check"></i>
+              <span>Reports</span></a>
+          </li>
+        <?php endif; ?>
+
         <?php if ($row['vaccine_module'] == 1): ?>
           <li class="nav-item">
             <a class="nav-link" href="/appointment/views/admin/vaccine_module.php">
@@ -193,8 +201,8 @@ if ($result) {
             <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                 <!-- <h6 class="collapse-header">Setup:</h6> -->
-                <a class="collapse-item" href="/appointment/views/admin/user_type_module.php">Add User Type</a>
-                <a class="collapse-item" href="/appointment/views/admin/user_module.php">Add User</a>
+                <a class="collapse-item" href="/appointment/views/admin/user_type_module.php">User Level</a>
+                <a class="collapse-item" href="/appointment/views/admin/user_module.php">User</a>
                 <a class="collapse-item" href="/appointment/views/admin/client_module.php">Clients</a>
 
               </div>
@@ -203,6 +211,15 @@ if ($result) {
 
           </li>
         <?php endif; ?>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <li class="nav-item">
+          <a class="nav-link" href="/appointment/views/admin/activity_log_module.php">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Activity Log</span></a>
+        </li>
 
 
         <!-- Divider -->

@@ -22,7 +22,7 @@ if (isset($_POST['user_type_id'])) {
         <div class="modal-dialog modal-l" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Update User Type Details ID: <?php echo $row['user_type_id']; ?></h5>
+              <h5 class="modal-title">Update User Level Details ID: <?php echo $row['user_type_id']; ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -33,8 +33,8 @@ if (isset($_POST['user_type_id'])) {
                 <input type="hidden" name="user_type_id" value="<?php echo $row['user_type_id']; ?>">
                 <div class="form-row">
                   <div class="form-group col-md-12">
-                    <label for="user_type_name">User Type:</label>
-                    <input type="text" class="form-control" id="user_type_name" name="user_type_name" placeholder="Enter User Type" value="<?php echo $row['user_type_name']; ?>" required>
+                    <label for="user_type_name">User Level Name:</label>
+                    <input type="text" class="form-control" id="user_type_name" name="user_type_name" placeholder="Enter User Level Name" value="<?php echo $row['user_type_name']; ?>" required>
                   </div>
                 </div>
 
@@ -74,7 +74,7 @@ if (isset($_POST['user_type_id'])) {
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="billing_module">Billing Module:</label>
+                    <label for="billing_module">Report Module:</label>
                     <select class="form-control" id="billing_module" name="billing_module">
                       <option value="1" <?php echo $row['billing_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
                       <option value="0" <?php echo $row['billing_module'] == 0 ? 'selected' : ''; ?>>No</option>

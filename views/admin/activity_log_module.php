@@ -19,16 +19,17 @@ if (session_status() == PHP_SESSION_NONE) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | User Type Module</title>
+  <title>Admin | Patients</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 
   <link href="./../../assets/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link href="./../../assets/admin/css/sb-admin-2.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
 
 </head>
 
@@ -41,7 +42,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <!-- End of Sidebar -->
 
     <!-- Modal for Adding and Editing Supplier -->
-    <?php include './../../modals/usertype/modal_add_usertype.php'; ?>
+
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -57,10 +58,9 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">User Level Module</h1>
+            <h1 class="h3 mb-0 text-gray-800">Activity Log</h1>
           </div>
 
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" data-toggle="modal" data-target="#addUserModal"> <i class="fas fa-plus"></i> Add User Level</a>
           <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
 
           <div class="row">
@@ -68,17 +68,16 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="tab-pane fade show active" id="aa" role="tabpanel" aria-labelledby="aa-tab">
 
                 <div class="table-responsive">
-                  <div id="modalContainerSupplier"></div>
+                  <div id="modalContainerProduct"></div>
 
-                  <table class="table custom-table table-hover" name="usertype_table" id="usertype_table">
+                  <table class="table custom-table table-hover" name="activity_logs_table" id="activity_logs_table">
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>User Type</th>
-                        <th>Date Created</th>
-                        <th>Date Updated</th>
-                        <th>Manage</th>
-                      </tr>
+                        <th>Action Taken</th>
+                        <th>User</th>
+                        <th>Time and Date</th>
+
                     </thead>
                   </table>
                 </div>
@@ -111,6 +110,19 @@ if (session_status() == PHP_SESSION_NONE) {
   <link rel="stylesheet" type="text/css" href="./../../assets/datatables/datatables.min.css" />
   <script type="text/javascript" src="./../../assets/datatables/datatables.min.js"></script>
 
+  <!-- COPY THESE WHOLE CODE WHEN IMPORT SELECT -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+  <script>
+    $(document).ready(function() {
+      $('select').selectize({
+        sortField: 'text'
+      });
+    });
+  </script>
+  <!-- END OF SELECT -->
+
 
 
 </body>
@@ -119,47 +131,26 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
   $('#sidebarToggle').click(function() {
-    $('#usertype_table').css('width', '100%');
+    $('#activity_logs_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
-  //Table for Supplier
+  // Table for Product
   $(document).ready(function() {
-    var usertype_table = $('#usertype_table').DataTable({
+    var activity_logs_table = $('#activity_logs_table').DataTable({
       "pagingType": "numbers",
       "processing": true,
       "serverSide": true,
-      "ajax": "./../../controllers/tables/usertype_table.php",
+      "ajax": "./../../controllers/tables/activity_logs_table.php",
+      "columnDefs": [{
+          "width": "35px",
+          "targets": 0
+        } // ✅ Column 1 (index 0) width set to 75px
+      ]
     });
 
     window.reloadDataTable = function() {
-      usertype_table.ajax.reload();
+      activity_logs_table.ajax.reload();
     };
-
-  });
-
-  //Bridge for Modal Backend to Frontend
-  $(document).ready(function() {
-    // Function to handle click event on datatable rows
-    $('#usertype_table').on('click', 'tr td:nth-child(5) .fetchDataUserType', function() {
-      var user_type_id = $(this).closest('tr').find('td').first().text(); // Get the user_type_id from the clicked row
-      console.log('Button clicked, User ID: ' + user_type_id);
-
-      $.ajax({
-        url: './../../modals/usertype/modal_edit_usertype.php', // Path to PHP script to fetch modal content
-        method: 'POST',
-        data: {
-          user_type_id: user_type_id
-        },
-        success: function(response) {
-          $('#modalContainerSupplier').html(response);
-          $('#fetchDataUsertypeModal').modal('show');
-          console.log("Modal content loaded for User Type ID: " + user_type_id);
-        },
-        error: function(xhr, status, error) {
-          console.error("Error: " + xhr.responseText);
-        }
-      });
-    });
   });
 </script>

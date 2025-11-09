@@ -1,11 +1,17 @@
 <?php
-
+session_start();
 include '../../connections/connections.php';
 
 if (isset($_POST['edit_dates'])) {
     $unavailable_id = $conn->real_escape_string($_POST['unavailable_id']);
     $unavailable_date = $conn->real_escape_string($_POST['unavailable_date']);
+    if (!isset($_SESSION['user_id'])) {
+        $response = array('success' => false, 'message' => 'User not logged in.');
+        echo json_encode($response);
+        exit();
+    }
 
+    $account_login = $_SESSION['user_id'];
     // Check if the date already exists for another record
     $checkSql = "SELECT * FROM `unavailable_dates` WHERE unavailable_date = '$unavailable_date' AND unavailable_id != '$unavailable_id'";
     $checkResult = mysqli_query($conn, $checkSql);
@@ -24,6 +30,11 @@ if (isset($_POST['edit_dates'])) {
 
     // Execute SQL query
     if (mysqli_query($conn, $sql)) {
+        $activity = "Edited a Unavailable Date, ID: $unavailable_id";
+        $log_sql = "INSERT INTO `activity_logs` (user_id, actions) 
+                VALUES ('$account_login', '$activity')";
+        mysqli_query($conn, $log_sql);
+
         // Date updated successfully
         $response = array('success' => true, 'message' => 'Date updated successfully!');
         echo json_encode($response);
@@ -33,6 +44,5 @@ if (isset($_POST['edit_dates'])) {
         $response = array('success' => false, 'message' => 'Error updating date: ' . mysqli_error($conn));
         echo json_encode($response);
         exit();
-    } 
+    }
 }
-?>

@@ -27,6 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    if (!preg_match("/^[a-zA-Z ]+$/", $user_fullname)) {
+        $response = array('success' => false, 'message' => 'Full name must only contain letters and spaces.');
+        echo json_encode($response);
+        exit();
+    }
+
+    if (!preg_match("/^[a-zA-Z ]+$/", $user_address)) {
+        $response = array('success' => false, 'message' => 'Address must only contain letters and spaces.');
+        echo json_encode($response);
+        exit();
+    }
+
     if ($terms_and_condition !== '1') {
         $response = array('success' => false, 'message' => 'You must accept the Terms & Conditions.');
         echo json_encode($response);

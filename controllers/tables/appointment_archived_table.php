@@ -86,23 +86,23 @@ $columns = array(
     }
   ),
 
-  array(
-    'db' => 'appointment_id',
-    'dt' => 7,
-    'field' => 'appointment_id',
-    'formatter' => function ($lab6, $row) {
+  // array(
+  //   'db' => 'appointment_id',
+  //   'dt' => 7,
+  //   'field' => 'appointment_id',
+  //   'formatter' => function ($lab6, $row) {
 
-      return '
-      <div class="dropdown">
-          <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['appointment_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              &#x22EE;
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
-              <a class="dropdown-item fetchDataAppointment" href="#">Delete</a>
-          </div>
-      </div>';
-    }
-  ),
+  //     return '
+  //     <div class="dropdown">
+  //         <button class="btn btn-info" type="button" id="dropdownMenuButton' . $row['appointment_id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  //             &#x22EE;
+  //         </button>
+  //         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $row['appointment_id'] . '">
+  //             <a class="dropdown-item fetchDataAppointment" href="#">Delete</a>
+  //         </div>
+  //     </div>';
+  //   }
+  // ),
 );
 
 // Database connection details

@@ -1,7 +1,8 @@
 <style>
   /* Custom CSS for label color */
   .modal-body label {
-    color: #333; /* Darker label color */
+    color: #333;
+    /* Darker label color */
     font-weight: bolder;
   }
 </style>
@@ -10,26 +11,26 @@
   <div class="modal-dialog modal-l" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+        <h5 class="modal-title" id="addUserModalLabel">Add User Level</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-      <form method="post" enctype="multipart/form-data">
-      <div class="form-row">
-        <div class="form-group col-md-12">
-            <label for="user_fullname">Usertype:</label>
-            <input type="text" class="form-control" id="user_type_name" name="user_type_name" placeholder="Enter Usertype" required>
-        </div>
-    </div>
+        <form method="post" enctype="multipart/form-data">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="user_type_name">User Level Name:</label>
+              <input type="text" class="form-control" id="user_type_name" name="user_type_name" placeholder="Enter User Level Name" required>
+            </div>
+          </div>
 
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    </div>
-</form>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
 
       </div>
     </div>
@@ -45,7 +46,7 @@
   $(document).ready(function() {
     $('#addUserModal form').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
-      
+
       var $form = $(this);
       var $button = $form.find('button[type="submit"]'); // Reference to the submit button
 
@@ -72,7 +73,7 @@
 
             // Optionally, reset the form
             $form.trigger('reset');
-            
+
             // Optionally, close the modal
             $('#addUserModal').modal('hide');
             window.reloadDataTable();

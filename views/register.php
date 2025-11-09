@@ -110,6 +110,29 @@ if (isset($_SESSION['user_id'])) {
 										<hr>
 									</form>
 
+									<script>
+										document.addEventListener('DOMContentLoaded', function() {
+											const checkbox = document.getElementById('customCheckCondition');
+											const registerButton = document.querySelector('button[onclick="submitForm()"]');
+											const hiddenInput = document.getElementById('terms_and_condition');
+
+											// Disable button initially
+											registerButton.disabled = true;
+
+											// Function that runs when checkbox is toggled
+											checkbox.addEventListener('change', function() {
+												if (checkbox.checked) {
+													registerButton.disabled = false;
+													hiddenInput.value = "1";
+												} else {
+													registerButton.disabled = true;
+													hiddenInput.value = "0";
+												}
+											});
+										});
+									</script>
+
+
 									<div class="text-center">
 										<a class="small" href="./login.php">Already have an account? Login here</a>
 									</div>

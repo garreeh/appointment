@@ -18,6 +18,10 @@
       </div>
 
       <div class="modal-body">
+        <!-- Selectize CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
         <form method="post" enctype="multipart/form-data">
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -37,7 +41,9 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="breed">Breed:</label>
-              <input type="text" class="form-control" id="breed" name="breed" placeholder="Enter Breed" required>
+              <select class="form-control" id="breed" name="breed" required disabled>
+                <option value="" disabled selected>Select a breed</option>
+              </select>
             </div>
             <div class="form-group col-md-6">
               <label for="birthdate">Birthdate:</label>
@@ -56,7 +62,6 @@
             </div>
           </div>
 
-          <!-- Add a hidden input field to submit the form with the button click -->
           <input type="hidden" name="add_pet" value="1">
 
           <div class="modal-footer">
@@ -64,6 +69,58 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </form>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const speciesSelect = document.getElementById('species');
+            const breedSelect = document.getElementById('breed');
+
+            // Static breed data
+            const breeds = {
+              Canine: [
+                'Labrador Retriever',
+                'German Shepherd',
+                'Golden Retriever',
+                'Poodle',
+                'Bulldog',
+                'Beagle',
+                'Siberian Husky'
+              ],
+              Feline: [
+                'Persian',
+                'Siamese',
+                'Maine Coon',
+                'Bengal',
+                'British Shorthair',
+                'Sphynx',
+                'Ragdoll'
+              ]
+            };
+
+            speciesSelect.addEventListener('change', function() {
+              const selectedSpecies = this.value;
+
+              // Clear previous options
+              breedSelect.innerHTML = '<option value="" disabled selected>Select a breed</option>';
+
+              if (breeds[selectedSpecies]) {
+                // Populate new options
+                breeds[selectedSpecies].forEach(function(breed) {
+                  const option = document.createElement('option');
+                  option.value = breed;
+                  option.textContent = breed;
+                  breedSelect.appendChild(option);
+                });
+                breedSelect.disabled = false;
+              } else {
+                breedSelect.disabled = true;
+              }
+            });
+          });
+        </script>
+
+
+
       </div>
     </div>
   </div>
@@ -73,7 +130,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Include Toastify JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 
 <script>
   $(document).ready(function() {

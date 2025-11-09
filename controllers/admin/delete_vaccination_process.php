@@ -1,10 +1,18 @@
 <?php
 
 include '../../connections/connections.php';
+session_start();
 
 if (isset($_POST['delete_vaccination'])) {
   // Get form data
   $vaccination_id = $conn->real_escape_string($_POST['vaccination_id']);
+  if (!isset($_SESSION['user_id'])) {
+    $response = array('success' => false, 'message' => 'User not logged in.');
+    echo json_encode($response);
+    exit();
+  }
+
+  $account_login = $_SESSION['user_id'];
 
   // Construct SQL query to delete the particular item
   $sql = "DELETE FROM `vaccination` 
@@ -12,6 +20,12 @@ if (isset($_POST['delete_vaccination'])) {
 
   // Execute SQL query
   if (mysqli_query($conn, $sql)) {
+
+    $activity = "Deleted a Vaccine ID: $vaccination_id";
+    $log_sql = "INSERT INTO `activity_logs` (user_id, actions) 
+                VALUES ('$account_login', '$activity')";
+    mysqli_query($conn, $log_sql);
+
     // Particular deleted successfully
     $response = array('success' => true, 'message' => 'Vaccination deleted successfully!');
     echo json_encode($response);

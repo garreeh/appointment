@@ -84,7 +84,7 @@ if (session_status() == PHP_SESSION_NONE) {
                         <th>Appointment Date</th>
                         <th>Appointment Status</th>
                         <th>Date Created</th>
-                        <th>Manage</th>
+                        <!-- <th>Manage</th> -->
                       </tr>
                     </thead>
                   </table>

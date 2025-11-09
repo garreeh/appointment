@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include '../../connections/connections.php';
 
@@ -6,7 +7,13 @@ if (isset($_POST['add_timeslot'])) {
     // Get form data
     $time_from = $conn->real_escape_string($_POST['time_from']);
     $time_to = $conn->real_escape_string($_POST['time_to']);
+    if (!isset($_SESSION['user_id'])) {
+        $response = array('success' => false, 'message' => 'User not logged in.');
+        echo json_encode($response);
+        exit();
+    }
 
+    $account_login = $_SESSION['user_id'];
     // Check if the time slot already exists or conflicts with existing slots
     $checkSql = "SELECT * FROM `timeslot` 
                  WHERE (time_from < '$time_to' AND time_to > '$time_from')";
@@ -24,6 +31,11 @@ if (isset($_POST['add_timeslot'])) {
 
     // Execute SQL query
     if (mysqli_query($conn, $sql)) {
+        $activity = "Added a Timeslot";
+        $log_sql = "INSERT INTO `activity_logs` (user_id, actions) 
+                VALUES ('$account_login', '$activity')";
+        mysqli_query($conn, $log_sql);
+
         // Time slot added successfully
         $response = array('success' => true, 'message' => 'Time Slot Added successfully!');
         echo json_encode($response);
@@ -35,4 +47,3 @@ if (isset($_POST['add_timeslot'])) {
         exit();
     }
 }
-?>

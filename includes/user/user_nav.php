@@ -26,10 +26,12 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <!-- <script src="./../../assets/admin/vendor/jquery/jquery.min.js"></script> -->
+  <!-- <script src="./../../assets/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+
+  <!-- <script src="./../../assets/admin/vendor/jquery-easing/jquery.easing.min.js"></script> -->
+
+  <script src="./../../assets/admin/js/sb-admin-2.min.js"></script>
 
   <style>
     /* Force icon-only sidebar for nav items */
@@ -62,7 +64,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
 
     /* Black dividers */
     .sidebar-divider {
-      border-top: 1px solid #ffffffff !important;
+      border-top: 1px solid #8e8080ff !important;
     }
   </style>
 </head>
@@ -132,12 +134,12 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Nav Item - Billings -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link" href="/appointment/views/user/billings_module.php" data-bs-toggle="tooltip"
         data-bs-placement="right" title="My Billings">
         <i class="fas fa-fw fa-file-invoice-dollar"></i>
       </a>
-    </li>
+    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
@@ -161,13 +163,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== "0") {
   <!-- End of Sidebar -->
 
   <!-- Bootstrap JS (for tooltips) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+  <!-- <script>
     // Enable tooltips
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
       new bootstrap.Tooltip(el)
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
