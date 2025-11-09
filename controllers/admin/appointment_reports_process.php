@@ -12,7 +12,7 @@ if (isset($_POST['searchAppointmentReports'])) {
   if ($date_from && $date_to && $category_id) {
 
     // Use DATE() to compare just the date portion
-    $query = "SELECT COUNT(a.appointment_id) AS total_count
+    /$query = "SELECT COUNT(a.appointment_id) AS total_count
                   FROM appointment a
                   LEFT JOIN category c ON a.category_id = c.category_id
                   WHERE DATE(a.appointment_date) BETWEEN '$date_from' AND '$date_to'";

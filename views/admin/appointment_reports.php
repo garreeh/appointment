@@ -29,7 +29,7 @@ if ($resultServices) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | Agents Reports</title>
+  <title>Admin | Reports</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

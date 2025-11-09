@@ -19,7 +19,7 @@ if (session_status() == PHP_SESSION_NONE) {
   <link href="./../../assets/img/favicon.ico" rel="icon">
 
 
-  <title>Admin | Patients</title>
+  <title>Admin | Activity Log</title>
 
   <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -131,7 +131,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <script>
   $('#sidebarToggle').click(function() {
-    $('#activity_logs_table').css('width', '100%');
+    $('#/activity_logs_table').css('width', '100%');
     // console.log(table) //This is for testing only
   });
 
