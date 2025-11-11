@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    if (!preg_match("/^[a-zA-Z ]+$/", $user_address)) {
-        $response = array('success' => false, 'message' => 'Address must only contain letters and spaces.');
-        echo json_encode($response);
-        exit();
-    }
+    // if (!preg_match("/^[a-zA-Z ]+$/", $user_address)) {
+    //     $response = array('success' => false, 'message' => 'Address must only contain letters and spaces.');
+    //     echo json_encode($response);
+    //     exit();
+    // }
 
     if ($terms_and_condition !== '1') {
         $response = array('success' => false, 'message' => 'You must accept the Terms & Conditions.');
@@ -84,13 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host       = 'smtp.gmail.com';                       // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'lawrencegardon800@gmail.com';          // SMTP username
-            $mail->Password   = 'amgqdranfybsyfut';                     // SMTP password
+            $mail->Username   = 'magsinojfrancis@gmail.com';          // SMTP username
+            $mail->Password   = 'eieymmbhyrvttnwf';                     // SMTP password
             $mail->SMTPSecure = 'ssl';                                  // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = '465';                                  // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('lawrencegardon800@gmail.com', 'Lawrence Gardon');
+            $mail->setFrom('magsinojfrancis@gmail.com', 'Francis Magsino');
             $mail->addAddress($user_email, $user_fullname);             // Add a recipient
 
             // Content

@@ -58,7 +58,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Appointments Archived</h1>
+            <h1 class="h3 mb-0 text-gray-800">Appointments History</h1>
           </div>
 
           <!-- <a href="./../../excels/admin_appointment_archive_excel_process.php"

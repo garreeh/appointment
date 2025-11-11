@@ -107,7 +107,7 @@ if (isset($_SESSION['user_id'])) {
 									<div class="text-center">
 										<a class="small" href="./register.php">No Account? Register here</a>
 										<br>
-										<a class="small" href="./forgot_password.php">Forgot Password?</a>
+										<!-- <a class="small" href="./forgot_password.php">Forgot Password?</a> -->
 									</div>
 
 								</div>

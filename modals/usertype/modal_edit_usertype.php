@@ -57,10 +57,10 @@ if (isset($_POST['user_type_id'])) {
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="reports_module">Reports Module:</label>
-                    <select class="form-control" id="reports_module" name="reports_module">
-                      <option value="1" <?php echo $row['reports_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
-                      <option value="0" <?php echo $row['reports_module'] == 0 ? 'selected' : ''; ?>>No</option>
+                    <label for="billing_module">Reports Module:</label>
+                    <select class="form-control" id="billing_module" name="billing_module">
+                      <option value="1" <?php echo $row['billing_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
+                      <option value="0" <?php echo $row['billing_module'] == 0 ? 'selected' : ''; ?>>No</option>
                     </select>
                   </div>
                   <div class="form-group col-md-6">
@@ -73,14 +73,7 @@ if (isset($_POST['user_type_id'])) {
                 </div>
 
                 <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="billing_module">Report Module:</label>
-                    <select class="form-control" id="billing_module" name="billing_module">
-                      <option value="1" <?php echo $row['billing_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
-                      <option value="0" <?php echo $row['billing_module'] == 0 ? 'selected' : ''; ?>>No</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                     <label for="appointment_setup_module">Appointment Setup Module:</label>
                     <select class="form-control" id="appointment_setup_module" name="appointment_setup_module">
                       <option value="1" <?php echo $row['appointment_setup_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
@@ -89,15 +82,15 @@ if (isset($_POST['user_type_id'])) {
                   </div>
                 </div>
 
-                <div class="form-row">
+                <!-- <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="vaccine_module">Vaccine Module:</label>
                     <select class="form-control" id="vaccine_module" name="vaccine_module">
-                      <option value="1" <?php echo $row['vaccine_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
-                      <option value="0" <?php echo $row['vaccine_module'] == 0 ? 'selected' : ''; ?>>No</option>
+                      <option value="1" </?php echo $row['vaccine_module'] == 1 ? 'selected' : ''; ?>>Yes</option>
+                      <option value="0" </?php echo $row['vaccine_module'] == 0 ? 'selected' : ''; ?>>No</option>
                     </select>
                   </div>
-                </div>
+                </div> -->
 
                 <input type="hidden" name="edit_user_type" value="1">
 

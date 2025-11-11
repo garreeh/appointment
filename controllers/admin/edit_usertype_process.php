@@ -11,8 +11,8 @@ if (isset($_POST['edit_user_type'])) {
   $patient_module = $conn->real_escape_string($_POST['patient_module']);
   $billing_module = $conn->real_escape_string($_POST['billing_module']);
   $appointment_setup_module = $conn->real_escape_string($_POST['appointment_setup_module']);
-  $reports_module = $conn->real_escape_string($_POST['reports_module']);
-  $vaccine_module = $conn->real_escape_string($_POST['vaccine_module']);
+  // $vaccine_module = $conn->real_escape_string($_POST['vaccine_module']);
+  // Removed Vaccine and Reports Module
 
 
 
@@ -24,9 +24,7 @@ if (isset($_POST['edit_user_type'])) {
             patient_module = '$patient_module',
             user_module = '$user_module',
             billing_module = '$billing_module',
-            appointment_setup_module = '$appointment_setup_module',
-            reports_module = '$reports_module',
-            vaccine_module = '$vaccine_module'
+            appointment_setup_module = '$appointment_setup_module'
 
           WHERE user_type_id = '$user_type_id'";
 
