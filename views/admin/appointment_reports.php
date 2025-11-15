@@ -107,9 +107,9 @@ if ($resultServices) {
             <h4>To: <span id="displayTo"> </span></h4>
           </div>
 
-          <!-- <button id="exportToExcel" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4" disabled>
-            <i class="fas fa-file-excel"></i> Export to Excel
-          </button> -->
+          <button id="exportToPDF" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm mb-4" disabled>
+            <i class="fas fa-file-pdf"></i> Export to PDF
+          </button>
 
           <hr>
           <div class="row">
@@ -249,6 +249,8 @@ if ($resultServices) {
     // Handle the search button click event
     $('#searchAppointmentReports').click(function() {
       $(this).text('Searching...').prop('disabled', true); // Disable search button
+      $('#exportToPDF').prop('disabled', true); // Disable export button initially
+
 
       var dateFrom = $('#dateFrom').val();
       var dateTo = $('#dateTo').val();
@@ -257,6 +259,11 @@ if ($resultServices) {
       $('#displayFrom').text(dateFrom);
       $('#displayTo').text(dateTo);
       $('#agent_name_display').text($('#category_id option:selected').text());
+
+      // Update the Export to Excel button URL
+      var pdfUrl = `./../../pdfs/pdfreports.php?date_from=${dateFrom}&date_to=${dateTo}&category_id=${category_id}`;
+      $('#exportToPDF').attr('onclick', `window.open('${pdfUrl}', '_blank')`);
+
 
       if (appointment_reports_table) {
         appointment_reports_table.ajax.reload(function() {
@@ -279,6 +286,8 @@ if ($resultServices) {
                 $('#totalData').text('Error');
               }
               $('#searchAppointmentReports').text('Search').prop('disabled', false); // Re-enable search button
+              $('#exportToPDF').prop('disabled', false); // Enable export button after search is complete
+
             },
             error: function() {
               alert('An error occurred while fetching total sales.');

@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
     <i class="fa fa-bars"></i>
   </button>
 
-  <!-- Topbar Search -->
+  <!-- Topbar User Name -->
   <h1 class="h3 mb-0 text-gray-800 ps-3">
     <?php echo "User Name: " . $_SESSION['user_fullname']; ?>
   </h1>
@@ -47,7 +47,6 @@ if (!isset($_SESSION['user_id'])) {
     </li>
 
   </ul>
-
 </nav>
 
 <script>
@@ -76,11 +75,11 @@ if (!isset($_SESSION['user_id'])) {
           let notificationItem = document.createElement('div');
           notificationItem.classList.add('dropdown-item', 'd-flex', 'align-items-center', 'justify-content-between');
 
-          // Notification content with spacing for the X button
+          // Notification content without link
           notificationItem.innerHTML = `
           <div>
             <div class="small text-gray-500">${item.updated_at}</div>
-            <a href="${item.redirect_url}" class="notification-link">${item.message}</a>
+            <span class="notification-message">${item.message}</span>
           </div>
           <button class="btn btn-sm btn-danger remove-notification" data-id="${item.appointment_id}" style="margin-left:10px;">&times;</button>
         `;
