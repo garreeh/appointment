@@ -9,7 +9,8 @@ if (isset($_POST['tag_as_cancel'])) {
   // Construct SQL query for UPDATE
   $sql = "UPDATE `appointment` 
           SET 
-              appointment_status = 'Cancelled'
+              appointment_status = 'Cancelled',
+              `notification` = '1'
           WHERE appointment_id = '$appointment_id'";
 
   // Execute SQL query

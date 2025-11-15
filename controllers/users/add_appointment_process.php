@@ -5,11 +5,13 @@ session_start();
 
 if (isset($_POST['add_appointment'])) {
     $user_id = $_SESSION['user_id'];
-    
+
     $category_id = $conn->real_escape_string($_POST['category_id']);
     $pet_id = $conn->real_escape_string($_POST['pet_id']);
     $timeslot_id = $conn->real_escape_string($_POST['timeslot_id']);
     $appointment_date = $conn->real_escape_string($_POST['appointment_date']);
+    $notification = $conn->real_escape_string($_POST['notification']);
+
 
     // Check if the time slot is already booked for the appointment date
     $check_sql = "SELECT * FROM `appointment` WHERE timeslot_id = '$timeslot_id' AND appointment_date = '$appointment_date'";
@@ -27,8 +29,8 @@ if (isset($_POST['add_appointment'])) {
     $queue_number = 'APP' . $random_number;
 
     // Insert the appointment
-    $sql = "INSERT INTO `appointment` (category_id, user_id, pet_id, timeslot_id, appointment_date, queue_number, appointment_status)
-            VALUES ('$category_id', '$user_id', '$pet_id', '$timeslot_id', '$appointment_date', '$queue_number', 'Pending')";
+    $sql = "INSERT INTO `appointment` (category_id, user_id, pet_id, timeslot_id, appointment_date, queue_number, appointment_status, `notification`)
+            VALUES ('$category_id', '$user_id', '$pet_id', '$timeslot_id', '$appointment_date', '$queue_number', 'Pending', '1')";
 
     if (mysqli_query($conn, $sql)) {
         $response = array('success' => true, 'message' => 'Appointment added successfully!', 'queue_number' => $queue_number);
@@ -38,6 +40,5 @@ if (isset($_POST['add_appointment'])) {
         $response = array('success' => false, 'message' => 'Error adding appointment!: ' . mysqli_error($conn));
         echo json_encode($response);
         exit();
-    } 
+    }
 }
-?>

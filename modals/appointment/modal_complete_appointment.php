@@ -43,6 +43,8 @@ if ($result) {
           <input type="hidden" name="appointment_id" id="appointment_id" value="">
 
           <input type="hidden" name="tag_as_complete" value="1">
+          <input type="hidden" name="notification" value="1">
+
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" id="addDeliveryRiderButton">Yes</button>

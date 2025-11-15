@@ -114,6 +114,8 @@ $timeslot_names_js = json_encode($timeslot_names); // Send time slot data to Jav
           <div id="timeslot_container"></div>
 
           <input type="hidden" name="add_appointment" value="1">
+          <input type="hidden" name="notification" value="1">
+
 
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" id="addButton">Add</button>

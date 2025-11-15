@@ -6,6 +6,8 @@ if (isset($_POST['tag_as_complete'])) {
 
   // Get appointment_id and user_id
   $appointment_id = $conn->real_escape_string($_POST['appointment_id']);
+  $notification = $conn->real_escape_string($_POST['notification']);
+
 
   if (!isset($_SESSION['user_id'])) {
     $response = array('success' => false, 'message' => 'User not logged in.');
@@ -18,7 +20,8 @@ if (isset($_POST['tag_as_complete'])) {
   // Construct SQL query for UPDATE
   $sql = "UPDATE `appointment` 
           SET 
-              appointment_status = 'Completed'
+              appointment_status = 'Completed',
+              `notification` = '1'
           WHERE appointment_id = '$appointment_id'";
 
   // Execute SQL query

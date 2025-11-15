@@ -18,7 +18,8 @@ if (isset($_POST['tag_as_approved'])) {
   // Construct SQL query for UPDATE
   $sql = "UPDATE `appointment` 
           SET 
-              appointment_status = 'Ongoing'
+              appointment_status = 'Ongoing',
+              `notification` = '1'
           WHERE appointment_id = '$appointment_id'";
 
   // Execute SQL query
