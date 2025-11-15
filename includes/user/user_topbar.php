@@ -119,6 +119,6 @@ if (!isset($_SESSION['user_id'])) {
   // Load notifications immediately
   loadNotifications();
 
-  // Auto-refresh every 10 seconds
-  setInterval(loadNotifications, 10000);
+  // Auto-refresh every 4 seconds
+  setInterval(loadNotifications, 4000);
 </script>
