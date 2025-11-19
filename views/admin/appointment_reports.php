@@ -111,6 +111,14 @@ if ($resultServices) {
             <i class="fas fa-file-pdf"></i> Export to PDF
           </button>
 
+          <button id="exportToGraph"
+            class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm mb-4"
+            disabled>
+            <i class="fas fa-chart-bar"></i> Export to Graph
+          </button>
+
+
+
           <hr>
           <div class="row">
             <div class="col-xl-12 col-lg-12">
@@ -193,7 +201,7 @@ if ($resultServices) {
   });
 </script>
 
-<!-- END OF SELECT -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   $(document).ready(function() {
@@ -250,6 +258,8 @@ if ($resultServices) {
     $('#searchAppointmentReports').click(function() {
       $(this).text('Searching...').prop('disabled', true); // Disable search button
       $('#exportToPDF').prop('disabled', true); // Disable export button initially
+      $('#exportToGraph').prop('disabled', true); // Disable export button initially
+
 
 
       var dateFrom = $('#dateFrom').val();
@@ -263,6 +273,11 @@ if ($resultServices) {
       // Update the Export to Excel button URL
       var pdfUrl = `./../../pdfs/pdfreports.php?date_from=${dateFrom}&date_to=${dateTo}&category_id=${category_id}`;
       $('#exportToPDF').attr('onclick', `window.open('${pdfUrl}', '_blank')`);
+
+      var graphUrl = `./../../pdfs/graphpdf.php?date_from=${dateFrom}&date_to=${dateTo}&category_id=${category_id}`;
+      $('#exportToGraph').attr('onclick', `window.open('${graphUrl}', '_blank')`);
+      $('#exportToGraph').prop('disabled', false); // Enable the button
+
 
 
       if (appointment_reports_table) {
@@ -287,6 +302,8 @@ if ($resultServices) {
               }
               $('#searchAppointmentReports').text('Search').prop('disabled', false); // Re-enable search button
               $('#exportToPDF').prop('disabled', false); // Enable export button after search is complete
+              $('#exportToGraph').prop('disabled', false); // Enable export button after search is complete
+
 
             },
             error: function() {
