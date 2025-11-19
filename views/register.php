@@ -209,45 +209,162 @@ if (isset($_SESSION['user_id'])) {
 		return hasUppercase && hasLowercase && hasSpecialChar && isLongEnough;
 	}
 
+	// function submitForm() {
+	// 	document.getElementById('loaderContainer').style.display = 'flex';
+
+	// 	const fullname = document.getElementById('user_fullname').value;
+	// 	const username = document.getElementById('username').value;
+	// 	const email = document.getElementById('user_email').value;
+	// 	const contact = document.getElementById('user_contact').value;
+	// 	const user_address = document.getElementById('user_address').value;
+	// 	const password = document.getElementById('user_password').value;
+	// 	const confirm_password = document.getElementById('user_confirm_password').value;
+	// 	const terms_and_condition = document.getElementById('terms_and_condition').value;
+
+	// 	if (!isPasswordValid(password)) {
+	// 		showToast("Password must include uppercase, lowercase, at least 8 characters, and a special character.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	if (password !== confirm_password) {
+	// 		showToast("Passwords do not match.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	const data = {
+	// 		user_fullname: fullname,
+	// 		username: username,
+	// 		user_email: email,
+	// 		user_contact: contact,
+	// 		user_address: user_address,
+	// 		user_password: password,
+	// 		user_confirm_password: confirm_password,
+	// 		terms_and_condition: terms_and_condition
+	// 	};
+
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '../controllers/register_process.php',
+	// 		data: data,
+	// 		dataType: 'json',
+	// 		success: function(response) {
+	// 			document.getElementById('loaderContainer').style.display = 'none';
+	// 			if (response.success) {
+	// 				window.location.href = "./verification.php";
+	// 			} else {
+	// 				showToast(response.message);
+	// 			}
+	// 		},
+	// 		error: function() {
+	// 			document.getElementById('loaderContainer').style.display = 'none';
+	// 			showToast('Error occurred while processing the request.');
+	// 		}
+	// 	});
+	// }
+
 	function submitForm() {
 		document.getElementById('loaderContainer').style.display = 'flex';
 
-		const fullname = document.getElementById('user_fullname').value;
-		const username = document.getElementById('username').value;
-		const email = document.getElementById('user_email').value;
-		const contact = document.getElementById('user_contact').value;
-		const user_address = document.getElementById('user_address').value;
+		const fullname = document.getElementById('user_fullname').value.trim();
+		const username = document.getElementById('username').value.trim();
+		const email = document.getElementById('user_email').value.trim();
+		const address = document.getElementById('user_address').value.trim();
+		const contact = document.getElementById('user_contact').value.trim();
 		const password = document.getElementById('user_password').value;
 		const confirm_password = document.getElementById('user_confirm_password').value;
 		const terms_and_condition = document.getElementById('terms_and_condition').value;
 
+		// -------------------------
+		// FOLLOW BACKEND ORDER
+		// -------------------------
+
+		// 1. Fullname
+		if (fullname === "") {
+			showToast("Fullname is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+		if (!/^[a-zA-Z ]+$/.test(fullname)) {
+			showToast("Full name must only contain letters and spaces.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		// 2. Username
+		if (username === "") {
+			showToast("Username is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		// 3. Email
+		if (email === "") {
+			showToast("Email is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		// 4. Address
+		if (address === "") {
+			showToast("Address is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		// 5. Contact
+		if (contact === "") {
+			showToast("Contact is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
+
+		// 6. Password
+		if (password === "") {
+			showToast("Password is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
 		if (!isPasswordValid(password)) {
 			showToast("Password must include uppercase, lowercase, at least 8 characters, and a special character.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
+		// 7. Confirm password
+		if (confirm_password === "") {
+			showToast("Confirm password is required.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
 		if (password !== confirm_password) {
 			showToast("Passwords do not match.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		const data = {
-			user_fullname: fullname,
-			username: username,
-			user_email: email,
-			user_contact: contact,
-			user_address: user_address,
-			user_password: password,
-			user_confirm_password: confirm_password,
-			terms_and_condition: terms_and_condition
-		};
+		// 8. Terms & Conditions
+		if (terms_and_condition !== "1") {
+			showToast("You must accept the Terms & Conditions.");
+			document.getElementById('loaderContainer').style.display = 'none';
+			return;
+		}
 
+		// Send to backend
 		$.ajax({
 			type: 'POST',
 			url: '../controllers/register_process.php',
-			data: data,
+			data: {
+				user_fullname: fullname,
+				username: username,
+				user_email: email,
+				user_contact: contact,
+				user_address: address,
+				user_password: password,
+				user_confirm_password: confirm_password,
+				terms_and_condition: terms_and_condition
+			},
 			dataType: 'json',
 			success: function(response) {
 				document.getElementById('loaderContainer').style.display = 'none';
