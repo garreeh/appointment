@@ -11,11 +11,41 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 14/05/2025 13:22:30
+ Date: 23/11/2025 19:32:18
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for activity_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `activity_logs`;
+CREATE TABLE `activity_logs`  (
+  `activity_log_id` int NOT NULL AUTO_INCREMENT,
+  `actions` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_id` int NULL DEFAULT NULL,
+  `date_created` timestamp NULL DEFAULT current_timestamp,
+  PRIMARY KEY (`activity_log_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of activity_logs
+-- ----------------------------
+INSERT INTO `activity_logs` VALUES (20, 'Edited a Category, Category ID: 10, changed into: Consultations', 1, '2025-11-09 17:19:02');
+INSERT INTO `activity_logs` VALUES (21, 'Edited a Category, Category ID: 10, changed into: Consultations', 1, '2025-11-09 17:19:08');
+INSERT INTO `activity_logs` VALUES (22, 'Deleted a Category ID: 14', 1, '2025-11-09 17:20:09');
+INSERT INTO `activity_logs` VALUES (23, 'Added a Timeslot', 1, '2025-11-09 17:21:17');
+INSERT INTO `activity_logs` VALUES (24, 'Edotd a Timeslot ID: 31', 1, '2025-11-09 17:22:08');
+INSERT INTO `activity_logs` VALUES (25, 'Added a Unavailable Dates', 1, '2025-11-09 17:23:13');
+INSERT INTO `activity_logs` VALUES (26, 'Edited a Unavailable Date, ID: 3', 1, '2025-11-09 17:24:23');
+INSERT INTO `activity_logs` VALUES (27, 'Added a Vaccination: qwe', 1, '2025-11-09 17:25:24');
+INSERT INTO `activity_logs` VALUES (28, 'Edited a Vaccination, Vaccination ID: 1', 1, '2025-11-09 17:26:30');
+INSERT INTO `activity_logs` VALUES (29, 'Tagged appointment ID #1038 as Ongoing', 1, '2025-11-15 08:58:01');
+INSERT INTO `activity_logs` VALUES (30, 'Tagged appointment ID #1038 as Complete', 1, '2025-11-15 08:58:07');
+INSERT INTO `activity_logs` VALUES (31, 'Tagged appointment ID #1039 as Ongoing', 1, '2025-11-15 09:20:28');
+INSERT INTO `activity_logs` VALUES (32, 'Tagged appointment ID #1039 as Complete', 1, '2025-11-15 09:20:35');
+INSERT INTO `activity_logs` VALUES (33, 'Tagged appointment ID #1040 as Ongoing', 1, '2025-11-15 09:25:17');
 
 -- ----------------------------
 -- Table structure for appointment
@@ -32,18 +62,13 @@ CREATE TABLE `appointment`  (
   `appointment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `notification` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`appointment_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1044 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1048 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of appointment
 -- ----------------------------
-INSERT INTO `appointment` VALUES (1038, 'APP00030911', 2, 11, 3, 33, '2024-11-09', 'Cancelled', '2024-10-26 22:59:55', '2024-11-09 17:00:09');
-INSERT INTO `appointment` VALUES (1039, 'APP00006827', 2, 11, 4, 31, '2024-10-29', 'Ongoing', '2024-10-26 23:00:03', '2024-11-09 16:20:56');
-INSERT INTO `appointment` VALUES (1040, 'APP00089340', 2, 12, 5, 33, '2024-10-29', 'Completed', '2024-10-26 23:00:12', '2024-11-09 16:12:52');
-INSERT INTO `appointment` VALUES (1041, 'APP00006603', 2, 10, 3, 31, '2024-11-09', 'Cancelled', '2024-11-09 16:59:41', '2024-11-26 21:32:18');
-INSERT INTO `appointment` VALUES (1042, 'APP00050894', 2, 10, 3, 34, '2025-05-14', 'Cancelled', '2025-05-14 12:39:22', '2025-05-14 12:41:42');
-INSERT INTO `appointment` VALUES (1043, 'APP00099586', 2, 10, 3, 35, '2025-05-14', 'Cancelled', '2025-05-14 12:40:03', '2025-05-14 12:41:44');
 
 -- ----------------------------
 -- Table structure for billing
@@ -79,13 +104,12 @@ CREATE TABLE `category`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
-INSERT INTO `category` VALUES (10, 'Consultation', 3000, '2024-10-21 10:46:42', '2024-10-21 11:04:59');
-INSERT INTO `category` VALUES (11, 'Vaccination | Deworming', 2000, '2024-10-21 10:49:53', '2024-10-21 11:05:09');
+INSERT INTO `category` VALUES (10, 'Consultations', 3000, '2024-10-21 10:46:42', '2025-11-09 17:19:02');
 INSERT INTO `category` VALUES (12, 'Surgery', 2000, '2024-10-21 10:50:03', '2024-10-21 11:05:15');
 INSERT INTO `category` VALUES (13, 'Diagnostic and Magic Examination', 20, '2024-10-21 11:05:27', '2024-10-21 11:05:27');
 
@@ -107,9 +131,6 @@ CREATE TABLE `file_uploads`  (
 -- ----------------------------
 -- Records of file_uploads
 -- ----------------------------
-INSERT INTO `file_uploads` VALUES (8, 2, 3, 'logo.jpeg', '../../uploads/files/logo.jpeg', '2024-10-26 14:38:07', '2024-11-28 22:45:01');
-INSERT INTO `file_uploads` VALUES (9, 2, 3, 'Screenshot 2024-10-21 110701.png', '../../uploads/files/Screenshot 2024-10-21 110701.png', '2024-10-26 14:38:10', '2024-10-26 14:38:10');
-INSERT INTO `file_uploads` VALUES (10, 2, 3, 'Garry-Gajultos-Resume.pdf', '../../uploads/files/Garry-Gajultos-Resume.pdf', '2024-10-26 23:31:02', '2024-10-26 23:31:02');
 
 -- ----------------------------
 -- Table structure for inside_billing
@@ -330,16 +351,11 @@ CREATE TABLE `pets`  (
   `birthdate` date NULL DEFAULT NULL,
   `neutered` enum('Yes','No') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`pet_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pets
 -- ----------------------------
-INSERT INTO `pets` VALUES (3, 2, 'Albert', '2024-10-21 13:22:22', '2024-11-29 15:23:40', 'Bulldog Half Human', 'Feline', '2024-10-21', 'Yes');
-INSERT INTO `pets` VALUES (4, 2, 'Garry', '2024-10-21 13:28:29', '2024-10-26 11:25:46', 'Bulldog Half Human', 'Canine', '2024-10-21', 'Yes');
-INSERT INTO `pets` VALUES (5, 2, 'Patrick', '2024-10-26 10:04:56', '2024-10-26 11:25:54', 'Bulldog Half Human', 'Feline', '2024-12-12', 'Yes');
-INSERT INTO `pets` VALUES (6, 2, 'Negro', '2024-10-26 10:05:28', '2024-10-26 11:26:05', '12', 'Canine', '2024-12-12', 'No');
-INSERT INTO `pets` VALUES (7, 2, 'Astra my boy', '2024-10-26 11:35:10', '2024-10-26 11:35:10', '1', 'Canine', '2000-02-12', 'Yes');
 
 -- ----------------------------
 -- Table structure for prescription
@@ -353,16 +369,11 @@ CREATE TABLE `prescription`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`prescription_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of prescription
 -- ----------------------------
-INSERT INTO `prescription` VALUES (1, 2, 3, 'qweqwe', '2024-10-26 11:46:31', '2024-10-26 11:46:31');
-INSERT INTO `prescription` VALUES (2, 2, 3, 'qweqweqweqweqwe', '2024-10-26 11:47:01', '2024-10-26 11:47:01');
-INSERT INTO `prescription` VALUES (3, 2, 3, 'qweqwe', '2024-10-26 11:47:20', '2024-10-26 11:47:20');
-INSERT INTO `prescription` VALUES (4, 2, 3, '1', '2024-10-26 11:47:24', '2024-10-26 12:14:40');
-INSERT INTO `prescription` VALUES (5, 2, 4, 'qweqwe', '2024-10-26 11:49:39', '2024-10-26 11:49:39');
 
 -- ----------------------------
 -- Table structure for product
@@ -475,7 +486,7 @@ CREATE TABLE `timeslot`  (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`timeslot_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of timeslot
@@ -488,6 +499,7 @@ INSERT INTO `timeslot` VALUES (36, '10:15:00', '10:30:00', '2024-10-21 11:55:32'
 INSERT INTO `timeslot` VALUES (37, '10:45:00', '11:00:00', '2024-10-21 13:39:11', '2024-10-21 13:39:11');
 INSERT INTO `timeslot` VALUES (38, '17:30:00', '18:30:00', '2025-05-14 12:42:22', '2025-05-14 12:42:22');
 INSERT INTO `timeslot` VALUES (39, '19:00:00', '08:00:00', '2025-05-14 12:42:34', '2025-05-14 12:42:34');
+INSERT INTO `timeslot` VALUES (40, '23:27:00', '00:00:00', '2025-11-09 17:21:17', '2025-11-09 17:21:17');
 
 -- ----------------------------
 -- Table structure for unavailable_dates
@@ -499,12 +511,13 @@ CREATE TABLE `unavailable_dates`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`unavailable_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of unavailable_dates
 -- ----------------------------
-INSERT INTO `unavailable_dates` VALUES (3, '2024-10-31', '2024-10-21 12:23:32', '2024-10-21 12:23:32');
+INSERT INTO `unavailable_dates` VALUES (3, '2025-11-15', '2024-10-21 12:23:32', '2025-11-09 17:24:23');
+INSERT INTO `unavailable_dates` VALUES (5, '2025-11-21', '2025-11-09 17:23:13', '2025-11-09 17:23:13');
 
 -- ----------------------------
 -- Table structure for users
@@ -527,19 +540,14 @@ CREATE TABLE `users`  (
   `user_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `terms_and_condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'Garry Gajultos', 'garry', 'kylevincentalmacin232@gmail.com', '123123123123123', '$2y$10$HhXfI0GmDXfIwxj.WojaG.3p1OMrwDM8y0TIACdj.oWH.9o1r/nqu', '123123', '', '2024-04-07 16:08:00', '2025-05-14 12:47:49', 1, '1', 'Active', 'test', NULL);
-INSERT INTO `users` VALUES (2, 'Test Account', 'Ron', '123123@gmail.comm', NULL, '$2y$10$Wtj4pYEWKXHYe4DUwLPTveZdPJUNrXwfkfeZRWXO4bnmbNd9NOA9y', 'test1005', NULL, '2024-05-13 18:18:17', '2024-10-12 14:19:57', 4, '0', 'Active', NULL, NULL);
-INSERT INTO `users` VALUES (39, '1', 'test', '', '1', '$2y$10$XX19Ar6P.ig1stK9lZ0N2eP89FY5FughUlK0xhgDfLj1P60tMMPva', '1', NULL, '2024-09-13 23:58:14', '2024-10-21 13:43:56', 4, '1', 'Active', '1', NULL);
-INSERT INTO `users` VALUES (40, 'Test', 'Account', '', '1', '$2y$10$nqzLAJIYpH8nYjFextCGJe6SKeqUvpZEfcbKW6R0KqBIzDFn0PdJe', '123123', NULL, '2024-10-21 11:20:20', '2024-10-21 13:43:57', 3, '1', 'Inactive', 'nayong Lourdes', NULL);
-INSERT INTO `users` VALUES (41, 'Ronnel Cruz', 'ronnel', 'gajultos.garrydev@gmail.com', '2147483647', '$2y$10$M0pu4qQOqxpix/ASuvZZX.svI.ngiv4/Av2EeP4eVrwzEanorrKHi', '123123', NULL, '2024-10-21 13:47:43', '2024-11-24 08:13:48', NULL, '0', 'Active', 'Nayong Lourdes Blk 3 Lot 21', NULL);
-INSERT INTO `users` VALUES (42, 'qq', 'qq', '12311123@gmail.com', '0', '$2y$10$kpouZrwcKyZ3L09cMhMu/OGnEk7OAK272iAFXL14smLIwC91kcYS2', 'q', NULL, '2025-02-28 11:53:19', '2025-02-28 11:53:19', NULL, '0', 'Inactive', 'q', NULL);
-INSERT INTO `users` VALUES (43, 'qwewww', 'ww', 'kylevincentalmaci11n232@gmail.com', '2147483647', '$2y$10$GZBasPIPv6fgfgnVzHT5yeqK0ZEUFZzWvL/OG7lWpqqjQ5iYmaqVO', '1', NULL, '2025-02-28 11:57:55', '2025-02-28 11:57:55', NULL, '0', 'Inactive', 'test', NULL);
-INSERT INTO `users` VALUES (44, 'Garry1', '2024-6418', '12113123@gmail.com', '2147483647', '$2y$10$iH/g14tNaaupUaey4CL2Ce208jr5sh/K5MMqxDrVq/8vU01QN9Iwm', '1', NULL, '2025-02-28 11:58:57', '2025-02-28 11:58:57', NULL, '0', 'Inactive', 'test', '1');
+INSERT INTO `users` VALUES (1, 'Francis Magsino', 'francis', 'qweqwe', '123123123123123', '$2y$10$HhXfI0GmDXfIwxj.WojaG.3p1OMrwDM8y0TIACdj.oWH.9o1r/nqu', '123123', '', '2024-04-07 16:08:00', '2025-11-23 19:27:04', 1, '1', 'Active', 'test', NULL);
+INSERT INTO `users` VALUES (2, 'Eavan Bonagua', 'eavan', '123123@gmail.comm', '123123123123', '$2y$10$HhXfI0GmDXfIwxj.WojaG.3p1OMrwDM8y0TIACdj.oWH.9o1r/nqu', '123123', NULL, '2024-05-13 18:18:17', '2025-11-23 19:28:32', 1, '1', 'Active', NULL, NULL);
+INSERT INTO `users` VALUES (39, 'Jano Halina', 'jano', '123123@gmail.comm', '123123123123', '$2y$10$HhXfI0GmDXfIwxj.WojaG.3p1OMrwDM8y0TIACdj.oWH.9o1r/nqu', '123123', NULL, '2024-09-13 23:58:14', '2025-11-23 19:29:03', 1, '1', 'Active', '1', NULL);
 
 -- ----------------------------
 -- Table structure for usertype
@@ -558,7 +566,7 @@ CREATE TABLE `usertype`  (
   `appointment_setup_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
   `vaccine_module` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1',
   PRIMARY KEY (`user_type_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usertype
@@ -566,6 +574,7 @@ CREATE TABLE `usertype`  (
 INSERT INTO `usertype` VALUES (1, 'Admin', '2024-09-04 10:46:35', '2024-11-24 20:13:14', '1', '1', '1', '1', '1', '1', '1');
 INSERT INTO `usertype` VALUES (3, 'Doctor', '2024-09-04 10:46:46', '2024-10-21 11:08:38', '1', '1', '1', '1', '1', '1', '1');
 INSERT INTO `usertype` VALUES (4, 'Vet Nurse', '2024-10-12 11:21:06', '2024-11-24 20:16:06', '1', '1', '1', '1', '1', '1', '0');
+INSERT INTO `usertype` VALUES (5, 'Test', '2025-11-09 15:49:21', '2025-11-09 15:49:29', '1', '1', '1', '0', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for vaccination
@@ -580,13 +589,12 @@ CREATE TABLE `vaccination`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vaccination_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of vaccination
 -- ----------------------------
-INSERT INTO `vaccination` VALUES (1, 2, 3, 1, '2024-10-24', '2024-10-26 12:37:19', '2024-10-26 13:00:38');
-INSERT INTO `vaccination` VALUES (2, 2, 3, 2, '2026-12-12', '2024-10-26 12:38:37', '2024-10-26 12:38:37');
+INSERT INTO `vaccination` VALUES (1, 2, 3, 5, '2024-10-24', '2024-10-26 12:37:19', '2025-11-09 17:07:03');
 INSERT INTO `vaccination` VALUES (3, 2, 4, 6, '2022-02-12', '2024-10-26 12:51:32', '2024-10-26 12:51:32');
 INSERT INTO `vaccination` VALUES (4, 2, 4, 1, '1222-12-12', '2024-10-26 12:52:33', '2024-10-26 12:52:33');
 INSERT INTO `vaccination` VALUES (5, 2, 4, 5, '2222-02-01', '2024-10-26 12:52:40', '2024-10-26 12:52:40');
@@ -602,17 +610,18 @@ CREATE TABLE `vaccine`  (
   `created_at` timestamp NULL DEFAULT current_timestamp,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`vaccine_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of vaccine
 -- ----------------------------
-INSERT INTO `vaccine` VALUES (1, 'Vaccine 1', 1, '2024-10-26 11:16:11', '2024-10-26 12:25:05');
+INSERT INTO `vaccine` VALUES (1, 'Vaccine 12', 1, '2024-10-26 11:16:11', '2025-11-09 17:26:30');
 INSERT INTO `vaccine` VALUES (2, 'Vaccine 2', 1111, '2024-10-26 11:16:40', '2024-10-26 11:22:31');
 INSERT INTO `vaccine` VALUES (3, 'Vaccine 3', 123, '2024-10-26 11:21:01', '2024-10-26 11:21:01');
 INSERT INTO `vaccine` VALUES (4, 'Vaccine test 5', 1, '2024-10-26 12:23:58', '2024-10-26 12:23:58');
 INSERT INTO `vaccine` VALUES (5, 'q', 123123, '2024-10-26 12:28:37', '2024-10-26 12:28:37');
 INSERT INTO `vaccine` VALUES (6, '123123', 123123, '2024-10-26 12:28:50', '2024-10-26 12:28:50');
 INSERT INTO `vaccine` VALUES (7, '123123', 11, '2024-10-26 12:29:10', '2024-10-26 12:29:15');
+INSERT INTO `vaccine` VALUES (8, 'qwe', 123, '2025-11-09 17:25:24', '2025-11-09 17:25:24');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -34,7 +34,7 @@ if (isset($_POST['edit_timeslot'])) {
 
     // Execute SQL query
     if (mysqli_query($conn, $sql)) {
-        $activity = "Edotd a Timeslot ID: $timeslot_id";
+        $activity = "Edited a Timeslot ID: $timeslot_id";
         $log_sql = "INSERT INTO `activity_logs` (user_id, actions) 
                 VALUES ('$account_login', '$activity')";
         mysqli_query($conn, $log_sql);
