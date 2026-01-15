@@ -61,7 +61,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <h1 class="h3 mb-0 text-gray-800">Activity Log</h1>
           </div>
 
-          <!-- <a href="./../../excels/supplier_export.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mb-4"><i class="fas fa-file-excel"></i> Export Excel</a> -->
+          <a href="./../../pdfs/pdf_activity_logs.php" target="_blank" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm mb-4"><i class="fas fa-file-pdf"></i> Export to PDF</a>
 
           <div class="row">
             <div class="col-xl-12 col-lg-12">

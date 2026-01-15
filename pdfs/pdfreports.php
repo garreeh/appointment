@@ -56,6 +56,16 @@ $pdf->Cell(0, 6, 'Official Appointment Report', 0, 1, 'C');
 
 // Line break
 $pdf->Ln(10);
+// ---------------------- DATE RANGE ----------------------
+$pdf->SetFont('Arial', 'B', 9);  // Set bold font for labels
+$pdf->Cell(20, 5, 'Printed By: ', 0, 0);
+// Format the dates
+$user_in_session = isset($_SESSION['user_fullname']) ? $_SESSION['user_fullname'] : null;
+
+$pdf->SetFont('Arial', '', 9);  // Set regular font for the variable value
+$pdf->Cell(0, 5, $user_in_session, 0, 1);
+$pdf->Ln(1);
+
 
 // ---------------------- DATE RANGE ----------------------
 $pdf->SetFont('Arial', 'B', 9);  // Set bold font for labels

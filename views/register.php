@@ -264,6 +264,170 @@ if (isset($_SESSION['user_id'])) {
 	// 	});
 	// }
 
+	document.addEventListener("DOMContentLoaded", function() {
+		const fields = [
+			"user_fullname",
+			"username",
+			"user_email",
+			"user_address",
+			"user_contact",
+			"user_password",
+			"user_confirm_password",
+			"customCheckCondition"
+		];
+
+		// Disable all except first
+		for (let i = 1; i < fields.length; i++) {
+			document.getElementById(fields[i]).disabled = true;
+		}
+
+		// Add listener to each field except last
+		fields.forEach((id, index) => {
+			const field = document.getElementById(id);
+
+			field.addEventListener("input", function() {
+				// Enable next only if current is not empty
+				if (field.value.trim() !== "") {
+					if (fields[index + 1]) {
+						document.getElementById(fields[index + 1]).disabled = false;
+					}
+				} else {
+					// If empty, disable all fields below
+					for (let i = index + 1; i < fields.length; i++) {
+						document.getElementById(fields[i]).disabled = true;
+
+						// Clear values too to avoid accidental submissions
+						if (fields[i] !== "customCheckCondition") {
+							document.getElementById(fields[i]).value = "";
+						} else {
+							document.getElementById(fields[i]).checked = false;
+							document.getElementById("terms_and_condition").value = "0";
+						}
+					}
+				}
+			});
+		});
+	});
+
+	// V2
+	// function submitForm() {
+	// 	document.getElementById('loaderContainer').style.display = 'flex';
+
+	// 	const fullname = document.getElementById('user_fullname').value.trim();
+	// 	const username = document.getElementById('username').value.trim();
+	// 	const email = document.getElementById('user_email').value.trim();
+	// 	const address = document.getElementById('user_address').value.trim();
+	// 	const contact = document.getElementById('user_contact').value.trim();
+	// 	const password = document.getElementById('user_password').value;
+	// 	const confirm_password = document.getElementById('user_confirm_password').value;
+	// 	const terms_and_condition = document.getElementById('terms_and_condition').value;
+
+	// 	// -------------------------
+	// 	// FOLLOW BACKEND ORDER
+	// 	// -------------------------
+
+	// 	// 1. Fullname
+	// 	if (fullname === "") {
+	// 		showToast("Fullname is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+	// 	if (!/^[a-zA-Z ]+$/.test(fullname)) {
+	// 		showToast("Full name must only contain letters and spaces.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 2. Username
+	// 	if (username === "") {
+	// 		showToast("Username is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 3. Email
+	// 	if (email === "") {
+	// 		showToast("Email is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 4. Address
+	// 	if (address === "") {
+	// 		showToast("Address is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 5. Contact
+	// 	if (contact === "") {
+	// 		showToast("Contact is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 6. Password
+	// 	if (password === "") {
+	// 		showToast("Password is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+	// 	if (!isPasswordValid(password)) {
+	// 		showToast("Password must include uppercase, lowercase, at least 8 characters, and a special character.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 7. Confirm password
+	// 	if (confirm_password === "") {
+	// 		showToast("Confirm password is required.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+	// 	if (password !== confirm_password) {
+	// 		showToast("Passwords do not match.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// 8. Terms & Conditions
+	// 	if (terms_and_condition !== "1") {
+	// 		showToast("You must accept the Terms & Conditions.");
+	// 		document.getElementById('loaderContainer').style.display = 'none';
+	// 		return;
+	// 	}
+
+	// 	// Send to backend
+	// 	$.ajax({
+	// 		type: 'POST',
+	// 		url: '../controllers/register_process.php',
+	// 		data: {
+	// 			user_fullname: fullname,
+	// 			username: username,
+	// 			user_email: email,
+	// 			user_contact: contact,
+	// 			user_address: address,
+	// 			user_password: password,
+	// 			user_confirm_password: confirm_password,
+	// 			terms_and_condition: terms_and_condition
+	// 		},
+	// 		dataType: 'json',
+	// 		success: function(response) {
+	// 			document.getElementById('loaderContainer').style.display = 'none';
+	// 			if (response.success) {
+	// 				window.location.href = "./verification.php";
+	// 			} else {
+	// 				showToast(response.message);
+	// 			}
+	// 		},
+	// 		error: function() {
+	// 			document.getElementById('loaderContainer').style.display = 'none';
+	// 			showToast('Error occurred while processing the request.');
+	// 		}
+	// 	});
+	// }
+
+	// V3
 	function submitForm() {
 		document.getElementById('loaderContainer').style.display = 'flex';
 
@@ -276,82 +440,81 @@ if (isset($_SESSION['user_id'])) {
 		const confirm_password = document.getElementById('user_confirm_password').value;
 		const terms_and_condition = document.getElementById('terms_and_condition').value;
 
-		// -------------------------
-		// FOLLOW BACKEND ORDER
-		// -------------------------
-
-		// 1. Fullname
-		if (fullname === "") {
-			showToast("Fullname is required.");
-			document.getElementById('loaderContainer').style.display = 'none';
-			return;
-		}
-		if (!/^[a-zA-Z ]+$/.test(fullname)) {
-			showToast("Full name must only contain letters and spaces.");
+		// ---------------------------------------
+		// 1. FULLNAME → letters & spaces only
+		// ---------------------------------------
+		if (!/^[A-Za-z ]+$/.test(fullname)) {
+			showToast("Full name must contain letters and spaces only.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 2. Username
-		if (username === "") {
-			showToast("Username is required.");
+		// ---------------------------------------
+		// 2. USERNAME → letters only
+		// ---------------------------------------
+		if (!/^[A-Za-z]+$/.test(username)) {
+			showToast("Username must contain letters only.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 3. Email
-		if (email === "") {
-			showToast("Email is required.");
+		// ---------------------------------------
+		// 3. EMAIL → must be valid email
+		// ---------------------------------------
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			showToast("Invalid email format.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 4. Address
-		if (address === "") {
-			showToast("Address is required.");
+		// ---------------------------------------
+		// 4. ADDRESS → letters + numbers only
+		// ---------------------------------------
+		if (!/^[A-Za-z0-9 ]+$/.test(address)) {
+			showToast("Address must contain only letters and numbers.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 5. Contact
-		if (contact === "") {
-			showToast("Contact is required.");
+		// ---------------------------------------
+		// 5. CONTACT → numbers only
+		// ---------------------------------------
+		if (!/^[0-9]+$/.test(contact)) {
+			showToast("Contact number must contain digits only.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 6. Password
-		if (password === "") {
-			showToast("Password is required.");
-			document.getElementById('loaderContainer').style.display = 'none';
-			return;
-		}
+		// ---------------------------------------
+		// 6. PASSWORD (unchanged)
+		// ---------------------------------------
 		if (!isPasswordValid(password)) {
 			showToast("Password must include uppercase, lowercase, at least 8 characters, and a special character.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 7. Confirm password
-		if (confirm_password === "") {
-			showToast("Confirm password is required.");
-			document.getElementById('loaderContainer').style.display = 'none';
-			return;
-		}
+		// ---------------------------------------
+		// 7. CONFIRM PASSWORD
+		// ---------------------------------------
 		if (password !== confirm_password) {
 			showToast("Passwords do not match.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// 8. Terms & Conditions
+		// ---------------------------------------
+		// 8. TERMS & CONDITIONS
+		// ---------------------------------------
 		if (terms_and_condition !== "1") {
 			showToast("You must accept the Terms & Conditions.");
 			document.getElementById('loaderContainer').style.display = 'none';
 			return;
 		}
 
-		// Send to backend
+		// ---------------------------------------
+		// AJAX SEND
+		// ---------------------------------------
 		$.ajax({
 			type: 'POST',
 			url: '../controllers/register_process.php',
@@ -380,6 +543,22 @@ if (isset($_SESSION['user_id'])) {
 			}
 		});
 	}
+
+	document.getElementById("user_fullname").addEventListener("input", function() {
+		this.value = this.value.replace(/[^A-Za-z ]/g, "");
+	});
+
+	document.getElementById("username").addEventListener("input", function() {
+		this.value = this.value.replace(/[^A-Za-z]/g, "");
+	});
+
+	document.getElementById("user_contact").addEventListener("input", function() {
+		this.value = this.value.replace(/[^0-9]/g, "");
+	});
+
+	document.getElementById("user_address").addEventListener("input", function() {
+		this.value = this.value.replace(/[^A-Za-z0-9 ]/g, "");
+	});
 </script>
 
 <style>

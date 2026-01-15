@@ -30,10 +30,14 @@
             </div>
             <div class="form-group col-md-6">
               <label for="species">Species:</label>
-              <select class="form-control" id="species" name="species" required>
+              <select class="form-control" id="speciesAdd" name="species" required>
                 <option value="" disabled selected>Select an option</option>
                 <option value="Canine">Canine</option>
                 <option value="Feline">Feline</option>
+                <!-- <option value="PocketPets">Pocket Pets</option> -->
+                <option value="Bird">Bird</option>
+                <option value="Hamster">Hamster</option>
+
               </select>
             </div>
           </div>
@@ -41,7 +45,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="breed">Breed:</label>
-              <select class="form-control" id="breed" name="breed" required disabled>
+              <select class="form-control" id="breedAdd" name="breed" required disabled>
                 <option value="" disabled selected>Select a breed</option>
               </select>
             </div>
@@ -72,11 +76,11 @@
 
         <script>
           document.addEventListener('DOMContentLoaded', function() {
-            const speciesSelect = document.getElementById('species');
-            const breedSelect = document.getElementById('breed');
+            const speciesSelectEdittt = document.getElementById('speciesAdd');
+            const breedSelectEdittt = document.getElementById('breedAdd');
 
             // Static breed data
-            const breeds = {
+            const breedsEdit = {
               Canine: [
                 'Labrador Retriever',
                 'German Shepherd',
@@ -94,26 +98,43 @@
                 'British Shorthair',
                 'Sphynx',
                 'Ragdoll'
+              ],
+              Bird: [
+                'Lovebird',
+                'Parrot',
+                'Pionus Parrot',
+                'Green-Cheeked Conures',
+                'Hyacinth Macaw',
+                'Canaries',
+                'Dove',
+                'Cockatiel',
+              ],
+              Hamster: [
+                'Syrian Hamster',
+                'Dwarf Hamster',
+                'Campbells Dwarf Hamster',
+                'Chinese Hamster',
+                'Roborovski Dwarf Hamster',
               ]
             };
 
-            speciesSelect.addEventListener('change', function() {
+            speciesSelectEdittt.addEventListener('change', function() {
               const selectedSpecies = this.value;
 
               // Clear previous options
-              breedSelect.innerHTML = '<option value="" disabled selected>Select a breed</option>';
+              breedSelectEdittt.innerHTML = '<option value="" disabled selected>Select a breed</option>';
 
-              if (breeds[selectedSpecies]) {
+              if (breedsEdit[selectedSpecies]) {
                 // Populate new options
-                breeds[selectedSpecies].forEach(function(breed) {
+                breedsEdit[selectedSpecies].forEach(function(breed) {
                   const option = document.createElement('option');
                   option.value = breed;
                   option.textContent = breed;
-                  breedSelect.appendChild(option);
+                  breedSelectEdittt.appendChild(option);
                 });
-                breedSelect.disabled = false;
+                breedSelectEdittt.disabled = false;
               } else {
-                breedSelect.disabled = true;
+                breedSelectEdittt.disabled = true;
               }
             });
           });
@@ -125,12 +146,6 @@
     </div>
   </div>
 </div>
-
-<!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Include Toastify JS -->
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
 <script>
   $(document).ready(function() {
     $('#addDataTimeslotModal form').submit(function(event) {
