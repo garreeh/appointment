@@ -1,9 +1,9 @@
 <?php
 // Database connection details
 // $sql_details = array(
-//   'user' => 'u759574209_online_order',
+//   'user' => 'u114183583_appointment',
 //   'pass' => 'Mybossrocks081677!',
-//   'db' => 'u759574209_online_order',
+//   'db' => 'u114183583_appointment',
 //   'host' => 'localhost',
 // );
 

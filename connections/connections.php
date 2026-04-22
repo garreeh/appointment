@@ -7,9 +7,9 @@ $dbname = "appointment";
 
 
 // $servername = "localhost";
-// $username = "u759574209_online_order";
+// $username = "u114183583_appointment";
 // $password = "Mybossrocks081677!";
-// $dbname = "u759574209_online_order";
+// $dbname = "u114183583_appointment";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
